@@ -136,7 +136,7 @@ denominador = input("Digite o denominador: ")
 if int(denominador) == 0:
     print("O denominador não pode ser zero.")
 else:
-    divisao = float(int(numerador) / int(num2))
+    divisao = float(int(numerador) / int(denominador))
     print(f'A divisão do primeiro pelo segundo número é {divisao}\n')
 
 # 6. Crie um programa que solicite dois valores numéricos ao usuário e imprima o resto da divisão do primeiro pelo o segundo valor.
