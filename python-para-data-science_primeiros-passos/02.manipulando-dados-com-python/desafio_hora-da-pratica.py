@@ -142,7 +142,9 @@ else:
 # 6. Crie um programa que solicite dois valores numéricos ao usuário e imprima o resto da divisão do primeiro pelo o segundo valor.
 print('=> Vamos dividir dois números inteiros e descobrir o resto!')
 
-def calculadorDeResto(numerador, denominador) :
+def calculadorDeResto() :
+    numerador = int(input("Digite o numerador: "))
+    denominador = int(input("Digite o denominador: "))
     if denominador == 0:
         print("O denominador não pode ser zero.\n")
         calculadorDeResto()
@@ -150,9 +152,7 @@ def calculadorDeResto(numerador, denominador) :
         resto = numerador % denominador
         print(f'O resto da divisão do primeiro pelo segundo número é {resto}\n')
 
-numerador = int(input("Digite o numerador: "))
-denominador = int(input("Digite o denominador: "))
-calculadorDeResto(numerador, denominador)
+calculadorDeResto()
 
 # 7. Crie um programa que solicite dois valores numéricos ao usuário e imprima o resultado da exponenciação do primeiro pelo o segundo valor.
 print('=> Vamos elevar um número a outro!')
