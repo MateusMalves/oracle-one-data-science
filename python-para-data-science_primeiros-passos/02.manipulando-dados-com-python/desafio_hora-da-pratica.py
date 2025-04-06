@@ -1,4 +1,4 @@
-# Para rodar o código, basta executar o comando python3 desafio_hora-da-pratica.py
+# Para rodar o código, basta executar o comando 'python3 desafio_hora-da-pratica.py'
 
 # 
 # Enunciado do desafio
