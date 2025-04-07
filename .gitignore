@@ -1,2 +1,5 @@
 # Python virtual environment directory
 /.venv
+
+# Conda environment directory
+/.conda
