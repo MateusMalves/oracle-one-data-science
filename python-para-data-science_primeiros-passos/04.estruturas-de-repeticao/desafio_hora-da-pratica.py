@@ -395,7 +395,7 @@ def apresentar_resultados(dados_eleicao):
 votos = []
 for i in range(20):
     voto = input(f'Insira seu voto de 1 a 6 (5 para nulo e 6 para branco): ').replace(',', '.')
-    voto = validar_voto(voto)
+    voto = validar_voto(voto)m
     if voto == 'quit':
         break
     votos.append(int(voto))
