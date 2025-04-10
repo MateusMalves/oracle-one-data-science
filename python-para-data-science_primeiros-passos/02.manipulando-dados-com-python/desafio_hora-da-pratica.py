@@ -178,8 +178,14 @@ print('=> Vamos calcular a raiz enésima de um número!')
 radicando = input("Digite o radicando: ")
 indice  = input("Digite o índice: ")
 raiz = int(radicando) ** (1 / int(indice))
-print(f'A raiz enésima do número é {raiz}\n')
+print(f'A raiz enésima do número é {raiz}')
 
+# 11. Crie um código que calcule e imprima a média ponderada dos números 5, 12, 20 e 15 com pesos respectivamente iguais a 1, 2, 3 e 4.
+print('\n\n=> Vamos calcular a média ponderada dos números 5, 12, 20 e 15 com pesos respectivamente iguais a 1, 2, 3 e 4!\n')
+notas = [5, 12, 20, 15]
+pesos = [1, 2, 3, 4]
+media_ponderada = sum(n * p for n, p in zip(notas, pesos)) / sum(pesos)
+print(f'A média ponderada é: {media_ponderada}\n')
 
 # # # UI - Controle de fluxo
 print('\nAgora vamos estudar manipulação de strings em Python?')
