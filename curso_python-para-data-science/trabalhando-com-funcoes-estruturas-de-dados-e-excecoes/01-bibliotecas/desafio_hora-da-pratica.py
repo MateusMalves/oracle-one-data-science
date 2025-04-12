@@ -64,7 +64,7 @@ Copiar código
 # Importando bibliotecas
 import sys
 import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../")))
 from ui_desafios import controlador, saudar
 
 # 
@@ -138,7 +138,6 @@ controlador(mensagem_problema_anterior=mensagem_problema_5, problema_anterior=pr
 # Aplicando a projetos
 # 
 
-# saudar('Aplicando a projetos')
 
 # 6. Um programa deve ser escrito para sortear um seguidor de uma rede social para ganhar um prêmio. A lista de participantes é numerada e devemos escolher aleatoriamente um número de acordo com a quantidade de participantes. Peça ao usuário para fornecer o número de participantes do sorteio e devolva para ela o número sorteado.
 mensagem_problema_6 = '# 6 => Vamos sortear um número de participante para o nosso sorteio.'
