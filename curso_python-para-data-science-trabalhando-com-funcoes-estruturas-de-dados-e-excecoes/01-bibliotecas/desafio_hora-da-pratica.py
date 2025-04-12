@@ -61,13 +61,17 @@ Copiar código
 # # # Desafios resolvidos
 # # # # #
 
-from ui_desafios import controlador, saudacao
+# Importando bibliotecas
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
+from ui_desafios import controlador, saudar
 
 # 
 # Aquecimento
 # 
 
-saudacao('Python para Data Science: trabalhando com funções > 01. Bibliotecas > Desafio: hora da prática')
+saudar('Python para Data Science: trabalhando com funções > 01. Bibliotecas > Desafio: hora da prática')
 
 # 1. Escreva um código para instalar a versão 3.7.1 da biblioteca matplotlib.
 '''
@@ -128,17 +132,17 @@ def problema_5():
 problema_5()
 
 # # # UI - Controle de fluxo
-controlador(mensagem_problema_anterior=mensagem_problema_5, problema_anterior=problema_5, abrir_nova_sessão=True)
+controlador(mensagem_problema_anterior=mensagem_problema_5, problema_anterior=problema_5, abrir_nova_sessão=True, saudacao='Aplicando a projetos')
 
 # 
 # Aplicando a projetos
 # 
 
-saudacao('Aplicando a projetos')
+# saudar('Aplicando a projetos')
 
 # 6. Um programa deve ser escrito para sortear um seguidor de uma rede social para ganhar um prêmio. A lista de participantes é numerada e devemos escolher aleatoriamente um número de acordo com a quantidade de participantes. Peça ao usuário para fornecer o número de participantes do sorteio e devolva para ela o número sorteado.
 mensagem_problema_6 = '# 6 => Vamos sortear um número de participante para o nosso sorteio.'
-controlador(mensagem_problema_6, mensagem_problema_anterior=mensagem_problema_5, problema_anterior=problema_5, apos_saudacao=True)
+controlador(mensagem_problema_6, mensagem_problema_anterior=mensagem_problema_5, problema_anterior=problema_5, apos_saudacao=True, saudacao='Aplicando a projetos')
 
 def problema_6():
     def validar_numero_participantes(numero, input_mensagem):
