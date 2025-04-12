@@ -3,3 +3,7 @@
 
 # Conda environment directory
 /.conda
+
+# Python cache folder
+__pycache__/
+*.py[cod]
