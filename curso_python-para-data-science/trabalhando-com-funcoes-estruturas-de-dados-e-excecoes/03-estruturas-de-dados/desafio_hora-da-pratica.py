@@ -87,54 +87,77 @@ saudar('Python para Data Science: trabalhando com funções > 03. Estruturas de 
 
 # 1. Crie um código para imprimir a soma dos elementos de cada uma das listas contidas na seguinte lista:
 # lista_de_listas = [[4,6,5,9], [1,0,7,2], [3,4,1,8]]
-mensagem_problema_1 = '# 1 => Vamos ler esta matrix e imprimir a soma de cada lista.'
+mensagem_problema_1 = '# 1 => Vamos ler esta matriz e imprimir a soma de cada lista.'
 controlador(mensagem_problema_1, primeiro_exercicio=True)
 
 def problema_1():
-    ...
+    lista_de_listas = [[4, 6, 5, 9], [1, 0, 7, 2], [3, 4, 1, 8]]
+    print(f'=> Lista de listas:\n{lista_de_listas}\n')
+    print('=> Somas das listas:\n')
 
+    for lista in lista_de_listas:
+        soma = sum(lista)
+        print(f'A soma da lista {lista}: {soma}')
 
 problema_1()
 
 # 2. Crie um código para gerar uma lista que armazena o terceiro elemento de cada tupla contida na seguinte lista de tuplas:
 # lista_de_tuplas = [('Pedro', 1.74, 81), ('Júlia', 1.65, 67), ('Otávio', 1.81, 83)]
-mensagem_problema_2 = '# 2 => Vamos ler uma lista de tuplas e imprimir o terceiro elemento de cada tupla.'
+mensagem_problema_2 = '# 2 => Vamos ler uma lista de tuplas e listar o terceiro elemento de cada tupla.'
 controlador(mensagem_problema_2, mensagem_problema_anterior=mensagem_problema_1, problema_anterior=problema_1)
 
 def problema_2():
-    ...
+    lista_de_tuplas = [('Pedro', 1.74, 81), ('Júlia', 1.65, 67), ('Otávio', 1.81, 83)]
+    print(f'=> Lista de tuplas:\n{lista_de_tuplas}\n')
+    print('=> Terceiro elemento de cada tupla:\n')
 
+    lista_de_elementos = [elemento[2] for elemento in lista_de_tuplas]
+    for tupla, elemento in zip(lista_de_tuplas, lista_de_elementos):
+        print(f'O terceiro elemento da tupla {tupla}: {elemento}')
+
+    print(f'\n=> Lista de elementos:\n{lista_de_elementos}')
 
 problema_2()
 
 # 3. A partir da lista: lista = ['Pedro', 'Júlia', 'Otávio', 'Eduardo'], crie um código para gerar uma lista de tuplas em que cada tupla tenha o primeiro elemento como a posição do nome na lista original e o segundo elemento sendo o próprio nome.
-mensagem_problema_3 = '# 3 => Vamos ler uma lista de nomes e imprimir uma tupla de índices.'
+mensagem_problema_3 = '# 3 => Vamos ler uma lista de nomes e criar uma lista de tuplas com índices.'
 controlador(mensagem_problema_3, mensagem_problema_anterior=mensagem_problema_2, problema_anterior=problema_2)
 
 def problema_3():
-    ...
+    lista = ['Pedro', 'Júlia', 'Otávio', 'Eduardo']
+    print(f'=> Lista de nomes:\n{lista}\n')
 
+    tuplas_com_indices = [(i, nome) for i, nome in enumerate(lista)]
+    print(f'\n=> Tuplas com indices:\n{tuplas_com_indices}')
 
 problema_3()
 
 # 4. Crie uma lista usando o list comprehension que armazena somente o valor numérico de cada tupla caso o primeiro elemento seja 'Apartamento', a partir da seguinte lista de tuplas:
 # aluguel = [('Apartamento', 1700), ('Apartamento', 1400), ('Casa', 2150), ('Apartamento', 1900), ('Casa', 1100)]
-mensagem_problema_4 = '# 4 => Vamos ler uma lista de tuplas e imprimir o segundo elemento de cada\ntupla caso o primeiro elemento seja "Apartamento".'
+mensagem_problema_4 = '# 4 => Vamos ler uma lista de tuplas e imprimir o segundo elemento de cada tupla caso o primeiro elemento seja "Apartamento".'
 controlador(mensagem_problema_4, mensagem_problema_anterior=mensagem_problema_3, problema_anterior=problema_3)
 
 def problema_4():
-    ...
+    alugueis = [('Apartamento', 1700), ('Apartamento', 1400), ('Casa', 2150), ('Apartamento', 1900), ('Casa', 1100)]
+    print(f'=> Lista de tuplas:\n{alugueis}\n')
 
+    alugueis_apartamentos = [aluguel[1] for aluguel in alugueis if aluguel[0] == 'Apartamento']    
+    print(f'=> Valores de aluguel de apartamentos:\n{alugueis_apartamentos}')
     
 problema_4()
 
 # 5. Crie um dicionário usando o dict comprehension em que as chaves estão na lista meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'] e os valores estão em despesa = [860, 490, 1010, 780, 900, 630, 590, 770, 620, 560, 840, 360].
-mensagem_problema_5 = '# 5 => Vamos ler duas listas e imprimir um dicionário com as chaves sendo\nos meses e os valores sendo as despesas.'
+mensagem_problema_5 = '# 5 => Vamos ler duas listas e imprimir um dicionário com as chaves sendo os meses e os valores sendo as despesas.'
 controlador(mensagem_problema_5, mensagem_problema_anterior=mensagem_problema_4, problema_anterior=problema_4)
 
 def problema_5():
-    ...
-    
+    meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
+    despesa = [860, 490, 1010, 780, 900, 630, 590, 770, 620, 560, 840, 360]
+    print(f'=> Lista de meses:\n{meses}\n')
+    print(f'=> Lista de despesas:\n{despesa}\n')
+
+    despesas_por_mes = {mes: despesa for mes, despesa in zip(meses, despesa)}
+    print(f'=> Dicionário de despesas por mês:\n{despesas_por_mes}') 
 
 problema_5()
 
@@ -154,8 +177,11 @@ mensagem_problema_6 = '# 6 => Vamos filtrar as vendas do ano de 2022 que são ma
 controlador(mensagem_problema_6, mensagem_problema_anterior=mensagem_problema_5, problema_anterior=problema_5, apos_saudacao=True, saudacao='Aplicando a projetos')
 
 def problema_6():
-    ...
-    
+    vendas = [('2023', 4093), ('2021', 4320), ('2021', 5959), ('2022', 8883), ('2023', 9859), ('2022', 5141), ('2022', 7688), ('2022', 9544), ('2023', 4794), ('2021', 7178), ('2022', 3030), ('2021', 7471), ('2022', 4226), ('2022', 8190), ('2021', 9680), ('2022', 5616)]
+    print(f'=> Lista de vendas:\n{vendas}\n')
+
+    vendas_2022_maiores_6000 = [venda[1] for venda in vendas if venda[0] == '2022' and venda[1] > 6000]
+    print(f'=> Vendas do ano de 2022 maiores que 6000:\n{vendas_2022_maiores_6000}')    
 
 problema_6()
 
@@ -172,8 +198,11 @@ mensagem_problema_7 = '# 7 => Vamos rotular os dados de glicemia.'
 controlador(mensagem_problema_7, mensagem_problema_anterior=mensagem_problema_6, problema_anterior=problema_6)
 
 def problema_7():
-    ...
-    
+    glicemias = [129, 82, 60, 97, 101, 65, 62, 167, 87, 53, 58, 92, 66, 120, 109, 62, 86, 96, 103, 88, 155, 52, 89, 73]
+    print(f'=> Lista de glicemias:\n{glicemias}\n')
+
+    rotulos_glicemias = [('Hipoglicemia', glicemia) if glicemia <= 70 else ('Normal', glicemia) if glicemia > 70 and glicemia <= 99 else ('Alterada', glicemia) if glicemia >= 100 and glicemia <= 125 else ('Diabetes', glicemia) for glicemia in glicemias]
+    print(f'=> Lista de rótulos de glicemias:\n{rotulos_glicemias}')
 
 problema_7()
 
@@ -189,8 +218,16 @@ mensagem_problema_8 = '# 8 => Vamos estruturar os dados de vendas de um e-commer
 controlador(mensagem_problema_8, mensagem_problema_anterior=mensagem_problema_7, problema_anterior=problema_7)
 
 def problema_8():
-    ...
-    
+    ids = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    quantidades = [15, 12, 1, 15, 2, 11, 2, 12, 2, 4]
+    precos = [93.0, 102.0, 18.0, 41.0, 122.0, 14.0, 71.0, 48.0, 14.0, 144.0]
+    print(f'=> Lista de ids:\n{ids}\n')
+    print(f'=> Lista de quantidades:\n{quantidades}\n')
+    print(f'=> Lista de preços:\n{precos}\n')
+
+    cabecalho = ('id', 'quantidade', 'preco', 'total')
+    lista_items = [cabecalho] + [(id, quantidade, preco, quantidade * preco) for id, quantidade, preco in zip(ids, quantidades, precos)]
+    print(f'=> Tabela:\n{lista_items}')  
 
 problema_8()
 
@@ -202,10 +239,16 @@ mensagem_problema_9 = '# 9 => Vamos contar o número de filiais de uma empresa p
 controlador(mensagem_problema_9, mensagem_problema_anterior=mensagem_problema_8, problema_anterior=problema_8)
 
 def problema_9():
-    ...
-    
+    estados = ['SP', 'ES', 'MG', 'MG', 'SP', 'MG', 'ES', 'ES', 'ES', 'SP', 'SP', 'MG', 'ES', 'SP', 'RJ', 'MG', 'RJ', 'SP', 'MG', 'SP', 'ES', 'SP', 'MG']
+    print(f'=> Lista de estados:\n{estados}\n')
 
-problema_9()
+    estados_unicos = list(set(estados))
+    dicionario_estados = {estado: estados.count(estado) for estado in estados_unicos}
+    print(f'=> Dicionário de estados:\n{dicionario_estados}')
+
+    return estados_unicos
+
+estados_unicos = problema_9()
 
 # 10. Nessa mesma tabela de cadastro de filiais, há uma coluna com as informações da quantidade de funcionários e o(a) gestor(a) gostaria de ter um agrupamento da soma dessas pessoas para cada estado. As informações contidas na tabela são:
 # funcionarios = [('SP', 16), ('ES', 8), ('MG', 9), ('MG', 6), ('SP', 10), ('MG', 4), ('ES',9), ('ES', 7), ('ES', 12), ('SP', 7), ('SP', 11), ('MG',8), ('ES',8), ('SP',9), ('RJ', 13), ('MG', 5), ('RJ', 9), ('SP', 12), ('MG', 10), ('SP', 7), ('ES', 14), ('SP', 10), ('MG', 12)]
@@ -214,8 +257,13 @@ mensagem_problema_10 = '# 10 => Agora vamos contar o número de funcionarios por
 controlador(mensagem_problema_10, mensagem_problema_anterior=mensagem_problema_9, problema_anterior=problema_9)
 
 def problema_10():
-    ...
-    
+    funcionarios = [('SP', 16), ('ES', 8), ('MG', 9), ('MG', 6), ('SP', 10), ('MG', 4), ('ES',9), ('ES', 7), ('ES', 12), ('SP', 7), ('SP', 11), ('MG',8), ('ES',8), ('SP',9), ('RJ', 13), ('MG', 5), ('RJ', 9), ('SP', 12), ('MG', 10), ('SP', 7), ('ES', 14), ('SP', 10), ('MG', 12)]
+    print(f'=> Lista de funcionarios:\n{funcionarios}\n')
+
+    dicionario_funcionarios = {estado_unico: [funcionario for estado, funcionario in funcionarios if estado == estado_unico] for estado_unico in estados_unicos}
+    dicionario_soma_funcionarios = {estado_unico: sum(funcionario for estado, funcionario in funcionarios if estado == estado_unico) for estado_unico in estados_unicos}
+    print(f'=> Dicionário de funcionarios:\n{dicionario_funcionarios}\n')
+    print(f'=> Dicionário de soma de funcionarios:\n{dicionario_soma_funcionarios}')
 
 problema_10()
 

@@ -267,7 +267,7 @@ problema_6()
 # O texto exibido ao fim deve ser parecido com:
 # "Nome completo: Ana Silva"
 # Dica: utilize a função map para mapear os nomes e sobrenomes e as funções de string para tratar o texto.
-mensagem_problema_7 = '# 7 => Vamos tratar 2 listas com os nomes e sobrenomes de cada estudante\nconcatenando-as para apresentar seus nomes completos.'
+mensagem_problema_7 = '# 7 => Vamos tratar 2 listas com os nomes e sobrenomes de cada estudante concatenando-as para apresentar seus nomes completos.'
 controlador(mensagem_problema_7, mensagem_problema_anterior=mensagem_problema_6, problema_anterior=problema_6)
 
 def problema_7():
@@ -291,7 +291,7 @@ problema_7()
 # gols_sofridos = [1, 2, 3, 0, 1]
 # Provável texto exibido:
 # "A pontuação do time foi de [pontos] e seu aproveitamento foi de [aprov]%"
-mensagem_problema_8 = '# 8 => Vamos calcular a pontuação do time no campeonato nacional\na partir dos dados de gols marcados e sofridos em cada jogo.'
+mensagem_problema_8 = '# 8 => Vamos calcular a pontuação do time no campeonato nacional a partir dos dados de gols marcados e sofridos em cada jogo.'
 controlador(mensagem_problema_8, mensagem_problema_anterior=mensagem_problema_7, problema_anterior=problema_7)
 
 def problema_8():

@@ -4,19 +4,20 @@ def controlador(mensagem=False, mensagem_problema_anterior=False, problema_anter
         if ultimo_exercicio:
             if not loop:
                 print('\n# # # # # # # # # # # # # # # # # # # # # # # # # #')
-                print('\n=> Este era o último exercício.')
-                print('Deseja repetir o exercício?')
+                print('\n\n=> Este era o último exercício.')
+                print('\nDeseja repetir o exercício?')
             print('\n=> Responda Y para sim e N para não:')
-            resposta = input('Deseja continuar? ').upper()
+            resposta = input('Deseja repetir? ').upper()
             return resposta
         elif not abrir_nova_sessão and not loop:
             if not primeiro_exercicio:
                 if not apos_saudacao:
                     print('\n# # # # # # # # # # # # # # # # # # # # # # # # # #')
-                line_break = "\n\n" if not apos_saudacao else "\n"
-                print(f'{line_break}Vamos para o próximo exercício?')
+                    print('\n\nVamos para o próximo exercício?')
+                else:
+                    print('Vamos resolver uns probleminhas legais?')
             else:
-                print(f'\n\nVamos resolver uns probleminhas legais?')
+                print('Vamos resolver uns probleminhas legais?')
         elif abrir_nova_sessão and not loop:
             print('\n# # # # # # # # # # # # # # # # # # # # # # # # # #')
             print(f'\n\nAgora vamos ver algumas coisas mais emocionantes?')
@@ -37,30 +38,60 @@ def controlador(mensagem=False, mensagem_problema_anterior=False, problema_anter
         else:
             tratar_input_errado()
 
+    def formatar_mensagens(mensagem):
+        if len(mensagem) > 360:
+            mensagem = mensagem.split(' ')
+            divisor = len(mensagem) // 8 + 3
+            mensagem = ' '.join(mensagem[:divisor]) + '\n' + ' '.join(mensagem[divisor:divisor * 2]) + '\n' + ' '.join(mensagem[divisor * 2:divisor * 3]) + '\n' + ' '.join(mensagem[divisor * 3:divisor * 4]) + '\n' + ' '.join(mensagem[divisor * 4:divisor * 5]) + '\n' + ' '.join(mensagem[divisor * 5:divisor * 6]) + '\n' + ' '.join(mensagem[divisor * 6:divisor * 7]) + '\n' + ' '.join(mensagem[divisor * 7:])
+        elif len(mensagem) > 315:
+            mensagem = mensagem.split(' ')
+            divisor = len(mensagem) // 7 + 3
+            mensagem = ' '.join(mensagem[:divisor]) + '\n' + ' '.join(mensagem[divisor:divisor * 2]) + '\n' + ' '.join(mensagem[divisor * 2:divisor * 3]) + '\n' + ' '.join(mensagem[divisor * 3:divisor * 4]) + '\n' + ' '.join(mensagem[divisor * 4:divisor * 5]) + '\n' + ' '.join(mensagem[divisor * 5:divisor * 6]) + '\n' + ' '.join(mensagem[divisor * 6:])
+        elif len(mensagem) > 270:
+            mensagem = mensagem.split(' ')
+            divisor = len(mensagem) // 6 + 3
+            mensagem = ' '.join(mensagem[:divisor]) + '\n' + ' '.join(mensagem[divisor:divisor * 2]) + '\n' + ' '.join(mensagem[divisor * 2:divisor * 3]) + '\n' + ' '.join(mensagem[divisor * 3:divisor * 4]) + '\n' + ' '.join(mensagem[divisor * 4:divisor * 5]) + '\n' + ' '.join(mensagem[divisor * 5:])
+        elif len(mensagem) > 225:
+            mensagem = mensagem.split(' ')
+            divisor = len(mensagem) // 5 + 3
+            mensagem = ' '.join(mensagem[:divisor]) + '\n' + ' '.join(mensagem[divisor:divisor * 2]) + '\n' + ' '.join(mensagem[divisor * 2:divisor * 3]) + '\n' + ' '.join(mensagem[divisor * 3:divisor * 4]) + '\n' + ' '.join(mensagem[divisor * 4:])
+        elif len(mensagem) > 180:
+            mensagem = mensagem.split(' ')
+            divisor = len(mensagem) // 4 + 3
+            mensagem = ' '.join(mensagem[:divisor]) + '\n' + ' '.join(mensagem[divisor:divisor * 2]) + '\n' + ' '.join(mensagem[divisor * 2:divisor * 3]) + '\n' + ' '.join(mensagem[divisor * 3:])
+        elif len(mensagem) > 135:
+            mensagem = mensagem.split(' ')
+            divisor = len(mensagem) // 3 + 3
+            mensagem = ' '.join(mensagem[:divisor]) + '\n' + ' '.join(mensagem[divisor:divisor * 2]) + '\n' + ' '.join(mensagem[divisor * 2:])
+        elif len(mensagem) > 90:
+            mensagem = mensagem.split(' ')
+            divisor = len(mensagem) // 2 + 3
+            mensagem = ' '.join(mensagem[:divisor]) + '\n' + ' '.join(mensagem[divisor:])
+        
+        return mensagem
+
     def continuar():
-        if not abrir_nova_sessão:
-            print('\n\n# # # # # # # # # # # # # # # # # # # # # # # # # #')
-            print(f'\n{mensagem.replace("?", ".")}\n')
+        if abrir_nova_sessão:
+            saudar(saudacao, espacos_inicio=3, espacos_final=3) if saudacao else None
         else:
-            print('\n')
+            print('\n\n# # # # # # # # # # # # # # # # # # # # # # # # # #')
+            print(f'\n{formatar_mensagens(mensagem.replace("?", "."))}\n')
 
     def encerrar():
-        if ultimo_exercicio:
-            print('\n\nObrigado por participar!')
-            print('Até a próxima! \/,,\n')
-            quit()
-        print('\nOk, até a próxima!\n')
+        print('\n\n# # # # # # # # # # # # # # # # # # # # # # # # # #')
+        print('\n\nObrigado por participar!')
+        print('Até a próxima! \/,,\n\n')
         quit()
     
     def repetir_exercicio():
-        print('\n\n# # # # # # # # # # # # # # # # # # # # # # # # # #')
-        print(f'\n{mensagem_problema_anterior.replace("?", ".")}\n')
+        print('\n\n=> Repetindo o exercício anterior...')
+        print('\n# # # # # # # # # # # # # # # # # # # # # # # # # #')
+        print(f'\n{formatar_mensagens(mensagem_problema_anterior.replace("?", "."))}\n')
         problema_anterior()
         print('\n# # # # # # # # # # # # # # # # # # # # # # # # # #\n') if apos_saudacao else None
         controlador(mensagem, mensagem_problema_anterior, problema_anterior, primeiro_exercicio=False, ultimo_exercicio=ultimo_exercicio, abrir_nova_sessão=abrir_nova_sessão, apos_saudacao=apos_saudacao, saudacao=saudacao, loop=False)
 
     resposta = validar_resposta(coletar_resposta())
-    saudar(saudacao) if saudacao and abrir_nova_sessão and not resposta == 'R' else None
     if ultimo_exercicio:
         if resposta == 'Y':
             repetir_exercicio()
@@ -74,9 +105,25 @@ def controlador(mensagem=False, mensagem_problema_anterior=False, problema_anter
         repetir_exercicio()
 
 
-def saudar(mensagem):
-    print('\n\n# # # # # # # # # # # # # # # # # # # # # # # # # #')
+def saudar(mensagem: str, espacos_inicio: int=2, espacos_final: int=2) -> None:
+    '''
+    Printa uma saudacao com um cabecalho e um rodape.
+
+    Formato do output:\n
+    {espacos_inicio * linhas: default=2}\n
+    "# # # # # # # # # # # # # # # # # # # # # # # # # #"\n
+    "# # # # # # # # # # # # # # # # # # # # # # # # # #"\n\n
+
+    "=> parâmetro: mensagem"\n\n
+
+    "# # # # # # # # # # # # # # # # # # # # # # # # # #"\n
+    "# # # # # # # # # # # # # # # # # # # # # # # # # #"\n
+    {espacos_final * linhas: default=2}
+    '''
+    espacos_iniciais = '\n' * espacos_inicio
+    espacos_finais = '\n' * espacos_final
+    print(f'{espacos_iniciais}# # # # # # # # # # # # # # # # # # # # # # # # # #')
     print('# # # # # # # # # # # # # # # # # # # # # # # # # #\n')
     print(f'=> {mensagem}\n')
     print('# # # # # # # # # # # # # # # # # # # # # # # # # #')
-    print('# # # # # # # # # # # # # # # # # # # # # # # # # #')
+    print(f'# # # # # # # # # # # # # # # # # # # # # # # # # #{espacos_finais}')
