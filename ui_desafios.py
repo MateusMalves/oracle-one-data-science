@@ -1,5 +1,65 @@
 # UI - Controle de fluxo
-def controlador(mensagem=False, mensagem_problema_anterior=False, problema_anterior=False, primeiro_exercicio=False, ultimo_exercicio=False, abrir_nova_sessão=False, apos_saudacao=False, saudacao=False, loop=False):
+def controlador(
+    mensagem: str = None,
+    mensagem_problema_anterior: str = None,
+    problema_anterior: callable = None,
+    primeiro_exercicio: bool = False,
+    ultimo_exercicio: bool = False,
+    abrir_nova_sessão: bool = False,
+    apos_saudacao: bool = False,
+    saudacao: str = None,
+    loop: bool = False
+) -> None:
+    """
+    ### 🎯 Função principal para controle de fluxo dos desafios do curso ONE - Oracle Next Education
+
+    Controla a navegação entre os desafios no terminal, melhorando a experiência do usuário.
+
+    Você pode copiar um template de código para os desafios neste link: [Template de código](https://github.com/DanielCrema/oracle_one-data-science-course/blob/main/template_desafio_hora-da-pratica.txt)
+
+    ---
+    ## 🧾 Parâmetros:
+
+    - **mensagem** (`str`, opcional):  
+      Mensagem de contextualização do problema.  
+      *Default: None*
+
+    - **mensagem_problema_anterior** (`str`, opcional):  
+      Mensagem do problema anterior para referência.  
+      *Default: None*
+
+    - **problema_anterior** (`function`, opcional):  
+      Função executada para repetir o exercício anterior.  
+      *Default: None*
+
+    - **primeiro_exercicio** (`bool`):  
+      Define se é o primeiro exercício.  
+      *Default: False*
+
+    - **ultimo_exercicio** (`bool`):  
+      Define se é o último exercício.  
+      *Default: False*
+
+    - **abrir_nova_sessao** (`bool`):  
+      Inicia uma nova sessão dos desafios.  
+      *Default: False*
+
+    - **apos_saudacao** (`bool`):  
+      Indica se o exercício atual vem após a saudação de uma nova sessão.  
+      *Default: False*
+
+    - **saudacao** (`str`, opcional):  
+      Saudação exibida ao iniciar nova sessão.  
+      *Default: None*
+
+    - **loop** (`bool`):  
+      ⚠️ Não alterar: Variável interna para controle recursivo.
+      *Default: False*
+
+    ---
+    ⚠️ *Parâmetros marcados como “Não alterar” são utilizados internamente para controle da aplicação.*
+    """
+
     def coletar_resposta():
         if ultimo_exercicio:
             if not loop:
@@ -75,7 +135,8 @@ def controlador(mensagem=False, mensagem_problema_anterior=False, problema_anter
             saudar(saudacao, espacos_inicio=3, espacos_final=3) if saudacao else None
         else:
             print('\n\n# # # # # # # # # # # # # # # # # # # # # # # # # #')
-            print(f'\n{formatar_mensagens(mensagem.replace("?", "."))}\n')
+            if mensagem is not None:
+                print(f'\n{formatar_mensagens(mensagem.replace("?", "."))}\n')
 
     def encerrar():
         print('\n\n# # # # # # # # # # # # # # # # # # # # # # # # # #')
@@ -86,8 +147,12 @@ def controlador(mensagem=False, mensagem_problema_anterior=False, problema_anter
     def repetir_exercicio():
         print('\n\n=> Repetindo o exercício anterior...')
         print('\n# # # # # # # # # # # # # # # # # # # # # # # # # #')
-        print(f'\n{formatar_mensagens(mensagem_problema_anterior.replace("?", "."))}\n')
-        problema_anterior()
+        if mensagem_problema_anterior is not None:
+            print(f'\n{formatar_mensagens(mensagem_problema_anterior.replace("?", "."))}\n')
+        if problema_anterior is not None and callable(problema_anterior):
+            problema_anterior()
+        else:
+            print('!!! Problema anterior não encontrado.\n')
         print('\n# # # # # # # # # # # # # # # # # # # # # # # # # #\n') if apos_saudacao else None
         controlador(mensagem, mensagem_problema_anterior, problema_anterior, primeiro_exercicio=False, ultimo_exercicio=ultimo_exercicio, abrir_nova_sessão=abrir_nova_sessão, apos_saudacao=apos_saudacao, saudacao=saudacao, loop=False)
 
