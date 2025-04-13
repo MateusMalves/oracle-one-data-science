@@ -15,7 +15,7 @@ def controlador(
 
     Controla a navegação entre os desafios no terminal, melhorando a experiência do usuário.
 
-    Você pode copiar um template de código para os desafios neste link: [Template de código](https://github.com/DanielCrema/oracle_one-data-science-course/blob/main/template_desafio_hora-da-pratica.txt)
+    Você pode copiar um template de código para os desafios neste link: [Template de código](https://github.com/DanielCrema/oracle_one-data-science-course/blob/main/template_desafio_hora-da-pratica.py)
 
     ---
     ## 🧾 Parâmetros:
