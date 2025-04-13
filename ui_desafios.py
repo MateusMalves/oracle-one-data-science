@@ -8,7 +8,7 @@ def controlador(
     abrir_nova_sessão: bool = False,
     apos_saudacao: bool = False,
     saudacao: str = None,
-    loop: bool = False
+    isRecursion: bool = False
 ) -> None:
     """
     ### 🎯 Função principal para controle de fluxo dos desafios do curso ONE - Oracle Next Education
@@ -52,8 +52,8 @@ def controlador(
       Saudação exibida ao iniciar nova sessão.  
       *Default: None*
 
-    - **loop** (`bool`):  
-      ⚠️ Não alterar: Variável interna para controle recursivo.
+    - **isRecursion** (`bool`):  
+      ⚠️ Não alterar: Variável interna para controle de recursões.
       *Default: False*
 
     ---
@@ -62,14 +62,14 @@ def controlador(
 
     def coletar_resposta():
         if ultimo_exercicio:
-            if not loop:
+            if not isRecursion:
                 print('\n# # # # # # # # # # # # # # # # # # # # # # # # # #')
                 print('\n\n=> Este era o último exercício.')
                 print('\nDeseja repetir o exercício?')
             print('\n=> Responda Y para sim e N para não:')
             resposta = input('Deseja repetir? ').upper()
             return resposta
-        elif not abrir_nova_sessão and not loop:
+        elif not abrir_nova_sessão and not isRecursion:
             if not primeiro_exercicio:
                 if not apos_saudacao:
                     print('\n# # # # # # # # # # # # # # # # # # # # # # # # # #')
@@ -78,7 +78,7 @@ def controlador(
                     print('Vamos resolver uns probleminhas legais?')
             else:
                 print('Vamos resolver uns probleminhas legais?')
-        elif abrir_nova_sessão and not loop:
+        elif abrir_nova_sessão and not isRecursion:
             print('\n# # # # # # # # # # # # # # # # # # # # # # # # # #')
             print(f'\n\nAgora vamos ver algumas coisas mais emocionantes?')
         
@@ -88,7 +88,7 @@ def controlador(
 
     def tratar_input_errado():
         print('!! Resposta inválida.')
-        controlador(mensagem, mensagem_problema_anterior, problema_anterior, primeiro_exercicio=primeiro_exercicio, ultimo_exercicio=ultimo_exercicio, abrir_nova_sessão=abrir_nova_sessão, apos_saudacao=False, loop=True)
+        controlador(mensagem, mensagem_problema_anterior, problema_anterior, primeiro_exercicio=primeiro_exercicio, ultimo_exercicio=ultimo_exercicio, abrir_nova_sessão=abrir_nova_sessão, apos_saudacao=False, isRecursion=True)
 
     def validar_resposta(resposta):
         import re
@@ -154,41 +154,81 @@ def controlador(
         else:
             print('!!! Problema anterior não encontrado.\n')
         print('\n# # # # # # # # # # # # # # # # # # # # # # # # # #\n') if apos_saudacao else None
-        controlador(mensagem, mensagem_problema_anterior, problema_anterior, primeiro_exercicio=False, ultimo_exercicio=ultimo_exercicio, abrir_nova_sessão=abrir_nova_sessão, apos_saudacao=apos_saudacao, saudacao=saudacao, loop=False)
+        controlador(mensagem, mensagem_problema_anterior, problema_anterior, primeiro_exercicio=False, ultimo_exercicio=ultimo_exercicio, abrir_nova_sessão=abrir_nova_sessão, apos_saudacao=apos_saudacao, saudacao=saudacao, isRecursion=False)
 
     resposta = validar_resposta(coletar_resposta())
-    if ultimo_exercicio:
-        if resposta == 'Y':
+    if resposta == 'Y':
+        if not ultimo_exercicio:
+            continuar()
+        else:
             repetir_exercicio()
-        elif resposta == 'N':
-            encerrar()
-    elif resposta == 'Y':
-        continuar()
     elif resposta == 'N':
         encerrar()
     elif resposta == 'R':
         repetir_exercicio()
 
 
-def saudar(mensagem: str, espacos_inicio: int=2, espacos_final: int=2) -> None:
+def saudar(mensagem: str=None, espacos_inicio: int=2, espacos_final: int=2) -> None:
     '''
-    Printa uma saudacao com um cabecalho e um rodape.
+    Exibe uma saudação formatada com cabeçalho e rodapé decorativos.
 
-    Formato do output:\n
-    {espacos_inicio * linhas: default=2}\n
-    "# # # # # # # # # # # # # # # # # # # # # # # # # #"\n
-    "# # # # # # # # # # # # # # # # # # # # # # # # # #"\n\n
+    A função imprime uma mensagem com linhas decorativas antes e depois, 
+    além de espaços em branco configuráveis acima e abaixo do conteúdo.
 
-    "=> parâmetro: mensagem"\n\n
+    Parâmetros:
+    ----------
+    - **mensagem** (str, obrigatório):
+        A mensagem que será exibida no centro do bloco.
+        *Default: 2*
+    
+    - **espacos_inicio** (int, opcional):
+        Quantidade de linhas em branco antes do cabeçalho.
+        *Default: 2*
+    
+    - **espacos_final** (int, opcional):
+        Quantidade de linhas em branco após o rodapé.
+        *Default: 2*
+        
+    Exemplo de saída:
+    -----------------
 
-    "# # # # # # # # # # # # # # # # # # # # # # # # # #"\n
-    "# # # # # # # # # # # # # # # # # # # # # # # # # #"\n
-    {espacos_final * linhas: default=2}
+    ```
+
+    {espacos_iniciais}
+    # # # # # # # # # # # # # # # # # # # # # # # # # #
+    # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+    => Sua mensagem aqui
+
+    # # # # # # # # # # # # # # # # # # # # # # # # # #
+    # # # # # # # # # # # # # # # # # # # # # # # # # #
+    {espacos_finais}
+
+    ```
+    
+    -----------------
+    Caso falte o argumento **mensagem**, a função retorna um espaçamento de 2 linhas.
+
+    Exemplo de saída:
+    -----------------
+
+    ```
+
+    {espacos_iniciais}
+    # # # # # # # # # # # # # # # # # # # # # # # # # #
+    # # # # # # # # # # # # # # # # # # # # # # # # # #
+    {espacos_finais}
+
+    ```
     '''
     espacos_iniciais = '\n' * espacos_inicio
     espacos_finais = '\n' * espacos_final
-    print(f'{espacos_iniciais}# # # # # # # # # # # # # # # # # # # # # # # # # #')
-    print('# # # # # # # # # # # # # # # # # # # # # # # # # #\n')
-    print(f'=> {mensagem}\n')
-    print('# # # # # # # # # # # # # # # # # # # # # # # # # #')
-    print(f'# # # # # # # # # # # # # # # # # # # # # # # # # #{espacos_finais}')
+    if mensagem and isinstance(mensagem, str):
+        print(f'{espacos_iniciais}# # # # # # # # # # # # # # # # # # # # # # # # # #')
+        print('# # # # # # # # # # # # # # # # # # # # # # # # # #\n')
+        print(f'=> {mensagem}\n')
+        print('# # # # # # # # # # # # # # # # # # # # # # # # # #')
+        print(f'# # # # # # # # # # # # # # # # # # # # # # # # # #{espacos_finais}')
+    else:
+        print(f'{espacos_iniciais}# # # # # # # # # # # # # # # # # # # # # # # # # #')
+        print(f'# # # # # # # # # # # # # # # # # # # # # # # # # #{espacos_finais}')
