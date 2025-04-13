@@ -156,6 +156,8 @@ def controlador(
         print('\n# # # # # # # # # # # # # # # # # # # # # # # # # #\n') if apos_saudacao else None
         controlador(mensagem, mensagem_problema_anterior, problema_anterior, primeiro_exercicio=False, ultimo_exercicio=ultimo_exercicio, abrir_nova_sessão=abrir_nova_sessão, apos_saudacao=apos_saudacao, saudacao=saudacao, isRecursion=False)
 
+    import time
+    time.sleep(0.2)
     resposta = validar_resposta(coletar_resposta())
     if resposta == 'Y':
         if not ultimo_exercicio:
