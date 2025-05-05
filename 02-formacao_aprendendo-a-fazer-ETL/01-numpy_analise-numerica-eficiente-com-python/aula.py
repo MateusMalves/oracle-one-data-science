@@ -17,3 +17,9 @@ data.shape
 # Transpose
 transposed_data = data.T
 transposed_data
+
+# Indexing
+dates = transposed_data[:, 0]
+dates
+prices = transposed_data[:, 1:6]
+prices
