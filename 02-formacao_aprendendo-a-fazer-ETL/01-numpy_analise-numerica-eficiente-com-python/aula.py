@@ -17,4 +17,3 @@ data.shape
 # Transpose
 transposed_data = data.T
 transposed_data
-
