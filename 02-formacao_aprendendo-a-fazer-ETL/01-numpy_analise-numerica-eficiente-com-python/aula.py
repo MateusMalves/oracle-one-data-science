@@ -5,6 +5,11 @@ import re
 import numpy as np
 import matplotlib.pyplot as plt
 
+
+# # # Section of the course:
+# 01. Conhecendo a biblioteca e nossos dados
+# # #
+
 # # Load data
 def load_data(filename):
     # Format paths to access from both the root directory and '/02-formacao_aprendendo-a-fazer-ETL/01-numpy_analise-numerica-eficiente-com-python'
@@ -36,6 +41,11 @@ data.shape
 transposed_data = data.T
 transposed_data
 
+
+# # # Section of the course:
+# 02. Exploração dos dados
+# # #
+
 # Indexing
 dates = transposed_data[:, 0]
 dates
@@ -61,3 +71,80 @@ Petersburg = prices[:, 2]
 Krasnodar = prices[:, 3]
 Ekaterinburg = prices[:, 4]
 Moscow
+Moscow.shape
+
+Moscow_year1 = Moscow[0:12]
+Moscow_year2 = Moscow[12:24]
+Moscow_year3 = Moscow[24:36]
+Moscow_year4 = Moscow[36:48]
+
+# Plotting as subplots
+fig, axs = plt.subplots(2, 2)
+axs[0,0].plot(np.arange(1,13),Moscow_year1)
+axs[0,1].plot(np.arange(1,13),Moscow_year2)
+axs[1,0].plot(np.arange(1,13),Moscow_year3)
+axs[1,1].plot(np.arange(1,13),Moscow_year4)
+plt.show()
+
+# Plotting together
+plt.plot(np.arange(1,13,1),Moscow_year1)
+plt.plot(np.arange(1,13,1),Moscow_year2)
+plt.plot(np.arange(1,13,1),Moscow_year3)
+plt.plot(np.arange(1,13,1),Moscow_year4)
+plt.legend(['ano1', 'ano2', 'ano3', 'ano4'])
+
+# Np functions to check if two arrays are equal
+Moscow_year1
+Moscow_year2
+np.array_equal(Moscow_year1, Moscow_year2)
+np.allclose(Moscow_year1, Moscow_year2, 0.01)
+
+# # # Study:
+# Testing Rtol
+def test_rtol(a, b, rtol):
+    print(np.allclose(a, b, rtol))
+    difference = b - a
+    print('difference = b - a')
+    tolerance = b * rtol
+    print('tolerance = b * rtol')
+    print(f'a = {a:.8f} || b = {b:.8f} || rtol = {rtol}')
+    print(f'tolerance = {tolerance:.8f} || difference = {difference:.8f}')
+
+rtol1 = 0.1
+a = 1
+# 7 digits
+b = 1.1111111
+c = 1.1111112
+# 8 digits
+d = 1.11111111
+e = 1.11111112
+rtol2 = 0.9
+f = 0.99
+g = 0.53
+h = 0.52
+# Rtols of 0.1 captures any difference within the scope of up to 7 digits
+test_rtol(a, b, rtol1) # Return True
+test_rtol(a, c, rtol1) # Return False
+test_rtol(a, d, rtol1) # True
+test_rtol(a, e, rtol1) # True
+
+# Rtols of 0.9
+# Very loose tolerance
+test_rtol(a, g, rtol2) # Return True
+test_rtol(f, g, rtol2)
+test_rtol(a, h, rtol2) # Return False
+test_rtol(f, h, rtol2)
+
+# Rtols > 0.9 always return True for b > 1 > a
+test_rtol(f, a, rtol2) # Parameter b = 1 || Parameter a < 1 # Return True
+test_rtol(g, a, rtol2)
+test_rtol(h, a, rtol2)
+
+# # # Section of the course:
+# 03. Operações entre arrays
+# # #
+
+
+# # #
+# 04. Números aleatórios
+# # #
