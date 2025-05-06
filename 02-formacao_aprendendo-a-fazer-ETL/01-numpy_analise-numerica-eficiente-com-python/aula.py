@@ -99,16 +99,19 @@ Moscow_year2
 np.array_equal(Moscow_year1, Moscow_year2)
 np.allclose(Moscow_year1, Moscow_year2, 0.01)
 
-# # # Study:
+# # # Study case:
 # Testing Rtol
 def test_rtol(a, b, rtol):
-    print(np.allclose(a, b, rtol))
+    allclose = np.allclose(a, b, rtol)
     difference = b - a
-    print('difference = b - a')
     tolerance = b * rtol
+    print(f'\na = {a:.8f} || b = {b:.8f} || rtol = {rtol}')
+    print('difference = b - a')
     print('tolerance = b * rtol')
-    print(f'a = {a:.8f} || b = {b:.8f} || rtol = {rtol}')
-    print(f'tolerance = {tolerance:.8f} || difference = {difference:.8f}')
+    print('\n=> Result:')
+    print(f'Tolerance = {tolerance:.8f}')
+    print(f'Difference = {difference:.8f}')
+    print(f'Allclose = {allclose}')
 
 rtol1 = 0.1
 a = 1
@@ -125,6 +128,7 @@ h = 0.52
 # Rtols of 0.1 captures any difference within the scope of up to 7 digits
 test_rtol(a, b, rtol1) # Return True
 test_rtol(a, c, rtol1) # Return False
+# Loses track of +1 differences after the 8th digit - still captures +2 differences (i.e. a = 1.11111111 || b = 1.11111113 Returns False)
 test_rtol(a, d, rtol1) # True
 test_rtol(a, e, rtol1) # True
 
@@ -139,6 +143,23 @@ test_rtol(f, h, rtol2)
 test_rtol(f, a, rtol2) # Parameter b = 1 || Parameter a < 1 # Return True
 test_rtol(g, a, rtol2)
 test_rtol(h, a, rtol2)
+
+# Dealing with NaNs
+plt.plot(dates, Kaliningrad) # There's inconsistency in the plot
+Kaliningrad # Check for NaNs visually
+np.isnan(Kaliningrad) # Returns an array of booleans
+sum(np.isnan(Kaliningrad)) # Returns the count of NaNs
+
+# Correcting the NaN throguh interpolation
+(Kaliningrad[3]+Kaliningrad[5])/2 # Naive way
+np.mean([Kaliningrad[3],Kaliningrad[5]]) # Better way
+Kaliningrad[4] = np.mean([Kaliningrad[3],Kaliningrad[5]]) # Interpolate
+plt.plot(dates, Kaliningrad) # Now it works correctly
+
+# Comparing Moscow to Kaliningrad
+np.mean(Moscow)
+np.mean(Kaliningrad) # Moscow is more expensive
+
 
 # # # Section of the course:
 # 03. Operações entre arrays
