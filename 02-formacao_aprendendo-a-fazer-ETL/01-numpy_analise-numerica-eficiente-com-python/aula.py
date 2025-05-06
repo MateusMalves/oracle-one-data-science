@@ -3,6 +3,7 @@
 import os
 import re
 import numpy as np
+import matplotlib.pyplot as plt
 
 # # Load data
 def load_data(filename):
@@ -40,3 +41,23 @@ dates = transposed_data[:, 0]
 dates
 prices = transposed_data[:, 1:6]
 prices
+
+# Try to plot
+# Will return a bug due to wrong type of dates
+plt.figure()
+plt.plot(dates, prices[:, 0])
+plt.show()
+
+# Fix: Naive way, without Pandas
+dates = np.arange(1,88)
+plt.figure()
+plt.plot(dates, prices[:, 0])
+plt.show()
+
+# Cities indexes:
+Moscow = prices[:, 0]
+Kaliningrad = prices[:, 1]
+Petersburg = prices[:, 2]
+Krasnodar = prices[:, 3]
+Ekaterinburg = prices[:, 4]
+Moscow
