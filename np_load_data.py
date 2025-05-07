@@ -50,9 +50,10 @@ def load_data(filename: 'str', usecols: tuple, delimiter: str = ',', skiprows: i
     cwd = os.getcwd()
     while bool(re.search(r'\d-', cwd)):
         cwd = os.path.dirname(cwd)
-    datasets_folder = cwd + '/02-formacao_aprendendo-a-fazer-ETL/data'
+    root = cwd
 
-    file_path = os.path.join(datasets_folder, filename) # Path relative to the root directory
+    file_path = os.path.join(f'{root}/data', filename)
+    print('\n=> Loading data from:\n', file_path)
     data = np.loadtxt(file_path, delimiter=delimiter, skiprows=skiprows, usecols=np.arange(usecols[0], usecols[1]))
     print('\n=> Data successfully loaded from:\n', file_path)
     print('\n=> data[0:3]:\n', data[0:3])
