@@ -156,6 +156,46 @@ np.mean(Kaliningrad) # Moscow is more expensive
 # 03. Operações entre arrays
 # # #
 
+# Linear regression
+# 
+# Calculating through guesses
+# Guess
+x = dates
+y = 2*x + 80 # Guess
+
+plt.plot(dates, Moscow)
+plt.plot(x, y)
+
+# Calculating the normalization
+np.sqrt(np.sum(np.power(Moscow-y, 2)))
+y = 0.52*x + 80 # Guess
+
+np.linalg.norm(Moscow-y)
+
+# Calculating through formula the angular coefficient
+n = np.size(Moscow)
+x = dates
+y = Moscow
+
+a = (n * np.sum(x*y) - np.sum(x)*np.sum(y))/(n*np.sum(x**2) - np.sum(x)**2)
+a
+
+# Calculating through formula the linear coefficient
+b = np.mean(y) - a*np.mean(x)
+b
+
+y = a*x + b
+np.linalg.norm(Moscow-y)
+
+# More about regression
+plt.plot(dates, Moscow)
+plt.plot(x, y)
+# Adding a marker to the line in a given x
+plt.plot(41.5, 41.5*a+b, '*r')
+# Estimating the future price
+plt.plot(100, 100*a+b, '*r')
+
+
 
 # # #
 # 04. Números aleatórios
