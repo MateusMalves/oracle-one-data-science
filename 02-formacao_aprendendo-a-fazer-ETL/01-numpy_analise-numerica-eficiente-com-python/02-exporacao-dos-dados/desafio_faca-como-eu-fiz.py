@@ -1,6 +1,7 @@
 import os
 import sys
 import re
+import matplotlib.pyplot as plt
 
 cwd = os.getcwd()
 while bool(re.search(r'\d-', cwd)):
@@ -10,5 +11,30 @@ if load_data_path not in sys.path:
     sys.path.append(load_data_path)
 from np_load_data import load_data
     
-
 data = load_data('citrus.csv', usecols=(1, 6), skiprows=1)
+
+# Generate the arrays
+diameter_orange = data[:5000, 0]
+weight_orange = data[:5000, 1]
+diameter_grapefruit = data[5000:, 0]
+weight_grapefruit = data[5000:, 1]
+
+# # Plotting
+# 
+
+# Using subplots
+fig, axs = plt.subplots(1, 2)
+axs[0].plot(diameter_orange, weight_orange)
+axs[0].set_title('Orange')
+axs[1].plot(diameter_grapefruit, weight_grapefruit)
+axs[1].set_title('Grapefruit')
+plt.xlabel('Diameter')
+plt.ylabel('Weight')
+plt.show()
+
+# Using a single plot
+plt.plot(diameter_orange, weight_orange)
+plt.plot(diameter_grapefruit, weight_grapefruit)
+plt.xlabel('Diameter')
+plt.ylabel('Weight')
+plt.legend(['Orange', 'Grapefruit'])
