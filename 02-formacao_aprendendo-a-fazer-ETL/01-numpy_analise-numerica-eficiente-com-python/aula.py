@@ -12,7 +12,7 @@ while bool(re.search(r'\d-', cwd)):
 load_data_path = os.path.join(cwd)
 if load_data_path not in sys.path:
     sys.path.append(load_data_path)
-from np_load_data import load_data
+from load_data import load_data
 
 
 # # # Section of the course:

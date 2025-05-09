@@ -2,24 +2,35 @@
 import os
 import re
 import numpy as np
+import pandas as pd
 
-def load_data(filename: 'str', usecols: tuple, delimiter: str = ',', skiprows: int = 0):
+def load_data(
+        filename: 'str',
+        usecols: tuple = None,
+        delimiter: str = ',',
+        skiprows: int = 0,
+        is_pandas: bool = False
+        ):
     '''
-    Load specific columns from a delimited text file into a NumPy array.
+    Load specific columns from a delimited text file into a NumPy array or a Pandas dataframe.
 
     Parameters:
-        filename (str): 
+        `filename` (str): 
             Name of the file to load, relative to the project root directory.
-        usecols (tuple of int): 
+        `usecols` (tuple of int, optional):
             Tuple (start, end) representing the column range to load (start inclusive, end exclusive).
-        delimiter (str, optional): 
+        `delimiter` (str, optional): 
             Delimiter used in the file. Default is ','.
-        skiprows (int, optional): 
+        `skiprows` (int, optional): 
             Number of initial rows to skip (e.g., header lines). Must be non-negative. Default is 0.
 
     Returns:
-        numpy.ndarray: 
-            A NumPy array containing the loaded data.
+        if `is_pandas` == False:
+            numpy.ndarray: 
+                A NumPy array containing the loaded data.
+        else:
+            pandas.DataFrame:
+                A Pandas DataFrame containing the loaded data.
 
     Raises:
         ValueError: 
@@ -32,12 +43,10 @@ def load_data(filename: 'str', usecols: tuple, delimiter: str = ',', skiprows: i
         raise ValueError('Filename must be provided')
     if not isinstance(filename, str):
         raise ValueError('filename must be a string')
-    if usecols is None:
-        raise ValueError('usecols must be provided')
-    if not isinstance(usecols, tuple):
+    if usecols is not None and not isinstance(usecols, tuple):
         raise ValueError('usecols must be a tuple')
-    if len(usecols) != 2:
-        raise ValueError('usecols must be a tuple of length 2')
+        if len(usecols) != 2:
+            raise ValueError('usecols must be a tuple of length 2')
     if not isinstance(delimiter, str):
         raise ValueError('delimiter must be a string')
     if not isinstance(skiprows, int):
@@ -53,7 +62,16 @@ def load_data(filename: 'str', usecols: tuple, delimiter: str = ',', skiprows: i
     root = cwd
 
     file_path = os.path.join(f'{root}/data', filename)
-    data = np.loadtxt(file_path, delimiter=delimiter, skiprows=skiprows, usecols=np.arange(usecols[0], usecols[1]))
+    if is_pandas:
+        if usecols is None:
+            data = pd.read_csv(file_path, delimiter=delimiter, skiprows=skiprows)
+        else:
+            data = pd.read_csv(file_path, delimiter=delimiter, skiprows=skiprows, usecols=np.arange(usecols[0], usecols[1]))
+    else:
+        if usecols is None:
+            data = np.loadtxt(file_path, delimiter=delimiter, skiprows=skiprows)
+        else:
+            data = np.loadtxt(file_path, delimiter=delimiter, skiprows=skiprows, usecols=np.arange(usecols[0], usecols[1]))
     print('\n=> Data successfully loaded from:\n', file_path)
     print('\n=> data[0:3]:\n', data[0:3])
     print('\n=> Information about the data:')
