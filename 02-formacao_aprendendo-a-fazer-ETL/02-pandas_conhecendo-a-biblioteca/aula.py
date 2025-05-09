@@ -4,6 +4,7 @@ import os
 import sys
 import re
 import pandas as pd
+import matplotlib.pyplot as plt
 
 cwd = os.getcwd()
 while bool(re.search(r'\d-', cwd)):
@@ -33,3 +34,21 @@ data.dtypes
 data.info()
 data['Tipo']
 data[['Quartos', 'Valor']]
+
+# # # Section of the course:
+# 02. Análise exploratória de dados
+# # #
+
+# General mean
+data['Valor'].mean()
+
+# Specific means
+data.groupby('Tipo').mean(numeric_only=True)
+data.groupby('Tipo')['Valor'].mean()
+data.groupby('Tipo')['Valor'].mean().sort_values()
+df_price_type = data.groupby('Tipo')['Valor'].mean().sort_values()
+
+# Plotting
+df_price_type.plot(kind='barh', figsize=(14, 10), color='purple')
+
+# 
