@@ -327,3 +327,24 @@ for i in range(100):
 print(angular_coefs)
 print(norm)
 
+# Homework: Applying numpy to improve performance
+# Original function:
+x = [0,1,2,3,4,5,6,7,8,9,10]
+y = []
+
+for i in x:
+  y.append(i + 3 / 2)
+print(y)
+
+# Using numpy to approach the for loop
+x = np.array(x)
+y = np.array([])
+for i in x:
+    y = np.append(y, i + 3 / 2)
+print(y)
+
+#  Using built-in optimized np function to approach the for loop
+x = np.array(x)
+y = np.add(x, 3 / 2)
+print(y)
+
