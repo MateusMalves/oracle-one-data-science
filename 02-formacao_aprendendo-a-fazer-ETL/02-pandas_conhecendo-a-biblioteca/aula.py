@@ -51,4 +51,18 @@ df_price_type = data.groupby('Tipo')['Valor'].mean().sort_values()
 # Plotting
 df_price_type.plot(kind='barh', figsize=(14, 10), color='purple')
 
+# Removing commercial properties
 # 
+data.Tipo.unique()
+commercial_properties = ['Conjunto Comercial/Sala', 'Prédio Inteiro', 'Loja/Salão', 'Galpão/Depósito/Armazém', 'Casa Comercial', 'Terreno Padrão', 'Loja Shopping/ Ct Comercial', 'Box/Garagem', 'Chácara', 'Loteamento/Condomínio', 'Sítio', 'Pousada/Chalé', 'Hotel', 'Indústria']
+
+data.query('@commercial_properties in Tipo')
+data.query('@commercial_properties not in Tipo')
+
+df = data.query('@commercial_properties not in Tipo')
+df.head()
+df.Tipo.unique()
+
+# Plotting
+df_price_type = df.groupby('Tipo')['Valor'].mean().sort_values()
+df_price_type.plot(kind='barh', figsize=(14, 10), color='purple')
