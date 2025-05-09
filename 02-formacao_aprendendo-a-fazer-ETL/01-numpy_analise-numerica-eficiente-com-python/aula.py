@@ -195,8 +195,121 @@ plt.plot(41.5, 41.5*a+b, '*r')
 # Estimating the future price
 plt.plot(100, 100*a+b, '*r')
 
-
-
 # # #
 # 04. Números aleatórios
 # # #
+
+# Learning about random numbers
+np.random.randint(low=40, high=100, size=100)
+angular_coefs = np.random.uniform(low=0.10, high=0.90, size=100)
+# Calculate the norm for each of the numbers
+norm = np.array([])
+for i in range(100):
+    norm = np.append(norm, np.linalg.norm(Moscow-(angular_coefs[i]*x+b)))
+print(norm)
+# Find the minimum
+min_value = np.min(norm)
+print(min_value)
+index = np.where(norm == min_value)
+print(index)
+print(angular_coefs[index][0])
+
+# Functionalizing
+def random_regression(
+        x,
+        y,
+        linear_coef_low_high,
+        angular_coef_low_high,
+        norm=None,
+        refinements=300,
+        improve=True
+        ):
+    '''
+    Calculates the linear regression of a given dataset based on random linear and angular coefficients.
+
+    Parameters
+    ----------
+    `x` : array_like
+        The x-axis data.
+    `y` : array_like
+        The y-axis data.
+    `linear_coef_low_high` : tuple
+        The guessed lower and upper bounds for the linear coefficient.
+    `angular_coef_low_high` : tuple
+        The guessed lower and upper bounds for the angular coefficient.
+    `improve` : bool, optional. Default True.
+        Whether to improve the regression or not.
+    `refinements` : int, optional. Default 300.
+        The number of refinements to perform when improving the regression.  
+        Minimum value is 300.  
+        Maximum value is 1000.  
+        Values outside this range will be rounded to the nearest valid value.
+    `norm` : float, optional. Default None.
+        A guess of the norm of the regression. Can be provided in order to improve performace.  
+
+        ***WARNING***:  
+        Providing a lower value than the actual norm will lead to wrong results. If you are not sure, do not provide any guess.
+
+    Returns
+    -------
+    `linear_coef` : float
+        The linear coefficient of the regression.
+    `angular_coef` : float
+        The angular coefficient of the regression.
+    `norm` : float
+        The norm of the regression.
+    '''
+    refinements = 300 if refinements < 300 else refinements
+    refinements = 1000 if refinements > 1000 else refinements
+    iterate = True
+    i = 0
+    while iterate:
+        linear_coefs = np.random.uniform(low=linear_coef_low_high[0], high=linear_coef_low_high[1], size=100)
+        angular_coefs = np.random.uniform(low=angular_coef_low_high[0], high=angular_coef_low_high[1], size=100)
+
+        norms = np.array([
+            np.linalg.norm(y - (angular * x + linear))
+            for angular in angular_coefs
+            for linear in linear_coefs
+        ])
+
+        # Reshape norms to 2D (angular_coefs x linear_coefs)
+        norms = norms.reshape(len(angular_coefs), len(linear_coefs))
+
+        current_best_norm = np.min(norms)
+        if norm is None or current_best_norm < norm:
+            norm = current_best_norm
+            i += 1
+            iterate = True if i < 1000 else False
+        else:
+            iterate = False
+
+    # Get index of best angular and linear
+    i, j = np.unravel_index(np.argmin(norms), norms.shape)
+    angular_coef = angular_coefs[i]
+    linear_coef = linear_coefs[j]
+
+    def improve_regression(x, y, norm, max_iter=refinements):
+        print(f'Refinement {max_iter}')
+        if max_iter == 0:
+            return angular_coef, linear_coef, norm
+        else:
+            random_regression(x, y, linear_coef_low_high, angular_coef_low_high, norm, improve=False)
+            improve_regression(x, y, norm, max_iter - 1)
+
+    if improve:
+        improve_regression(x, y, norm)
+
+    return angular_coef, linear_coef, norm
+
+angular_coef, linear_coef, norm = random_regression(
+    dates,
+    Moscow,
+    linear_coef_low_high=(75, 85),
+    angular_coef_low_high=(0.10, 0.90),
+    refinements=500
+    )
+print(f'a = {a} || b = {b} || norm = {np.linalg.norm(Moscow-y)}')
+print(f'Best angular coefficient: {angular_coef}')
+print(f'Best linear coefficient: {linear_coef}')
+print(f'Best norm: {norm}')
