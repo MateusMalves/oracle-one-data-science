@@ -348,3 +348,7 @@ x = np.array(x)
 y = np.add(x, 3 / 2)
 print(y)
 
+# Saving the results
+data = np.column_stack([norm, angular_coefs])
+data.shape
+np.savetxt('data.csv', data, delimiter=',')
