@@ -25,3 +25,11 @@ data.head()
 data.head(10)
 data.tail()
 type(data)
+
+# Data caracteristics
+data.shape
+data.columns
+data.dtypes
+data.info()
+data['Tipo']
+data[['Quartos', 'Valor']]
