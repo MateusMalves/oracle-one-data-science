@@ -215,7 +215,7 @@ print(index)
 print(angular_coefs[index][0])
 
 # Functionalizing
-def random_regression(
+def random_grid_search(
         x,
         y,
         linear_coef_low_high,
@@ -292,24 +292,38 @@ def random_regression(
     def improve_regression(x, y, norm, max_iter=refinements):
         print(f'Refinement {max_iter}')
         if max_iter == 0:
-            return angular_coef, linear_coef, norm
+            return
         else:
-            random_regression(x, y, linear_coef_low_high, angular_coef_low_high, norm, improve=False)
-            improve_regression(x, y, norm, max_iter - 1)
+            random_grid_search(x, y, linear_coef_low_high, angular_coef_low_high, norm, improve=False)
+            return improve_regression(x, y, norm, max_iter - 1)
 
     if improve:
         improve_regression(x, y, norm)
 
     return angular_coef, linear_coef, norm
 
-angular_coef, linear_coef, norm = random_regression(
-    dates,
-    Moscow,
-    linear_coef_low_high=(75, 85),
-    angular_coef_low_high=(0.10, 0.90),
-    refinements=500
-    )
-print(f'a = {a} || b = {b} || norm = {np.linalg.norm(Moscow-y)}')
-print(f'Best angular coefficient: {angular_coef}')
-print(f'Best linear coefficient: {linear_coef}')
-print(f'Best norm: {norm}')
+def test():
+    angular_coef, linear_coef, norm = random_grid_search(
+        dates,
+        Moscow,
+        linear_coef_low_high=(75, 85),
+        angular_coef_low_high=(0.10, 0.90),
+        refinements=500
+        )
+    print(f'a = {a} || b = {b} || norm = {np.linalg.norm(Moscow-y)}')
+    print(f'Best angular coefficient: {angular_coef}')
+    print(f'Best linear coefficient: {linear_coef}')
+    print(f'Best norm: {norm}')
+
+# # Reproductibility
+# 
+np.random.randint(low=40, high=100, size=100)
+
+np.random.seed(84)
+angular_coefs = np.random.uniform(low=0.10, high=0.90, size=100)
+norm = np.array([])
+for i in range(100):
+    norm = np.append(norm, np.linalg.norm(Moscow-(angular_coefs[i]*x+b)))
+print(angular_coefs)
+print(norm)
+
