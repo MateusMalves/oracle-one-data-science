@@ -128,6 +128,12 @@ df2
 df.to_csv('data_apartments.csv', sep=';', index= False)
 pd.read_csv('data_apartments.csv', sep=';')
 
+# Challenge: Save the filtered data
+df1.to_csv('data_apartments_filtered_1.csv', sep=';', index= False)
+df2.to_csv('data_apartments_filtered_2.csv', sep=';', index= False)
+pd.read_csv('data_apartments_filtered_1.csv', sep=';')
+pd.read_csv('data_apartments_filtered_2.csv', sep=';')
+
 # # # Section of the course:
 # 04. Manipulando os dados
 # # #
