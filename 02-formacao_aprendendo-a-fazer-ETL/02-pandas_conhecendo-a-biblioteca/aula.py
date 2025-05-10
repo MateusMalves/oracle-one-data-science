@@ -143,3 +143,7 @@ data2 = load_data('aluguel.csv', delimiter=';', is_pandas=True)
 data2['Valor_por_mes'] = data2['Valor'] + data2['Condominio']
 data2['Valor_por_ano'] = data2['Valor_por_mes'] * 12 + data2['IPTU']
 data2
+
+# Creating a categorical column
+data2['Descricao'] = data2['Tipo'] + ' em ' + data2['Bairro'] + ' com ' + data2['Quartos'].astype(str) + ' quarto(s) e ' + data2['Vagas'].astype(str) + ' vaga(s) de garagem.'
+data2
