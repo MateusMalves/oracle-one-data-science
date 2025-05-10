@@ -72,6 +72,7 @@ df_price_type.plot(kind='barh', figsize=(14, 10), color='purple')
 df.Tipo.unique()
 df.Tipo.value_counts()
 df_type_percentage = df.Tipo.value_counts(normalize=True).to_frame().sort_values(by='Tipo', ascending=False)
+df_type_percentage.rename(columns={'proportion': 'Porcentagem'}, inplace=True)
 
 # Plotting
 df_type_percentage.plot(kind='bar', figsize=(14, 10), color='green', xlabel='Tipo', ylabel='Porcentagem')
