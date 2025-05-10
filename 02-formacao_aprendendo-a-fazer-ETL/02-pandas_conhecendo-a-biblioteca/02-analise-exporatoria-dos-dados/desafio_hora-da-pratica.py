@@ -16,7 +16,6 @@ O time de ML chegou com algumas demandas de última hora para resolvermos nesse 
 import os
 import sys
 import re
-import matplotlib.pyplot as plt
 
 cwd = os.getcwd()
 while bool(re.search(r'\d-', cwd)):
