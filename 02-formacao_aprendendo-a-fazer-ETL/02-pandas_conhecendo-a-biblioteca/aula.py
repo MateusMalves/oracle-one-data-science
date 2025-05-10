@@ -94,6 +94,17 @@ df.fillna(0)
 df = df.fillna(0)
 df.isnull().sum()
 
+# Remove outliers
+df.query('Valor == 0 | Condominio == 0').index
+registers_to_remove = df.query('Valor == 0 | Condominio == 0').index
+df.drop(registers_to_remove, axis=0, inplace=True)
+df.query('Valor == 0 | Condominio == 0')
+
+df.head()
+df.Tipo.unique()
+df.drop('Tipo', axis=1, inplace=True)
+df.head()
+
 # # # Section of the course:
 # 04. Manipulando os dados
 # # #
