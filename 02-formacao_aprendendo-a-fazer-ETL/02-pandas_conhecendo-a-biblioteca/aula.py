@@ -147,3 +147,11 @@ data2
 # Creating a categorical column
 data2['Descricao'] = data2['Tipo'] + ' em ' + data2['Bairro'] + ' com ' + data2['Quartos'].astype(str) + ' quarto(s) e ' + data2['Vagas'].astype(str) + ' vaga(s) de garagem.'
 data2
+
+# Creating a binary column
+data2['Possui_suite'] = data['Suites'].apply(lambda x: "Sim" if x > 0 else "Não")
+data2
+
+# Save the data
+data2.to_csv('complete_data.csv', sep=';', index= False)
+pd.read_csv('complete_data.csv', sep=';')
