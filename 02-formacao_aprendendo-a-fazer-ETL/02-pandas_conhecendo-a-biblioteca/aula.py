@@ -80,3 +80,20 @@ df_type_percentage.plot(kind='bar', figsize=(14, 10), color='green', xlabel='Tip
 # Select only apartments
 df = df.query('Tipo == "Apartamento"')
 df
+
+# # # Section of the course:
+# 03. Tratando e filtrando os dados
+# # #
+
+# Treating NaNs
+df.isnull()
+df.isnull().sum()
+
+# Replace NaNs with 0
+df.fillna(0)
+df = df.fillna(0)
+df.isnull().sum()
+
+# # # Section of the course:
+# 04. Manipulando os dados
+# # #
