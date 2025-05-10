@@ -64,9 +64,9 @@ def load_data(
     file_path = os.path.join(f'{root}/data', filename)
     if is_pandas:
         if usecols is None:
-            data = pd.read_csv(file_path, delimiter=delimiter, skiprows=skiprows)
+            data = pd.read_csv(file_path, sep=delimiter, skiprows=skiprows)
         else:
-            data = pd.read_csv(file_path, delimiter=delimiter, skiprows=skiprows, usecols=np.arange(usecols[0], usecols[1]))
+            data = pd.read_csv(file_path, sep=delimiter, skiprows=skiprows, usecols=np.arange(usecols[0], usecols[1]))
     else:
         if usecols is None:
             data = np.loadtxt(file_path, delimiter=delimiter, skiprows=skiprows)

@@ -124,6 +124,10 @@ df[selection]
 df2 = df[selection]
 df2
 
+# Saving the data
+df.to_csv('data_apartments.csv', sep=';', index= False)
+pd.read_csv('data_apartments.csv', sep=';')
+
 # # # Section of the course:
 # 04. Manipulando os dados
 # # #
