@@ -137,3 +137,9 @@ pd.read_csv('data_apartments_filtered_2.csv', sep=';')
 # # # Section of the course:
 # 04. Manipulando os dados
 # # #
+
+# Creating numerical columns
+data2 = load_data('aluguel.csv', delimiter=';', is_pandas=True)
+data2['Valor_por_mes'] = data2['Valor'] + data2['Condominio']
+data2['Valor_por_ano'] = data2['Valor_por_mes'] * 12 + data2['IPTU']
+data2
