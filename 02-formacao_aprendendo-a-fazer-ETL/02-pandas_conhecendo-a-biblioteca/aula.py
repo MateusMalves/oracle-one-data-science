@@ -105,6 +105,25 @@ df.Tipo.unique()
 df.drop('Tipo', axis=1, inplace=True)
 df.head()
 
+# Applying filters
+df.query('"Quartos" == 1 | "Valor" < 1200')
+selection_1 = df['Quartos'] == 1
+df[selection_1]
+selection_2 = df['Valor'] < 1200
+df[selection_2]
+
+final_selection = (selection_1 & selection_2)
+df[final_selection]
+
+df1 = df[final_selection]
+
+selection = (df['Quartos'] >= 2) & (df['Valor'] < 3000) & (df['Area'] > 70)
+selection
+df[selection]
+
+df2 = df[selection]
+df2
+
 # # # Section of the course:
 # 04. Manipulando os dados
 # # #
