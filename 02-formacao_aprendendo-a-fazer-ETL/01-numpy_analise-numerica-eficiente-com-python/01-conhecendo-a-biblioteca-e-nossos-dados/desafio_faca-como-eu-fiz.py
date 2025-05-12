@@ -12,7 +12,7 @@ if load_data_path not in sys.path:
 from load_data import load_data
 
 # Load data
-data = load_data('citrus.csv', usecols=(1, 6), skiprows=1)
+data = load_data('01-numpy_analise-numerica-e-eficiente-com-python/citrus.csv', usecols=(1, 6), skiprows=1)
 transposed_data = data.T
 transposed_data[0]
 transposed_data.shape

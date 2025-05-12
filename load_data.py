@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 
 def load_data(
-        filename: 'str',
+        filepath: 'str',
         usecols: tuple = None,
         delimiter: str = ',',
         skiprows: int = 0,
@@ -15,8 +15,8 @@ def load_data(
     Load specific columns from a delimited text file into a NumPy array or a Pandas dataframe.
 
     Parameters:
-        `filename` (str): 
-            Name of the file to load, relative to the project root directory.
+        `filepath` (str): 
+            Name of the file to load, relative to the project root/data directory.
         `usecols` (tuple of int, optional):
             Tuple (start, end) representing the column range to load (start inclusive, end exclusive).
         `delimiter` (str, optional): 
@@ -37,12 +37,12 @@ def load_data(
             If any input parameter is missing or of incorrect type.
 
     Example:
-        data = load_data(filename='data.csv', usecols=(1, 3), skiprows=1)
+        data = load_data(filepath='data.csv', usecols=(1, 3), skiprows=1)
     '''
-    if filename is None:
-        raise ValueError('Filename must be provided')
-    if not isinstance(filename, str):
-        raise ValueError('filename must be a string')
+    if filepath is None:
+        raise ValueError('filepath must be provided')
+    if not isinstance(filepath, str):
+        raise ValueError('filepath must be a string')
     if usecols is not None and not isinstance(usecols, tuple):
         raise ValueError('usecols must be a tuple')
         if len(usecols) != 2:
@@ -61,7 +61,7 @@ def load_data(
         cwd = os.path.dirname(cwd)
     root = cwd
 
-    file_path = os.path.join(f'{root}/data', filename)
+    file_path = os.path.join(f'{root}/data', filepath)
     if is_pandas:
         if usecols is None:
             data = pd.read_csv(file_path, sep=delimiter, skiprows=skiprows)

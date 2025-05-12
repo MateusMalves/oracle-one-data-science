@@ -19,7 +19,7 @@ from load_data import load_data
 # 01. Conhecendo a biblioteca e nossos dados
 # # #
 try:
-    data = load_data('apples_ts.csv', usecols=(1, 88))
+    data = load_data('01-numpy_analise-numerica-e-eficiente-com-python/apples_ts.csv', usecols=(1, 88))
 except ValueError as e:
     print(e)
 

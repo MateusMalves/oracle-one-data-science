@@ -20,7 +20,7 @@ from load_data import load_data
 # # #
 
 # Importing data
-data = load_data('aluguel.csv', delimiter=';', is_pandas=True)
+data = load_data('02-pandas_conhecendo-a-biblioteca/aluguel.csv', delimiter=';', is_pandas=True)
 data
 data.head()
 data.head(10)

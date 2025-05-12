@@ -32,7 +32,7 @@ if load_data_path not in sys.path:
     sys.path.append(load_data_path)
 from load_data import load_data
 
-data = load_data('alunos.csv', is_pandas=True)
+data = load_data('02-pandas_conhecendo-a-biblioteca/alunos.csv', is_pandas=True)
 
 # 1) Verifique se a base de dados possui dados nulos e, caso tenha, realize o tratamento desses dados nulos da forma que achar mais coerente com a situação.
 data.isnull().sum()

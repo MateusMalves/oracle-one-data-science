@@ -25,7 +25,7 @@ if load_data_path not in sys.path:
     sys.path.append(load_data_path)
 from load_data import load_data
 
-data = load_data('aluguel.csv', delimiter=';', is_pandas=True)
+data = load_data('02-pandas_conhecendo-a-biblioteca/aluguel.csv', delimiter=';', is_pandas=True)
 
 # 1) Calcular a média de quartos por apartamento
 data_apartments = data.query('Tipo == "Apartamento"')
