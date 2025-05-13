@@ -14,12 +14,14 @@ if load_data_path not in sys.path:
     sys.path.append(load_data_path)
 from load_data import load_data
 
+data_folder = cwd + '/data/01-numpy_analise-numerica-e-eficiente-com-python/'
+outputs_folder = data_folder + 'outputs/'
 
 # # # Section of the course:
 # 01. Conhecendo a biblioteca e nossos dados
 # # #
 try:
-    data = load_data('01-numpy_analise-numerica-e-eficiente-com-python/apples_ts.csv', usecols=(1, 88))
+    data = load_data(data_folder + 'apples_ts.csv', usecols=(1, 88))
 except ValueError as e:
     print(e)
 
@@ -352,4 +354,4 @@ print(y)
 # Saving the results
 data = np.column_stack([norm, angular_coefs])
 data.shape
-np.savetxt('data.csv', data, delimiter=',')
+np.savetxt(data_folder + 'data.csv', data, delimiter=',')

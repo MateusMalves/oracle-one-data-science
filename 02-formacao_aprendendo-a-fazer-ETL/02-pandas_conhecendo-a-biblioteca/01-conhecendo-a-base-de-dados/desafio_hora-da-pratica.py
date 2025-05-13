@@ -27,8 +27,10 @@ if load_data_path not in sys.path:
     sys.path.append(load_data_path)
 from load_data import load_data
 
+data_folder = cwd + '/data/02-pandas_conhecendo-a-biblioteca/'
+
 # 1) Import the file alunos.csv and store its content in a Pandas DataFrame.
-data = load_data('02-pandas_conhecendo-a-biblioteca/alunos.csv', is_pandas=True)
+data = load_data(data_folder + 'alunos.csv', is_pandas=True)
 # 2) Visualize the first 7 rows of the DataFrame and the last 5.
 data.head(7)
 data.tail(5)

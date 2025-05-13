@@ -10,8 +10,9 @@ load_data_path = os.path.join(cwd)
 if load_data_path not in sys.path:
     sys.path.append(load_data_path)
 from load_data import load_data
-    
-data = load_data('01-numpy_analise-numerica-e-eficiente-com-python/citrus.csv', usecols=(1, 6), skiprows=1)
+
+data_folder = cwd + '/data/01-numpy_analise-numerica-e-eficiente-com-python/'
+data = load_data(data_folder + 'citrus.csv', usecols=(1, 6), skiprows=1)
 
 # Generate the arrays
 diameter_orange = data[:5000, 0]

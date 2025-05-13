@@ -14,13 +14,15 @@ if load_data_path not in sys.path:
     sys.path.append(load_data_path)
 from load_data import load_data
 
+data_folder = cwd + '/data/02-pandas_conhecendo-a-biblioteca/'
+outputs_folder = data_folder + 'outputs/'
 
 # # # Section of the course:
 # 01. Conhecendo a base de dados
 # # #
 
 # Importing data
-data = load_data('02-pandas_conhecendo-a-biblioteca/aluguel.csv', delimiter=';', is_pandas=True)
+data = load_data(data_folder + 'aluguel.csv', delimiter=';', is_pandas=True)
 data
 data.head()
 data.head(10)
@@ -125,21 +127,21 @@ df2 = df[selection]
 df2
 
 # Saving the data
-df.to_csv('data_apartments.csv', sep=';', index= False)
-pd.read_csv('data_apartments.csv', sep=';')
+df.to_csv(outputs_folder + 'data_apartments.csv', sep=';', index= False)
+pd.read_csv(outputs_folder + 'data_apartments.csv', sep=';')
 
 # Challenge: Save the filtered data
-df1.to_csv('data_apartments_filtered_1.csv', sep=';', index= False)
-df2.to_csv('data_apartments_filtered_2.csv', sep=';', index= False)
-pd.read_csv('data_apartments_filtered_1.csv', sep=';')
-pd.read_csv('data_apartments_filtered_2.csv', sep=';')
+df1.to_csv(outputs_folder + 'data_apartments_filtered_1.csv', sep=';', index= False)
+df2.to_csv(outputs_folder + 'data_apartments_filtered_2.csv', sep=';', index= False)
+pd.read_csv(outputs_folder + 'data_apartments_filtered_1.csv', sep=';')
+pd.read_csv(outputs_folder + 'data_apartments_filtered_2.csv', sep=';')
 
 # # # Section of the course:
 # 04. Manipulando os dados
 # # #
 
 # Creating numerical columns
-data2 = load_data('aluguel.csv', delimiter=';', is_pandas=True)
+data2 = load_data(data_folder + 'aluguel.csv', delimiter=';', is_pandas=True)
 data2['Valor_por_mes'] = data2['Valor'] + data2['Condominio']
 data2['Valor_por_ano'] = data2['Valor_por_mes'] * 12 + data2['IPTU']
 data2
@@ -153,5 +155,5 @@ data2['Possui_suite'] = data['Suites'].apply(lambda x: "Sim" if x > 0 else "Não
 data2
 
 # Save the data
-data2.to_csv('complete_data.csv', sep=';', index= False)
-pd.read_csv('complete_data.csv', sep=';')
+data2.to_csv(outputs_folder + 'complete_data.csv', sep=';', index= False)
+pd.read_csv(outputs_folder + 'complete_data.csv', sep=';')

@@ -14,6 +14,9 @@ if load_data_path not in sys.path:
     sys.path.append(load_data_path)
 from load_data import load_data
 
+data_folder = cwd + '/data/03-pandas-io_trabalhando-com-diferentes-formatos-de-arquivos/'
+outputs_folder = data_folder + 'outputs/'
+
 # # Pandas I/O
 # 
 
@@ -23,8 +26,6 @@ from load_data import load_data
 
 
 # Reading
-data_folder = cwd + '/data/03-pandas-io_trabalhando-com-diferentes-formatos-de-arquivos/'
-
 data = load_data('03-pandas-io_trabalhando-com-diferentes-formatos-de-arquivos/superstore_data.csv', is_pandas=True)
 data_semicolon = load_data('03-pandas-io_trabalhando-com-diferentes-formatos-de-arquivos/superstore_data_ponto_virgula.csv', delimiter=';', is_pandas=True)
 

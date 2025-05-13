@@ -1,6 +1,5 @@
 # Imports
 import os
-import re
 import numpy as np
 import pandas as pd
 
@@ -16,7 +15,7 @@ def load_data(
 
     Parameters:
         `filepath` (str): 
-            Name of the file to load, relative to the project root/data directory.
+            Path to the file to be loaded.
         `usecols` (tuple of int, optional):
             Tuple (start, end) representing the column range to load (start inclusive, end exclusive).
         `delimiter` (str, optional): 
@@ -56,12 +55,7 @@ def load_data(
     
     # Format paths to access from anywhere
     # Gets to the root through iteratively moving back from folders containing numerical folders
-    cwd = os.getcwd()
-    while bool(re.search(r'\d-', cwd)):
-        cwd = os.path.dirname(cwd)
-    root = cwd
-
-    file_path = os.path.join(f'{root}/data', filepath)
+    file_path = os.path.join(filepath)
     if is_pandas:
         if usecols is None:
             data = pd.read_csv(file_path, sep=delimiter, skiprows=skiprows)

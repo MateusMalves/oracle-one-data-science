@@ -32,7 +32,9 @@ if load_data_path not in sys.path:
     sys.path.append(load_data_path)
 from load_data import load_data
 
-data = load_data('02-pandas_conhecendo-a-biblioteca/alunos.csv', is_pandas=True)
+data_folder = cwd + '/data/02-pandas_conhecendo-a-biblioteca/'
+outputs_folder = data_folder + 'outputs/'
+data = load_data(data_folder + 'alunos.csv', is_pandas=True)
 
 # 1) Verifique se a base de dados possui dados nulos e, caso tenha, realize o tratamento desses dados nulos da forma que achar mais coerente com a situação.
 data.isnull().sum()
@@ -47,8 +49,8 @@ data
 approved = data.query('Aprovado == True')
 
 # 4) Salve o DataFrame que possui apenas os alunos aprovados em um arquivo csv chamado "alunos_aprovados.csv".
-approved.to_csv('alunos_aprovados.csv', index=False)
-pd.read_csv('alunos_aprovados.csv', delimiter=',', encoding='utf-8')
+approved.to_csv(outputs_folder + 'alunos_aprovados.csv', index=False)
+pd.read_csv(outputs_folder + 'alunos_aprovados.csv', delimiter=',', encoding='utf-8')
 
 # Extra: Ao conferir as notas dos alunos aprovados, notamos que algumas notas estavam incorretas. As alunas que tiraram nota 7.0, na verdade, tinham um ponto extra que não foi contabilizado. Sendo assim, substitua as notas 7.0 da base de dados por 8.0. Dica: pesquise pelo método replace.
 data.replace(7.0, 8.0, inplace=True)
