@@ -118,6 +118,9 @@ data_patients_2
 df_normalized = pd.json_normalize(data_patients_2['Pacientes'])
 df_normalized
 
+# Writing JSON
+df_normalized.to_json(outputs_folder + 'historico_pacientes_normalizado.json')
+pd.read_json(outputs_folder + 'historico_pacientes_normalizado.json')
 
 # # # Section of the course:
 # 04. Lendo dados em HTML e XML
