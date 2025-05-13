@@ -63,18 +63,18 @@ data_co2.head()
 per_capita.head()
 fonts.head()
 
-def optimize(df):
+def optimize(df, categorical_columns):
     print(df.info())
     print(df.memory_usage(deep=True) / 1024 / 1024, 'MB')
-    df['País'] = df['País'].astype('category')
-    df['ISO 3166-1 alpha-3'] = df['ISO 3166-1 alpha-3'].astype('category')
-    df['Ano'] = df['Ano'].astype('category')
+    for column in categorical_columns:
+        df[column] = df[column].astype('category')
     print(df.info())
     print(df.memory_usage(deep=True) / 1024 / 1024, 'MB')
 
-optimize(data_co2)
-optimize(per_capita)
-optimize(fonts)
+categorical_columns = ['País', 'ISO 3166-1 alpha-3', 'Ano']
+optimize(data_co2, categorical_columns)
+optimize(per_capita, categorical_columns)
+optimize(fonts, categorical_columns)
 
 # Using intervals
 interval = pd.read_excel(data_folder + 'emissoes_CO2.xlsx', usecols="A:D")
@@ -107,6 +107,16 @@ fonts_sheets.head()
 # # # Section of the course:
 # 03. Manipulando arquivos JSON
 # # #
+data_patients = pd.read_json(data_folder + 'pacientes.json')
+data_patients
+
+# Nested JSON
+data_patients_2 = pd.read_json(data_folder + 'pacientes_2.json')
+data_patients_2
+
+# Normalizing JSON
+df_normalized = pd.json_normalize(data_patients_2['Pacientes'])
+df_normalized
 
 
 # # # Section of the course:
