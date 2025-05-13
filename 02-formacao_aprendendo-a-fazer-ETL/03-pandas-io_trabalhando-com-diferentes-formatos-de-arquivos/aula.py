@@ -86,6 +86,23 @@ interval
 per_capita.to_excel(data_folder + '/outputs/emissoes_co2_percapita.xlsx')
 pd.read_excel(data_folder + '/outputs/emissoes_co2_percapita.xlsx')
 
+# Using Google Sheets
+sheet_id = '1SU6Ur1-OZSWRVYzqGnLmOBQGU5l9gVsz'
+url = f'https://docs.google.com/spreadsheets/d/{sheet_id}/gviz/tq?tqx=out:csv&sheet'
+data_co2_sheets = pd.read_csv(url)
+data_co2_sheets.head()
+
+# Selecting specific sheets
+sheet_name = 'emissoes_percapita'
+url_percapita = f'https://docs.google.com/spreadsheets/d/{sheet_id}/gviz/tq?tqx=out:csv&sheet={sheet_name}'
+per_capita_sheets = pd.read_csv(url_percapita)
+per_capita_sheets.head()
+
+sheet_name_fonts = 'fontes'
+url_fonts = f'https://docs.google.com/spreadsheets/d/{sheet_id}/gviz/tq?tqx=out:csv&sheet={sheet_name_fonts}'
+fonts_sheets = pd.read_csv(url_fonts)
+fonts_sheets.head()
+
 # # # Section of the course:
 # 03. Manipulando arquivos JSON
 # # #
