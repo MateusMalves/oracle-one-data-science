@@ -16,6 +16,12 @@ from load_data import load_data
 
 # # Pandas I/O
 # 
+
+# # # Section of the course:
+# 01. Fazendo leitura de arquivos csv
+# # #
+
+
 # Reading
 data_folder = cwd + '/data/03-pandas-io_trabalhando-com-diferentes-formatos-de-arquivos/'
 
@@ -42,3 +48,51 @@ data_selection.to_csv(data_folder + 'customers_market.csv', index=False)
 
 customers_market = pd.read_csv(data_folder + 'customers_market.csv')
 customers_market
+
+# # # Section of the course:
+# 02. Utilizando planilhas
+# # #
+
+# Reading
+pd.ExcelFile(data_folder + 'emissoes_CO2.xlsx').sheet_names
+data_co2 = pd.read_excel(data_folder + 'emissoes_CO2.xlsx')
+per_capita = pd.read_excel(data_folder + 'emissoes_CO2.xlsx', sheet_name='emissoes_percapita')
+fonts = pd.read_excel(data_folder + 'emissoes_CO2.xlsx', sheet_name='fontes')
+data_co2.head()
+per_capita.head()
+fonts.head()
+
+def optimize(df):
+    print(df.info())
+    print(df.memory_usage(deep=True) / 1024 / 1024, 'MB')
+    df['País'] = df['País'].astype('category')
+    df['ISO 3166-1 alpha-3'] = df['ISO 3166-1 alpha-3'].astype('category')
+    df['Ano'] = df['Ano'].astype('category')
+    print(df.info())
+    print(df.memory_usage(deep=True) / 1024 / 1024, 'MB')
+
+optimize(data_co2)
+optimize(per_capita)
+optimize(fonts)
+
+# Using intervals
+interval = pd.read_excel(data_folder + 'emissoes_CO2.xlsx', usecols="A:D")
+interval
+
+interval_2 = pd.read_excel(data_folder + 'emissoes_CO2.xlsx', usecols="A:D", nrows=10)
+interval
+
+
+# # # Section of the course:
+# 03. Manipulando arquivos JSON
+# # #
+
+
+# # # Section of the course:
+# 04. Lendo dados em HTML e XML
+# # #
+
+
+# # # Section of the course:
+# 05. Trabalhando com banco de dados
+# # #
