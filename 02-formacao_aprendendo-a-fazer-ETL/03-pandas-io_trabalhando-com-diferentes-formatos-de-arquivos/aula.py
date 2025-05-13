@@ -82,6 +82,9 @@ interval
 interval_2 = pd.read_excel(data_folder + 'emissoes_CO2.xlsx', usecols="A:D", nrows=10)
 interval
 
+# Writing excel file
+per_capita.to_excel(data_folder + '/outputs/emissoes_co2_percapita.xlsx')
+pd.read_excel(data_folder + '/outputs/emissoes_co2_percapita.xlsx')
 
 # # # Section of the course:
 # 03. Manipulando arquivos JSON
