@@ -126,6 +126,23 @@ pd.read_json(outputs_folder + 'historico_pacientes_normalizado.json')
 # 04. Lendo dados em HTML e XML
 # # #
 
+# HTML
+data_html = pd.read_html(data_folder + 'filmes_wikipedia.html')
+data_html
+type(data_html)
+len(data_html)
+top_movies = data_html[1]
+top_movies
+
+top_movies.to_html(outputs_folder + 'top_movies.html')
+top_movies.to_csv(outputs_folder + 'top_movies_1998.csv', index=False)
+pd.read_csv(outputs_folder + 'top_movies_1998.csv')
+
+# XML
+data_xml = pd.read_xml(data_folder + 'imdb_top_1000.xml')
+data_xml.head(3)
+
+data_xml.to_xml(outputs_folder + 'movies_imdb.xml')
 
 # # # Section of the course:
 # 05. Trabalhando com banco de dados
