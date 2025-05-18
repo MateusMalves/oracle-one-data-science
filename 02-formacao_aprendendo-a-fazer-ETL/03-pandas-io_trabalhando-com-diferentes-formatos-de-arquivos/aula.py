@@ -4,7 +4,8 @@ import os
 import sys
 import re
 import pandas as pd
-import matplotlib.pyplot as plt
+import sqlalchemy
+from sqlalchemy import create_engine, MetaData, Table, inspect
 
 cwd = os.getcwd()
 while bool(re.search(r'\d-', cwd)):
@@ -147,3 +148,11 @@ data_xml.to_xml(outputs_folder + 'movies_imdb.xml')
 # # # Section of the course:
 # 05. Trabalhando com banco de dados
 # # #
+
+engine = create_engine('sqlite:///:memory:')
+data = pd.read_csv(data_folder + 'clientes_banco.csv')
+data
+
+data.to_sql('customers', engine, index=False)
+inspector = inspect(engine)
+print(inspector.get_table_names())
