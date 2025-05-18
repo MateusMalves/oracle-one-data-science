@@ -149,10 +149,24 @@ data_xml.to_xml(outputs_folder + 'movies_imdb.xml')
 # 05. Trabalhando com banco de dados
 # # #
 
+# Creating engine and loading data
 engine = create_engine('sqlite:///:memory:')
 data = pd.read_csv(data_folder + 'clientes_banco.csv')
 data
 
+# Writing to table
 data.to_sql('customers', engine, index=False)
 inspector = inspect(engine)
 print(inspector.get_table_names())
+
+# Reading from table
+query = 'SELECT * FROM customers WHERE Categoria_de_renda = "Empregado"'
+employed_customers = pd.read_sql(query, engine)
+employed_customers
+
+# Writing new table
+employed_customers.to_sql('employed_customers', con=engine, index=False)
+
+# Reading new table
+pd.read_sql_table('employed_customers', engine)
+pd.read_sql_table('employed_customers', engine, columns=['ID_Cliente', 'Grau_escolaridade', 'Rendimento_anual'])
