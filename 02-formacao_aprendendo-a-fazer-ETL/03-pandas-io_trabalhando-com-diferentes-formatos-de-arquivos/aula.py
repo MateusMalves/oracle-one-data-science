@@ -4,8 +4,7 @@ import os
 import sys
 import re
 import pandas as pd
-import sqlalchemy
-from sqlalchemy import create_engine, MetaData, Table, inspect
+from sqlalchemy import create_engine, MetaData, Table, inspect, text
 
 cwd = os.getcwd()
 while bool(re.search(r'\d-', cwd)):
@@ -169,4 +168,19 @@ employed_customers.to_sql('employed_customers', con=engine, index=False)
 
 # Reading new table
 pd.read_sql_table('employed_customers', engine)
-pd.read_sql_table('employed_customers', engine, columns=['ID_Cliente', 'Grau_escolaridade', 'Rendimento_anual'])
+pd.read_sql_table('employed_customers', engine, columns=['ID_Cliente', 'Grau_escolaridade', 'Rendimento_anual']) # Pandas syntax
+pd.read_sql('SELECT ID_Cliente, Grau_escolaridade, Rendimento_anual FROM employed_customers', engine) # SQL syntax
+
+# Updating table
+pd.read_sql('SELECT * FROM customers', engine)
+query = 'DELETE FROM customers WHERE ID_Cliente=5008804'
+with engine.connect() as conn:
+    result = conn.execute(text(query))
+    conn.commit()
+
+query = 'UPDATE customers SET Grau_escolaridade="Ensino superior" WHERE ID_Cliente=5008808'
+with engine.connect() as conn:
+    result = conn.execute(text(query))
+    conn.commit()
+
+pd.read_sql_table('customers', engine)
