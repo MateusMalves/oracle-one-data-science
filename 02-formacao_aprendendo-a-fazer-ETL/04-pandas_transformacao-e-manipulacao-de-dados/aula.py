@@ -29,7 +29,7 @@ data.head()
 
 # # # Section of the course:
 # 02. Dados numéricos
-# # #nm
+# # #
 
 # # # Section of the course:
 # 03. Dados textuais
