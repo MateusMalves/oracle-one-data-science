@@ -23,9 +23,13 @@ outputs_folder = data_folder + 'outputs/'
 # 01. Entendendo o problema
 # # #
 
+data = pd.read_json(data_folder + 'dados_hospedagem.json')
+data = pd.json_normalize(data['info_moveis'].tolist())
+data.head()
+
 # # # Section of the course:
 # 02. Dados numéricos
-# # #
+# # #nm
 
 # # # Section of the course:
 # 03. Dados textuais
