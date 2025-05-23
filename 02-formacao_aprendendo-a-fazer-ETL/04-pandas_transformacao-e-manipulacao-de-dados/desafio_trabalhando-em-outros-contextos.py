@@ -146,8 +146,32 @@ data_condominium_lease.info()
 
 # # # 
 # Etapa 3
-# # # 
+# # #
+
+# # #
+# Projeto desafio 1: vendas online
+data_sales_customers.head()
+data_sales_customers.info()
+
+data_sales_customers['Cliente'] = data_sales_customers['Cliente'].str.lower()
+data_sales_customers['Cliente'] = data_sales_customers['Cliente'].str.replace(r'[0-9]|\@|\_', '', regex=True)
+data_sales_customers['Cliente'] = data_sales_customers['Cliente'].str.strip()
+data_sales_customers['Cliente']
+
+# # #
+# Projeto desafio 2: administração de condomínios
+data_condominium_lease.head()
+data_condominium_lease.info()
+
+data_condominium_lease['apartamento'] = data_condominium_lease['apartamento'].str.replace(' (blocoAP)', '')
+data_condominium_lease['apartamento']
 
 # # # 
 # Etapa 4
-# # # 
+# # #
+
+# # #
+# Projeto desafio 1: vendas online
+
+# # #
+# Projeto desafio 2: administração de condomínios
