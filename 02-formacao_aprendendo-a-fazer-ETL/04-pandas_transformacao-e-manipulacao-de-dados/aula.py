@@ -114,3 +114,10 @@ data_furniture['data'] = pd.to_datetime(data_furniture['data'])
 months = data_furniture['data'].dt.strftime('%Y-%m')
 subset = data_furniture.groupby(months)['vaga_disponivel'].sum()
 subset.head()
+
+# Desafio: faça você mesmo
+data_furniture.info()
+data_furniture['preco'].fillna(0.0, inplace=True)
+data_furniture['preco'] = data_furniture['preco'].str.replace('$', '').str.replace(',', '').str.strip()
+data_furniture['preco'] = data_furniture['preco'].astype(np.float64)
+data_furniture.info()
