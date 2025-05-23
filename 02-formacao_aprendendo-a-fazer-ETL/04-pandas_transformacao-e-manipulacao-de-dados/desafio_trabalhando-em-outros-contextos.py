@@ -87,6 +87,7 @@ import sys
 import re
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 
 cwd = os.getcwd()
 while bool(re.search(r'\d-', cwd)):
@@ -172,6 +173,31 @@ data_condominium_lease['apartamento']
 
 # # #
 # Projeto desafio 1: vendas online
+data_sales_customers.head()
+data_sales_customers.info()
+months = data_sales_customers['Data de venda'].dt.strftime('%Y-%m')
+subset_sales_customers_date = data_sales_customers.groupby(['Data de venda', 'Cliente'])['Valor da compra'].sum()
+subset_sales_customers_date.head(12)
+
 
 # # #
 # Projeto desafio 2: administração de condomínios
+data_condominium_lease.head()
+data_condominium_lease.info()
+
+late_payments = data_condominium_lease.query('datas_combinadas_pagamento < datas_de_pagamento')
+up_to_date_payments = data_condominium_lease.query('datas_combinadas_pagamento < datas_de_pagamento')
+
+# Plot a cake chart comparing late and up to date payments (%)
+labels = ['Pagamentos atrasados', 'Pagamentos em dia']
+sizes = [late_payments['valor_aluguel'].sum(), up_to_date_payments['valor_aluguel'].sum()]
+colors = ['red', 'green']
+
+plt.pie(sizes, labels=labels, colors=colors, autopct='%1.1f%%', startangle=90)
+plt.axis('equal')
+plt.title('Pagamentos atrasados vs Pagamentos em dia')
+
+# Plot the sum of values for each group in the chart
+plt.pie(sizes, labels=labels, colors=colors, autopct=lambda pct: f'R${int(pct/100*sum(sizes)):,}', startangle=90)
+plt.axis('equal')
+plt.title('Pagamentos atrasados vs Pagamentos em dia')
