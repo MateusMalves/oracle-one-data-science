@@ -80,6 +80,15 @@ data['descricao_local'] = data['descricao_local'].str.replace(r'[^a-zA-Z0-9\-\']
 data['descricao_local'] = data['descricao_local'].str.replace(r'(?<!\w)-(?!\w)', ' ', regex=True)
 data['descricao_local']
 
+# Cleaning amenities column
+data['comodidades'] = data['comodidades'].str.replace(r'[\{|}|\"]', '', regex=True)
+data['comodidades']
+
+# Tokenizing
+data['descricao_local'] = data['descricao_local'].str.split()
+data['comodidades'] = data['comodidades'].str.split(',')
+data.head()
+
 # # # Section of the course:
 # 04. Dados de tempo
 # # #
