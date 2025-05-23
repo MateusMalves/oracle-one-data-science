@@ -58,9 +58,16 @@ data['preco'] = data['preco'].astype(np.float64)
 data[['taxa_deposito', 'taxa_limpeza']] = data[['taxa_deposito', 'taxa_limpeza']].map(lambda x: x.replace('$', '').replace(',', '').strip()).astype(np.float64)
 data.head()
 
+# Extra: Categorical
+data['modelo_cama'].unique()
+data['modelo_cama'] = data['modelo_cama'].astype('category')
+
 # # # Section of the course:
 # 03. Dados textuais
 # # #
+
+data['descricao_local'] = data['descricao_local'].str.lower()
+data.head()
 
 # # # Section of the course:
 # 04. Dados de tempo
