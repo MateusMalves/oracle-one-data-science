@@ -3,6 +3,7 @@
 import os
 import sys
 import re
+import numpy as np
 import pandas as pd
 
 cwd = os.getcwd()
@@ -30,6 +31,32 @@ data.head()
 # # # Section of the course:
 # 02. Dados numéricos
 # # #
+
+# Extracting from the lists
+columns = list(data.columns)
+print(columns)
+data = data.explode(columns[3:])
+data.reset_index(drop=True, inplace=True)
+data.head()
+
+# Converting numeric data
+data.info()
+data['max_hospedes'] = data['max_hospedes'].astype(np.int64)
+
+col_numeric = ['quantidade_banheiros', 'quantidade_camas', 'quantidade_quartos']
+data[col_numeric] = data[col_numeric].astype(np.int64)
+
+data['avaliacao_geral'] = data['avaliacao_geral'].astype(np.float64)
+data.info()
+
+# Numbers in strings
+data['preco']
+data['preco'] = data['preco'].apply(lambda x: x.replace('$', '').replace(',', '').strip())
+data['preco'] = data['preco'].astype(np.float64)
+
+# Transforming multiple columns
+data[['taxa_deposito', 'taxa_limpeza']] = data[['taxa_deposito', 'taxa_limpeza']].map(lambda x: x.replace('$', '').replace(',', '').strip()).astype(np.float64)
+data.head()
 
 # # # Section of the course:
 # 03. Dados textuais

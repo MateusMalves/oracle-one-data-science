@@ -85,6 +85,7 @@ A administração de condomínios é uma tarefa que requer muita atenção e org
 import os
 import sys
 import re
+import numpy as np
 import pandas as pd
 
 cwd = os.getcwd()
@@ -119,6 +120,29 @@ data_condominium_lease.head()
 # # # 
 # Etapa 2
 # # # 
+
+# # #
+# Projeto desafio 1: vendas online
+
+data_sales_customers = data_sales_customers.explode(list(data_sales_customers.columns[1:]))
+data_sales_customers.reset_index(drop=True, inplace=True)
+data_sales_customers.head()
+
+data_sales_customers.info()
+data_sales_customers['Valor da compra'] = data_sales_customers['Valor da compra'].apply(lambda x: x.replace(',', '.').replace('R$ ', '').strip()).astype(np.float64)
+data_sales_customers['Data de venda'] = data_sales_customers['Data de venda'].astype('datetime64[ns]')
+
+# # #
+# Projeto desafio 2: administração de condomínios
+
+data_condominium_lease = data_condominium_lease.explode(list(data_condominium_lease.columns[1:]))
+data_condominium_lease.reset_index(drop=True, inplace=True)
+data_condominium_lease.head()
+
+data_condominium_lease.info()
+data_condominium_lease[['datas_combinadas_pagamento', 'datas_de_pagamento']] = data_condominium_lease[['datas_combinadas_pagamento', 'datas_de_pagamento']].astype('datetime64[ns]')
+data_condominium_lease['valor_aluguel'] = data_condominium_lease['valor_aluguel'].apply(lambda x: x.replace(',', '.').replace('$ ', '').replace(' reais', '').strip()).astype(np.float64)
+data_condominium_lease.info()
 
 # # # 
 # Etapa 3
