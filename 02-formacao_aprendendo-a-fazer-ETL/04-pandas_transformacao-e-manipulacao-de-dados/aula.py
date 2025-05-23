@@ -102,3 +102,15 @@ data.head()
 # # # Section of the course:
 # 04. Dados de tempo
 # # #
+
+# Transforming date data
+data_furniture = pd.read_json(data_folder + 'moveis_disponiveis.json')
+data_furniture.head()
+data_furniture.info()
+
+data_furniture['data'] = pd.to_datetime(data_furniture['data'])
+
+# Manipulating temporal data
+months = data_furniture['data'].dt.strftime('%Y-%m')
+subset = data_furniture.groupby(months)['vaga_disponivel'].sum()
+subset.head()
