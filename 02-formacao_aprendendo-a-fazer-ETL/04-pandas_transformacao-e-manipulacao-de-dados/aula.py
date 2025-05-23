@@ -69,6 +69,17 @@ data['modelo_cama'] = data['modelo_cama'].astype('category')
 data['descricao_local'] = data['descricao_local'].str.lower()
 data.head()
 
+# Simple tokenization
+# 
+
+# Removing characters using regex
+data['descricao_local'][3169] # Checking an arbitrary random sample
+data['descricao_local'] = data['descricao_local'].str.replace(r'[^a-zA-Z0-9\-\']', ' ', regex=True)
+
+# Removing unnecessary hifens
+data['descricao_local'] = data['descricao_local'].str.replace(r'(?<!\w)-(?!\w)', ' ', regex=True)
+data['descricao_local']
+
 # # # Section of the course:
 # 04. Dados de tempo
 # # #
