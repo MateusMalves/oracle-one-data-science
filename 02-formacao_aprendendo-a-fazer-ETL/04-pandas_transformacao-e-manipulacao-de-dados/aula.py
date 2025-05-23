@@ -89,6 +89,16 @@ data['descricao_local'] = data['descricao_local'].str.split()
 data['comodidades'] = data['comodidades'].str.split(',')
 data.head()
 
+# Desafio: faça você mesmo
+# 
+data['descricao_vizinhanca'].unique()
+data['descricao_vizinhanca'] = data['descricao_vizinhanca'].str.lower()
+data['descricao_vizinhanca'] = data['descricao_vizinhanca'].str.replace(r'[^a-zA-Z0-9\-\']', ' ', regex=True).str.strip()
+data['descricao_vizinhanca'] = data['descricao_vizinhanca'].str.replace(r'(?<!\w)-(?!\w)', ' ', regex=True)
+data['descricao_vizinhanca'] = data['descricao_vizinhanca'].str.replace(r'^\s*$', '', regex=True)
+data['descricao_vizinhanca'] = data['descricao_vizinhanca'].str.split()
+data.head()
+
 # # # Section of the course:
 # 04. Dados de tempo
 # # #
