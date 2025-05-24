@@ -38,6 +38,9 @@ plt.figure(figsize=(8, 4))
 plt.plot(brazil.index, brazil['immigrants'])
 plt.xticks(['1980', '1985', '1990', '1995', '2000', '2005', '2010'])
 plt.yticks([500, 1000, 1500, 2000, 2500, 3000])
+plt.title('Imigração de Brasileiros para o Canadá')
+plt.xlabel('Ano')
+plt.ylabel('Número de imigrantes')
 
 # Change index label from "Pais" to "year'
 
