@@ -4,6 +4,7 @@ import os
 import sys
 import re
 import pandas as pd
+import matplotlib.pyplot as plt
 
 cwd = os.getcwd()
 while bool(re.search(r'\d-', cwd)):
@@ -32,7 +33,11 @@ brazil = df.loc[['Brasil'], years]
 brazil = brazil.T
 brazil.rename(columns={'Brasil': 'immigrants'}, inplace=True)
 brazil.columns.name = 'year'
-brazil
+
+plt.figure(figsize=(8, 4))
+plt.plot(brazil.index, brazil['immigrants'])
+plt.xticks(['1980', '1985', '1990', '1995', '2000', '2005', '2010'])
+plt.yticks([500, 1000, 1500, 2000, 2500, 3000])
 
 # Change index label from "Pais" to "year'
 
