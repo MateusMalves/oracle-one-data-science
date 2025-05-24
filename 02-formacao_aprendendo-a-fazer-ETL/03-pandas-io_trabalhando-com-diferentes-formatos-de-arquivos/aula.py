@@ -127,7 +127,7 @@ pd.read_json(outputs_folder + 'historico_pacientes_normalizado.json')
 # # #
 
 # HTML
-data_html = pd.read_html(data_folder + 'filmes_wikipedia.html')
+data_html = pd.read_html('https://en.wikipedia.org/wiki/AFI%27s_100_Years...100_Movies')
 data_html
 type(data_html)
 len(data_html)
