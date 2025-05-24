@@ -23,6 +23,19 @@ outputs_folder = data_folder + 'outputs/'
 # 01. Conhecendo a biblioteca Matplotlib
 # # #
 
+df = load_data(f'{data_folder}/imigrantes_canada.csv', is_pandas=True)
+df.info()
+
+df.set_index('País', inplace=True)
+years = list(map(str, range(1980, 2014)))
+brazil = df.loc[['Brasil'], years]
+brazil = brazil.T
+brazil.rename(columns={'Brasil': 'immigrants'}, inplace=True)
+brazil.columns.name = 'year'
+brazil
+
+# Change index label from "Pais" to "year'
+
 
 # # # Section of the course:
 # 02. Criando figuras com Matplotlib
