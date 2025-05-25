@@ -54,6 +54,24 @@ ax.set_xlabel('Ano')
 ax.set_ylabel('Número de imigrantes')
 ax.xaxis.set_major_locator(ticker.MultipleLocator(5))
 
+# Creating subplots in one direction
+fig, axs = plt.subplots(1, 2, figsize=(15, 5))
+axs[0].plot(brazil.index, brazil['immigrants'])
+axs[0].set_title('Imigração de Brasileiros para o Canadá\n1980 - 2013')
+axs[0].set_xlabel('Ano')
+axs[0].set_ylabel('Número de imigrantes')
+axs[0].xaxis.set_major_locator(ticker.MultipleLocator(5))
+axs[0].grid()
+
+axs[1].boxplot(brazil['immigrants'])
+axs[1].set_title('Boxplot da imigração de Brasileiros para o Canadá\n1980 - 2013')
+axs[1].set_xlabel('Brasil')
+axs[1].set_ylabel('Número de imigrantes')
+axs[1].grid()
+
+brazil.describe()
+
+
 # # # Section of the course:
 # 03. Customizando com Matplotlib
 # # #
