@@ -71,6 +71,33 @@ axs[1].grid()
 
 brazil.describe()
 
+# Creating subplots in two directions
+fig, axs = plt.subplots(2, 2, figsize=(10, 6))
+fig.subplots_adjust(hspace=0.5, wspace=0.3)
+fig.suptitle('Imigração de sul americanos para o Canadá\n1980 - 2013')
+
+axs[0, 0].plot(df.loc['Brasil'].loc[years])
+axs[0, 0].set_title('Brasil')
+
+axs[0, 1].plot(df.loc['Colômbia'].loc[years])
+axs[0, 1].set_title('Colômbia')
+
+axs[1, 0].plot(df.loc['Argentina'].loc[years])
+axs[1, 0].set_title('Argentina')
+
+axs[1, 1].plot(df.loc['Peru'].loc[years])
+axs[1, 1].set_title('Peru')
+
+for ax in axs.flat:
+    ax.set(xlabel='Ano', ylabel='Imigrantes')
+    ax.xaxis.set_major_locator(ticker.MultipleLocator(5))
+    ax.yaxis.set_major_locator(ticker.MultipleLocator(1000))
+
+ymin = 0
+ymax = 7000
+for ax in axs.ravel():
+    ax.set_ylim(ymin, ymax)
+    ax.grid()
 
 # # # Section of the course:
 # 03. Customizando com Matplotlib
