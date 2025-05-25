@@ -99,6 +99,8 @@ for ax in axs.ravel():
     ax.set_ylim(ymin, ymax)
     ax.grid()
 
+print(axs.flat)
+
 # # # Section of the course:
 # 03. Customizando com Matplotlib
 # # #

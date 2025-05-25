@@ -22,7 +22,6 @@ Vamos lá?
 import os
 import sys
 import re
-import pandas as pd
 import matplotlib.pyplot as plt
 
 cwd = os.getcwd()
