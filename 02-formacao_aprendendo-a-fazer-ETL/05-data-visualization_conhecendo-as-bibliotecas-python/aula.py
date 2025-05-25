@@ -105,6 +105,16 @@ print(axs.flat)
 # 03. Customizando com Matplotlib
 # # #
 
+fig, ax = plt.subplots(figsize=(8, 4))
+ax.plot(brazil.index, brazil['immigrants'], lw=3)
+ax.set_title('Imigração de Brasileiros para o Canadá\n1980 - 2013', fontsize=18, loc='left')
+ax.set_xlabel('Ano', fontsize=14)
+ax.set_ylabel('Número de imigrantes', fontsize=14)
+ax.xaxis.set_tick_params(labelsize=12)
+ax.yaxis.set_tick_params(labelsize=12)
+ax.xaxis.set_major_locator(ticker.MultipleLocator(5))
+plt.grid(linestyle='--')
+
 
 # # # Section of the course:
 # 04. Conhecendo a biblioteca Seaborn
