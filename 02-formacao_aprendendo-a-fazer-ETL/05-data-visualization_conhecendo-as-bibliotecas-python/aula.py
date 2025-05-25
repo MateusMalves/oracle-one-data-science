@@ -5,6 +5,7 @@ import sys
 import re
 import pandas as pd
 import matplotlib.pyplot as plt
+import matplotlib.ticker as ticker
 
 cwd = os.getcwd()
 while bool(re.search(r'\d-', cwd)):
@@ -42,13 +43,16 @@ plt.title('Imigração de Brasileiros para o Canadá')
 plt.xlabel('Ano')
 plt.ylabel('Número de imigrantes')
 
-# Change index label from "Pais" to "year'
-
-
 # # # Section of the course:
 # 02. Criando figuras com Matplotlib
 # # #
 
+fig, ax = plt.subplots(figsize=(8, 4))
+ax.plot(brazil.index, brazil['immigrants'])
+ax.set_title('Imigração de Brasileiros para o Canadá\n1980 - 2013')
+ax.set_xlabel('Ano')
+ax.set_ylabel('Número de imigrantes')
+ax.xaxis.set_major_locator(ticker.MultipleLocator(5))
 
 # # # Section of the course:
 # 03. Customizando com Matplotlib
