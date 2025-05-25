@@ -6,6 +6,7 @@ import re
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
+from matplotlib.style.core import context
 
 cwd = os.getcwd()
 while bool(re.search(r'\d-', cwd)):
@@ -115,6 +116,23 @@ ax.yaxis.set_tick_params(labelsize=12)
 ax.xaxis.set_major_locator(ticker.MultipleLocator(5))
 plt.grid(linestyle='--')
 
+# Altering styles
+# 
+print(plt.style.available)
+IPython_default = plt.rcParams.copy()
+plt.style.use('fivethirtyeight')
+plt.rcParams.update(IPython_default)
+
+# Using 'with' to alter the style once
+with context('fivethirtyeight'):
+  fig, ax = plt.subplots(figsize=(8, 4))
+  ax.plot(brazil.index, brazil['immigrants'], lw=3)
+  ax.set_title('Imigração do Brasil para o Canadá\n1980 a 2013', fontsize=20, loc='left')
+  ax.set_ylabel('Número de imigrantes', fontsize=14)
+  ax.set_xlabel('Ano', fontsize=14)
+  ax.yaxis.set_tick_params(labelsize=12)
+  ax.xaxis.set_tick_params(labelsize=12)
+  ax.xaxis.set_major_locator(ticker.MultipleLocator(5))
 
 # # # Section of the course:
 # 04. Conhecendo a biblioteca Seaborn
