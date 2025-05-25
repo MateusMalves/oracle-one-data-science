@@ -169,6 +169,15 @@ ax.set_ylabel('')
 ax.xaxis.set_tick_params(labelsize=12)
 ax.yaxis.set_tick_params(labelsize=12)
 
+# Adding annotations
+for i, v in enumerate(south_america_sorted['Total']):
+    ax.text(v + 200, i, str(v), color='black', fontsize=10, ha='left', va='center')
+ax.set_frame_on(False)
+ax.get_xaxis().set_visible(False)
+ax.tick_params(axis='both', which='both', length=0)
+
+south_america_sorted['Total']
+
 
 # # # Section of the course:
 # 04. Conhecendo a biblioteca Seaborn
