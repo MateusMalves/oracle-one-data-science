@@ -106,15 +106,21 @@ print(axs.flat)
 # 03. Customizando com Matplotlib
 # # #
 
-fig, ax = plt.subplots(figsize=(8, 4))
-ax.plot(brazil.index, brazil['immigrants'], lw=3)
-ax.set_title('Imigração de Brasileiros para o Canadá\n1980 - 2013', fontsize=18, loc='left')
-ax.set_xlabel('Ano', fontsize=14)
-ax.set_ylabel('Número de imigrantes', fontsize=14)
-ax.xaxis.set_tick_params(labelsize=12)
-ax.yaxis.set_tick_params(labelsize=12)
-ax.xaxis.set_major_locator(ticker.MultipleLocator(5))
-plt.grid(linestyle='--')
+def plotBrazil(color: str = ''):
+    fig, ax = plt.subplots(figsize=(8, 4))
+    if color == '':
+        ax.plot(brazil.index, brazil['immigrants'], lw=3)
+    else:
+        ax.plot(brazil.index, brazil['immigrants'], lw=3, color=color)
+    ax.set_title('Imigração de Brasileiros para o Canadá\n1980 - 2013', fontsize=18, loc='left')
+    ax.set_xlabel('Ano', fontsize=14)
+    ax.set_ylabel('Número de imigrantes', fontsize=14)
+    ax.xaxis.set_tick_params(labelsize=12)
+    ax.yaxis.set_tick_params(labelsize=12)
+    ax.xaxis.set_major_locator(ticker.MultipleLocator(5))
+    plt.grid(linestyle='--')
+
+plotBrazil()
 
 # Altering styles
 # 
@@ -133,6 +139,36 @@ with context('fivethirtyeight'):
   ax.yaxis.set_tick_params(labelsize=12)
   ax.xaxis.set_tick_params(labelsize=12)
   ax.xaxis.set_major_locator(ticker.MultipleLocator(5))
+
+# Altering colors
+# 
+plotBrazil(color='g')
+
+df.head()
+south_america = df.query('Região == "América do Sul"')
+south_america.head()
+south_america_sorted = south_america.sort_values(by='Total', ascending=True)
+
+# Setting different colors for each country
+# colors = ['royalblue', 'orange', 'forestgreen', 'orchid', 'purple', 'brown', 'slateblue', 'gray', 'olive', 'navy', 'teal', 'tomato']
+
+# Highlighting Brazil
+colors = []
+for country in south_america_sorted.index:
+    if country == 'Brasil':
+        colors.append('green')
+    else:
+        colors.append('silver')
+
+fig, ax = plt.subplots(figsize=(12, 5))
+# ax.barh(south_america.index, south_america['Total'], color=colors) # Not sorted
+ax.barh(south_america_sorted.index, south_america_sorted['Total'], color=colors)
+ax.set_title('Imigração de sul americanos para o Canadá\n1980 - 2013\n\nBrasil é o 4o país com mais imigrantes', loc='left', fontsize=18)
+ax.set_xlabel('Imigrantes', fontsize=14)
+ax.set_ylabel('')
+ax.xaxis.set_tick_params(labelsize=12)
+ax.yaxis.set_tick_params(labelsize=12)
+
 
 # # # Section of the course:
 # 04. Conhecendo a biblioteca Seaborn
