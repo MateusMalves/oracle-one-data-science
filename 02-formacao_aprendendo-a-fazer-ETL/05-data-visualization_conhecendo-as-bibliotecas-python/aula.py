@@ -203,6 +203,18 @@ top_10 = df.sort_values(by='Total', ascending=False).head(10)
 sns.barplot(data=top_10, x=top_10.index, y='Total')
 sns.barplot(data=top_10, y=top_10.index, x='Total', orient='h')
 
+# Personalizing views with Seaborn
+ax = sns.barplot(data=top_10, y=top_10.index, x='Total', orient='h')
+ax.set(title='Top 10 países com mais imigrantes no Canadá\n1980 - 2013', xlabel='Imigrantes', ylabel='')
+plt.show(ax)
+
+fig, ax = plt.subplots(figsize=(8, 4))
+ax = sns.barplot(data=top_10, y=top_10.index, x='Total', orient='h')
+ax.set_title('Top 10 países com mais imigrantes no Canadá\n1980 - 2013', fontsize=16, loc='left')
+ax.set_xlabel('Imigrantes', fontsize=14)
+ax.set_ylabel('')
+plt.show()
+
 # # # Section of the course:
 # 05. Gráficos interativos com Plotly
 # # #
