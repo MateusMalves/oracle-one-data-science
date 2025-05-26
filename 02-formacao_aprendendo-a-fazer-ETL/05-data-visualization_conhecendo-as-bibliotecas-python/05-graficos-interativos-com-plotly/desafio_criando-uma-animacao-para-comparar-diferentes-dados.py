@@ -19,8 +19,7 @@ Para configurar as animações você pode fazer um Loop for para percorrer o Dat
 import os
 import sys
 import re
-import pandas as pd
-import matplotlib.pyplot as plt
+import plotly.graph_objects as go
 
 cwd = os.getcwd()
 while bool(re.search(r'\d-', cwd)):
@@ -32,3 +31,67 @@ from load_data import load_data
 
 data_folder = cwd + '/data/05-data-visualization_conhecendo-as-bibliotecas-python/'
 outputs_folder = data_folder + 'outputs/'
+
+# Load data
+df = load_data(data_folder + 'imigrantes_canada.csv', is_pandas=True)
+df = df[df['País'].isin(['Argentina', 'Brasil'])]
+df.set_index('País', inplace=True)
+df = df.T
+df = df.iloc[2:-1]
+
+# Convert index to int
+df.index = df.index.astype(int)
+df['Brasil'] = df['Brasil'].astype(int)
+df['Argentina'] = df['Argentina'].astype(int)
+
+def plot_animation():
+    # Create figure
+    fig = go.Figure()
+
+    # Adding traces for Brazil and Argentina
+    fig.add_trace(
+        go.Scatter(x=[df.index[0]], y=[df['Brasil'].iloc[0]], mode='lines', name='Brasil', line=dict(width=4))
+    )
+    fig.add_trace(
+        go.Scatter(x=[df.index[0]], y=[df['Argentina'].iloc[0]], mode='lines', name='Argentina', line=dict(width=4))
+    )
+
+    # Setting layout
+    fig.update_layout(
+        title=dict(
+            text='<b>Imigração para o Canadá no período de 1980 a 2013</b>',
+            x=0.12,
+            xanchor='left',
+            font=dict(size=20)
+        ),
+        xaxis=dict(range=[1980, 2013], autorange=False, title='<b>Ano</b>'),
+        yaxis=dict(range=[0, 3000], autorange=False, title='<b>Número de imigrantes</b>'),
+        updatemenus=[dict(
+            type='buttons',
+            showactive=False,
+            buttons=[dict(
+                label='Play',
+                method='animate',
+                args=[None, {'frame': {'duration': 100, 'redraw': True}, 'fromcurrent': True}]
+            )]
+        )],
+        width=1000, 
+        height=500 
+    )
+
+    # Setting frames for animation
+    frames = [
+        go.Frame(
+            data=[
+                go.Scatter(x=df.index[:i+1], y=df['Brasil'].iloc[:i+1]),
+                go.Scatter(x=df.index[:i+1], y=df['Argentina'].iloc[:i+1])
+            ]
+        )
+        for i in range(len(df))
+    ]
+    fig.frames = frames
+
+    # Show figure
+    fig.show()
+
+plot_animation()
