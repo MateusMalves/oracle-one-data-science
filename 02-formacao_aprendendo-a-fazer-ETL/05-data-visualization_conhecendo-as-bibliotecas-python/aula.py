@@ -7,6 +7,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 from matplotlib.style.core import context
+import seaborn as sns
 
 cwd = os.getcwd()
 while bool(re.search(r'\d-', cwd)):
@@ -43,6 +44,7 @@ plt.yticks([500, 1000, 1500, 2000, 2500, 3000])
 plt.title('Imigração de Brasileiros para o Canadá')
 plt.xlabel('Ano')
 plt.ylabel('Número de imigrantes')
+
 
 # # # Section of the course:
 # 02. Criando figuras com Matplotlib
@@ -101,6 +103,7 @@ for ax in axs.ravel():
     ax.grid()
 
 print(axs.flat)
+
 
 # # # Section of the course:
 # 03. Customizando com Matplotlib
@@ -189,10 +192,16 @@ fig.savefig(f'{outputs_folder}/south_america_immigration.png', transparent=False
 brazil_immigration = plotBrazil(color='g')
 brazil_immigration.savefig(f'{outputs_folder}/brazil_immigration.png', transparent=False, dpi=300, bbox_inches='tight')
 
+
 # # # Section of the course:
 # 04. Conhecendo a biblioteca Seaborn
 # # #
 
+sns.set_theme()
+top_10 = df.sort_values(by='Total', ascending=False).head(10)
+
+sns.barplot(data=top_10, x=top_10.index, y='Total')
+sns.barplot(data=top_10, y=top_10.index, x='Total', orient='h')
 
 # # # Section of the course:
 # 05. Gráficos interativos com Plotly
