@@ -276,3 +276,5 @@ fig = px.line(south_america_final, x=south_america_final.index, y=south_america_
               markers=True)
 fig.update_layout(xaxis=dict(tickangle=-45), legend_title_text='País',
                   xaxis_title='Ano', yaxis_title='Número de imigrantes',)
+
+fig.write_html(f'{outputs_folder}/south_america_immigration.html')
