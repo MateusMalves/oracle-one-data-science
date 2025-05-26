@@ -238,6 +238,22 @@ generate_graph_palette('Set2')
 generate_graph_palette('tab20')
 generate_graph_palette('tab20b')
 
+# Exploring themes
+# 
+# Styles: white, dark, whitegrid, darkgrid, ticks
+sns.set_theme(style='ticks')
+generate_graph_palette('tab10')
+
+# Removing the frame
+fig, ax = plt.subplots(figsize=(8, 4))
+ax = sns.barplot(data=top_10, y=top_10.index, x='Total', orient='h', palette='tab10', hue=top_10.index, legend=False)
+ax.set_title('Top 10 países com mais imigrantes no Canadá\n1980 - 2013', fontsize=18, loc='left')
+ax.set_xlabel('Imigrantes', fontsize=14)
+ax.set_ylabel('')
+sns.despine()
+plt.show()
+
+
 # # # Section of the course:
 # 05. Gráficos interativos com Plotly
 # # #
