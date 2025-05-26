@@ -119,6 +119,10 @@ def plotBrazil(color: str = ''):
     ax.yaxis.set_tick_params(labelsize=12)
     ax.xaxis.set_major_locator(ticker.MultipleLocator(5))
     plt.grid(linestyle='--')
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+
+    return fig
 
 plotBrazil()
 
@@ -178,6 +182,12 @@ ax.tick_params(axis='both', which='both', length=0)
 
 south_america_sorted['Total']
 
+# Saving the graphs
+print(fig.canvas.get_supported_filetypes())
+
+fig.savefig(f'{outputs_folder}/south_america_immigration.png', transparent=False, dpi=300, bbox_inches='tight')
+brazil_immigration = plotBrazil(color='g')
+brazil_immigration.savefig(f'{outputs_folder}/brazil_immigration.png', transparent=False, dpi=300, bbox_inches='tight')
 
 # # # Section of the course:
 # 04. Conhecendo a biblioteca Seaborn
