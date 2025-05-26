@@ -215,6 +215,29 @@ ax.set_xlabel('Imigrantes', fontsize=14)
 ax.set_ylabel('')
 plt.show()
 
+# Altering colors using palettes
+def generate_graph_palette(palette):
+    fig, ax = plt.subplots(figsize=(8, 4))
+    ax = sns.barplot(data=top_10, y=top_10.index, x='Total', orient='h', palette=palette, hue=top_10.index, legend=False)
+    ax.set_title('Top 10 países com mais imigrantes no Canadá\n1980 - 2013', fontsize=16, loc='left')
+    ax.set_xlabel('Imigrantes', fontsize=14)
+    ax.set_ylabel('')
+    plt.show()
+
+generate_graph_palette('Blues_r')
+generate_graph_palette('rocket')
+generate_graph_palette('coolwarm')
+generate_graph_palette('tab10')
+
+# Other examples
+generate_graph_palette('Greens_r')
+generate_graph_palette('Reds_r')
+generate_graph_palette('Purples_r')
+generate_graph_palette('Oranges_r')
+generate_graph_palette('Set2')
+generate_graph_palette('tab20')
+generate_graph_palette('tab20b')
+
 # # # Section of the course:
 # 05. Gráficos interativos com Plotly
 # # #
