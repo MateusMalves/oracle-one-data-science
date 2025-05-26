@@ -261,8 +261,18 @@ plt.show()
 
 fig = px.line(brazil, x=brazil.index, y='immigrants',
               title='Imigração de Brasileiros para o Canadá\n1980 - 2013')
+fig.update_traces(line_color='green', line_width=4)
 fig.update_layout(xaxis_title='Ano', yaxis_title='Número de imigrantes',
                   width=1000, height=500, xaxis_tickangle=-45,
                   font_family='Arial', font_size=14, font_color='#444',
                   title_font_color='black', title_font_size=20)
 fig.show()
+
+south_america_cleaned = south_america.drop(columns=['Região', 'Continente', 'Total'], axis=1)
+south_america_final = south_america_cleaned.T
+
+fig = px.line(south_america_final, x=south_america_final.index, y=south_america_final.columns, color='País',
+              title='Imigração de sul americanos para o Canadá\n1980 - 2013',
+              markers=True)
+fig.update_layout(xaxis=dict(tickangle=-45), legend_title_text='País',
+                  xaxis_title='Ano', yaxis_title='Número de imigrantes',)
