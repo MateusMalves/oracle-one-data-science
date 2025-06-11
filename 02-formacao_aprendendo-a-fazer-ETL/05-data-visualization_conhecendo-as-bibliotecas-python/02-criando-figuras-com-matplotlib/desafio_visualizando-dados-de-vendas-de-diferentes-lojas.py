@@ -1,3 +1,12 @@
+# # #
+# بِسْمِ ٱللّٰهِ ٱلرَّحْمٰنِ ٱلرَّحِيمِ
+# Bismillāh ir-raḥmān ir-raḥīm
+# 
+# In the name of God, the Most Gracious, the Most Merciful
+# Em nome de Deus, o Clemente, o Misericordioso
+# # #
+# # #
+
 # Enunciado do desafio:
 '''
 Você trabalha como Analista de Dados em uma empresa de varejo e recebeu a tarefa de criar uma figura com subplots que apresente a variação no número de vendas em quatro diferentes lojas ao longo de um ano. A gerência da empresa precisa visualizar de forma clara as tendências de vendas em cada loja, para que possam tomar decisões estratégicas sobre os estoques e ações de marketing. Para isso, você deve criar quatro subplots dispostos em duas linhas e duas colunas, onde cada subplot representa uma loja diferente. Nesse desafio, cada subplot deve apresentar um gráfico de linhas que mostre a variação do número de vendas ao longo dos meses do ano.

@@ -1,3 +1,12 @@
+# # #
+# بِسْمِ ٱللّٰهِ ٱلرَّحْمٰنِ ٱلرَّحِيمِ
+# Bismillāh ir-raḥmān ir-raḥīm
+# 
+# In the name of God, the Most Gracious, the Most Merciful
+# Em nome de Deus, o Clemente, o Misericordioso
+# # #
+# # #
+
 # Encunciado do desafio
 '''
 Chegou a hora de pôr em prática tudo o que aprendemos durante as aulas. Preparei dois projetos extras para desenvolvermos durante o curso, para garantir que possamos praticar bastante! Para isso, vamos trabalhar com 2 novos conjuntos de dados, mas que dessa vez serão bem menores. As bases de dados estão disponíveis para download abaixo:

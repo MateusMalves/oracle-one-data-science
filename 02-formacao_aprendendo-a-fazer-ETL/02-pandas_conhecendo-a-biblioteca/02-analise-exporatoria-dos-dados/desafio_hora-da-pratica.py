@@ -1,3 +1,12 @@
+# # #
+# بِسْمِ ٱللّٰهِ ٱلرَّحْمٰنِ ٱلرَّحِيمِ
+# Bismillāh ir-raḥmān ir-raḥīm
+# 
+# In the name of God, the Most Gracious, the Most Merciful
+# Em nome de Deus, o Clemente, o Misericordioso
+# # #
+# # #
+
 # Enunciado do desafio:
 '''
 O time de ML chegou com algumas demandas de última hora para resolvermos nesse momento da análise exploratória. Essas demandas são:

@@ -1,3 +1,12 @@
+# # #
+# بِسْمِ ٱللّٰهِ ٱلرَّحْمٰنِ ٱلرَّحِيمِ
+# Bismillāh ir-raḥmān ir-raḥīm
+# 
+# In the name of God, the Most Gracious, the Most Merciful
+# Em nome de Deus, o Clemente, o Misericordioso
+# # #
+# # #
+
 # Enunciado do desafio:
 '''
 Mais uma etapa de desafio se inicia! Aproveite a oportunidade proposta e mergulhe nas possibilidades. Na aula anterior, você teve o desafio de criar uma figura com subplots que apresentam a variação no número de vendas em quatro diferentes lojas ao longo de um ano. Agora é o momento de elevar essa figura a um novo patamar! É a hora de personalizá-la! Nesta segunda parte do desafio, você deve explorar as opções de customização dos subplots para deixar a figura mais clara e atraente para a gerência da empresa.

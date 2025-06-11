@@ -1,3 +1,12 @@
+# # #
+# بِسْمِ ٱللّٰهِ ٱلرَّحْمٰنِ ٱلرَّحِيمِ
+# Bismillāh ir-raḥmān ir-raḥīm
+# 
+# In the name of God, the Most Gracious, the Most Merciful
+# Em nome de Deus, o Clemente, o Misericordioso
+# # #
+# # #
+
 # Enunciado do desafio:
 '''
 Parabéns por chegar até aqui, em mais um desafio! Voltando aos dados utilizados no projeto que nós estamos desenvolvendo neste curso, agora chegou o momento de utilizar todos os conhecimentos adquiridos sobre as bibliotecas Matplotlib e Seaborn.

@@ -1,3 +1,12 @@
+# # #
+# بِسْمِ ٱللّٰهِ ٱلرَّحْمٰنِ ٱلرَّحِيمِ
+# Bismillāh ir-raḥmān ir-raḥīm
+# 
+# In the name of God, the Most Gracious, the Most Merciful
+# Em nome de Deus, o Clemente, o Misericordioso
+# # #
+# # #
+
 # Enunciado do desafio:
 '''
 Chegou a hora de você testar os conhecimentos desenvolvidos durante a aula. Nós temos um link do Google Planilhas que contém dados importantes sobre as emissões de gás carbônico pelo mundo. O conjunto de dados foi obtido no Kaggle e consiste em emissões de CO2 per capita de todos os países do mundo de 1990 a 2019.
