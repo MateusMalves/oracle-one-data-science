@@ -14,6 +14,8 @@ import os
 import sys
 import re
 import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 cwd = os.getcwd()
 while bool(re.search(r'\d-', cwd)):
@@ -126,3 +128,131 @@ data_sales.groupby('categoria')['valor_total'].sum().sort_values(ascending=False
 
 # Verificar método de pagamento com maior faturamento
 data_sales.groupby('metodo_pagamento')['valor_total'].sum().sort_values(ascending=False)
+
+data_customers.head()
+
+# #
+# Tipos de gráficos
+# 
+# Mesclar os DataFrames pela chave 'ID_compra'
+data_merged = pd.merge(data_sales, data_customers, on='ID_compra', how='inner')
+
+# Reorganizar as colunas na ordem especificada
+colunas_ordenadas = [
+    'ID_compra',
+    'data',
+    'horario',
+    'categoria',
+    'preco',
+    'quantidade',
+    'frete',
+    'metodo_pagamento',
+    'ID_cliente',
+    'idade',
+    'sexo',
+    'cidade',
+    'uf',
+    'regiao',
+    'cashback',
+    'avaliacao_compra'
+]
+
+# Aplicar a nova ordem de colunas
+data_merged = data_merged[colunas_ordenadas]
+
+# # #
+# 02. Visualizando os dados
+
+# Definindo os visuais
+
+# Etapa 1: Criar a tabela resumo
+metodos_de_pagamento = data_merged['metodo_pagamento'].value_counts().reset_index()
+metodos_de_pagamento.columns = ['Metodo de Pagamento', 'Quantidade']
+
+# Etapa 2: Visualização
+plt.figure(figsize=(8, 6))
+sns.barplot(data=metodos_de_pagamento, x='Metodo de Pagamento', y='Quantidade', hue='Metodo de Pagamento', palette='Set2', order=metodos_de_pagamento['Metodo de Pagamento'])
+
+plt.title('Distribuição dos Métodos de Pagamento')
+plt.xlabel('Método de Pagamento')
+plt.ylabel('Quantidade de Compras')
+plt.xticks(rotation=45)
+plt.tight_layout()
+
+# Comparando dados
+
+# Etapa 1: Calcular faturamento total por linha
+data_merged['faturamento'] = (data_merged['preco'] * data_merged['quantidade']) + data_merged['frete']
+
+# Etapa 2: Agrupar por categoria e somar faturamentos
+faturamento_categoria = data_merged.groupby('categoria')['faturamento'].sum().sort_values(ascending=True).reset_index()
+
+# Etapa 3: Visualização - gráfico de barras horizontais
+plt.figure(figsize=(10, 6))
+sns.barplot(data=faturamento_categoria, x='faturamento', y='categoria', palette='viridis', order=faturamento_categoria['categoria'])
+
+plt.title('Faturamento por Categoria de Produto')
+plt.xlabel('Faturamento (R$)')
+plt.ylabel('Categoria')
+plt.tight_layout()
+
+# Sales per month
+# Dicionário de tradução dos meses
+meses = {
+    'January': 'Jan',
+    'February': 'Fev',
+    'March': 'Mar',
+    'April': 'Abr',
+    'May': 'Mai',
+    'June': 'Jun',
+    'July': 'Jul',
+    'August': 'Ago',
+    'September': 'Set',
+    'October': 'Out',
+    'November': 'Nov',
+    'December': 'Dez'
+}
+
+# Garantir a coluna de faturamento (se ainda não existir)
+if 'faturamento' not in data_merged.columns:
+    data_merged['faturamento'] = (data_merged['preco'] * data_merged['quantidade']) + data_merged['frete']
+
+# Extrair ano e mês (como datetime) para agrupar
+data_merged['ano_mes'] = data_merged['data'].dt.to_period('M').dt.to_timestamp()
+
+# Agrupar por mês e somar faturamento
+vendas_mensais = data_merged.groupby('ano_mes')['faturamento'].sum().reset_index()
+
+# Criar coluna com nome do mês traduzido
+vendas_mensais['mes'] = vendas_mensais['ano_mes'].dt.strftime('%B').map(meses)
+
+# Criar gráfico de linha
+plt.figure(figsize=(10, 6))
+sns.lineplot(data=vendas_mensais, x='mes', y='faturamento', marker='o', linewidth=2.5, color='royalblue')
+
+plt.title('Faturamento Mensal da Zoop em 2023')
+plt.xlabel('Mês')
+plt.ylabel('Faturamento (R$)')
+plt.grid(True)
+plt.tight_layout()
+
+# Compondo dados dinâmicos
+
+# Garantir a coluna de faturamento (caso ainda não exista)
+if 'faturamento' not in data_merged.columns:
+    data_merged['faturamento'] = (data_merged['preco'] * data_merged['quantidade']) + data_merged['frete']
+
+# Criar a coluna de trimestre (Ex: 2023Q1, 2023Q2 etc)
+data_merged['trimestre'] = data_merged['data'].dt.to_period('Q').astype(str)
+
+# Agrupar por trimestre e método de pagamento, somando o faturamento
+vendas_trimestre = data_merged.groupby(['trimestre', 'metodo_pagamento'])['faturamento'].sum().unstack().fillna(0)
+
+# Plotar o gráfico de barras empilhadas
+vendas_trimestre.plot(kind='bar', stacked=True, figsize=(10, 6), colormap='viridis')
+
+plt.title('Faturamento por Trimestre e Método de Pagamento - Zoop')
+plt.xlabel('Trimestre')
+plt.ylabel('Faturamento (R$)')
+plt.legend(title='Método de Pagamento')
+plt.tight_layout()
