@@ -71,6 +71,7 @@ data_customers['idade'].describe()
 data_customers['avaliacao_compra'].mean()
 
 # Verificar quantos participam do programa de cashback
+data_customers['cashback'].value_counts()
 data_customers['cashback'].value_counts(normalize=True)
 
 # Verificar a quantidade de data_customers por faixa etária
@@ -84,3 +85,44 @@ data_customers.groupby('sexo')['avaliacao_compra'].mean()
 
 # Avaliação média por participação no cashback
 data_customers.groupby('cashback')['avaliacao_compra'].mean()
+
+
+# Expore data_sales DataFrame
+# 
+# Exibir as primeiras linhas do DataFrame
+data_sales.head()
+
+# Verificar o número de linhas e colunas
+data_sales.shape
+
+# Verificar os tipos de dados e se há valores nulos
+data_sales.info()
+
+# Ver estatísticas descritivas das colunas numéricas
+data_sales.describe()
+
+# Verificar quantidade de categorias de produtos
+data_sales['categoria'].value_counts()
+
+# Verificar o ticket médio (preço unitário * quantidade)
+data_sales['valor_total'] = data_sales['preco'] * data_sales['quantidade']
+data_sales['valor_total'].mean()
+
+# Verificar os métodos de pagamento utilizados
+data_sales['metodo_pagamento'].value_counts(normalize=True)
+
+# Analisar valor médio do frete
+data_sales['frete'].describe()
+
+# Verificar vendas por dia da semana
+data_sales['dia_semana'] = data_sales['data'].dt.day_name()
+data_sales['dia_semana'].value_counts()
+
+# Verificar horários com maior volume de compras
+pd.to_datetime(data_sales['horario']).dt.time.value_counts()
+
+# Verificar categorias com maior faturamento total
+data_sales.groupby('categoria')['valor_total'].sum().sort_values(ascending=False)
+
+# Verificar método de pagamento com maior faturamento
+data_sales.groupby('metodo_pagamento')['valor_total'].sum().sort_values(ascending=False)
