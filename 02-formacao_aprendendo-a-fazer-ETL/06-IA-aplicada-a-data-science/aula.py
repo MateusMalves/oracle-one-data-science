@@ -256,3 +256,111 @@ plt.xlabel('Trimestre')
 plt.ylabel('Faturamento (R$)')
 plt.legend(title='Método de Pagamento')
 plt.tight_layout()
+
+# # #
+# 03. Gerando mais visuais
+
+# Composing static data
+# 
+# Etapa 1: Contar os valores únicos da coluna 'cashback'
+cashback_counts = data_merged['cashback'].value_counts()
+
+# Etapa 2: Gráfico de pizza
+plt.figure(figsize=(6, 6))
+plt.pie(
+    cashback_counts,
+    labels=['Com cashback' if item == True else 'Sem cashback' for item in list(cashback_counts.index)],
+    autopct='%1.1f%%',
+    startangle=90,
+    colors=['#66c2a5', '#fc8d62'],
+    wedgeprops={'edgecolor': 'white'}
+)
+
+plt.title('Proporção de Usuários com Cashback na Zoop')
+plt.axis('equal')  # Garante que a pizza fique redonda
+plt.tight_layout()
+
+# Invert colors and plot donut
+# 
+# Cores invertidas
+cores = ['#fc8d62', '#66c2a5']
+
+# Criar gráfico de rosca
+plt.figure(figsize=(6, 6))
+plt.pie(
+    cashback_counts,
+    labels=['Com cashback' if item == True else 'Sem cashback' for item in list(cashback_counts.index)],
+    autopct='%1.1f%%',
+    startangle=90,
+    colors=cores,
+    wedgeprops={'edgecolor': 'white', 'width': 0.6},
+)
+
+plt.title('Proporção de Usuários com Cashback na Zoop')
+plt.axis('equal')  # Garante proporção circular
+plt.tight_layout()
+
+# Distributing data
+# 
+# Configura estilo do gráfico
+sns.set_theme(style="whitegrid")
+
+# Tamanho da figura
+plt.figure(figsize=(10, 6))
+
+# Gráfico de barras com contagem por avaliação
+sns.countplot(data=data_merged, x='avaliacao_compra', palette='coolwarm', hue='avaliacao_compra', legend=False)
+
+# Títulos e rótulos
+plt.title('Distribuição das Avaliações dos Clientes')
+plt.xlabel('Nota da Avaliação (0 a 10)')
+plt.ylabel('Quantidade de Avaliações')
+plt.xticks(range(0, 11))  # Garante que todas as notas de 0 a 10 apareçam
+
+plt.tight_layout()
+
+# Distributing data by characteristic
+# 
+# Tamanho da figura
+plt.figure(figsize=(10, 6))
+
+# Gráfico de densidade de idade segmentado por sexo
+sns.histplot(
+    data=data_merged,
+    x='idade',
+    hue='sexo',
+    multiple='stack',        # Usa pilhas para melhor visualização
+    palette='pastel',
+    bins=20,                 # Número de faixas de idade
+    kde=False                # Coloque True para densidade suavizada
+)
+
+# Títulos e eixos
+plt.title('Distribuição da Idade por Sexo Biológico')
+plt.xlabel('Idade')
+plt.ylabel('Número de Compras')
+plt.tight_layout()
+
+# Change to boxplot
+# Tamanho da figura
+plt.figure(figsize=(8, 6))
+
+# Boxplot de idade por sexo
+sns.boxplot(
+    data=data_merged,
+    x='sexo',
+    y='idade',
+    palette='pastel'
+)
+
+# Títulos e rótulos
+plt.title('Distribuição da Idade por Sexo Biológico')
+plt.xlabel('Sexo')
+plt.ylabel('Idade')
+plt.tight_layout()
+
+# # #
+# 04. Técnicas de storytelling
+
+# # #
+# 05. Concluindo o projeto
