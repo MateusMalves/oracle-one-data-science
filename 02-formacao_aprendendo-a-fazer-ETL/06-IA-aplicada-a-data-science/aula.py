@@ -14,8 +14,9 @@ import os
 import sys
 import re
 import pandas as pd
-import matplotlib.pyplot as plt
 import seaborn as sns
+import matplotlib.pyplot as plt
+import matplotlib.ticker as ticker
 
 cwd = os.getcwd()
 while bool(re.search(r'\d-', cwd)):
@@ -361,6 +362,225 @@ plt.tight_layout()
 
 # # #
 # 04. Técnicas de storytelling
+
+# Adicionando as cores como variáveis do projeto
+VERMELHO_1,	VERMELHO_2,	VERMELHO_3 = "#e23155",	"#cc2c4e", "#b32742"
+AZUL_1,	AZUL_2,	AZUL_3 = "#203f75",	"#1c3867", "#19325b"
+BRANCO,	CINZA_1, CINZA_2, CINZA_3, CINZA_4,	CINZA_5 = "#ffffff", "#ebebeb",	"#d9d9d9", "#cccccc", "#555655", "#231f20"
+AQUA_1,	AQUA_2,	AQUA_3 = "#addcd4",	"#9fccc5", "#96bfb9"
+
+# AI Context
+plt.figure(figsize=(10, 6))
+plt.bar(metodos_de_pagamento['Metodo de Pagamento'], metodos_de_pagamento['Quantidade'], color='skyblue')
+plt.title('Quantidade de Métodos de Pagamento Utilizados')
+plt.xlabel('Método de Pagamento')
+plt.ylabel('Quantidade')
+plt.xticks(rotation=45, ha='right')
+
+# AI Answer
+# Criação da tabela com a contagem de métodos de pagamento
+sns.set_theme(style="white")
+metodos_de_pagamento = data_merged['metodo_pagamento'].value_counts()
+
+# Criar figura e eixos
+fig, ax = plt.subplots(figsize=(10, 6))
+fig.patch.set_facecolor(CINZA_1)  # fundo da figura
+ax.set_facecolor(CINZA_1)         # fundo do plot
+
+# Gráfico de barras verticais
+barras = ax.bar(
+    list(metodos_de_pagamento.index),
+    list(metodos_de_pagamento.values),
+    color=VERMELHO_1
+)
+
+# Título
+ax.set_title(
+    'Métodos de pagamentos mais utilizados em 2023',
+    fontsize=18,
+    color=CINZA_5
+)
+
+# Eixo X
+ax.set_xlabel('')
+ax.set_xticklabels(metodos_de_pagamento.index, fontsize=12, color=AZUL_1)
+
+# Eixo Y (suprimir)
+ax.set_ylabel('')
+ax.set_yticks([])
+
+# Remover bordas
+ax.spines['top'].set_visible(False)
+ax.spines['left'].set_visible(False)
+ax.spines['right'].set_visible(False)
+
+# Adicionar valores acima das barras
+for barra in barras:
+    altura = barra.get_height()
+    ax.text(
+        barra.get_x() + barra.get_width() / 2,
+        altura + max(metodos_de_pagamento.values) * 0.01,
+        str(altura),
+        ha='center',
+        va='bottom',
+        fontsize=12,
+        color=AZUL_1
+    )
+
+plt.tight_layout()
+
+# Adding text
+# 
+# Cálculo do percentual
+top2 = metodos_de_pagamento.iloc[:2].sum()
+total = metodos_de_pagamento.sum()
+percentual = (top2 / total) * 100
+
+# Criar figura
+fig, ax = plt.subplots(figsize=(10, 6))
+fig.patch.set_facecolor(CINZA_1)
+ax.set_facecolor(CINZA_1)
+
+# Barras
+barras = ax.bar(
+    list(metodos_de_pagamento.index),
+    list(metodos_de_pagamento.values),
+    color=VERMELHO_1
+)
+
+# Título
+ax.set_title(
+    'Métodos de pagamentos mais utilizados em 2023',
+    fontsize=18,
+    color=CINZA_5
+)
+
+# Estilização do eixo X
+ax.set_xlabel('')
+ax.set_xticklabels(metodos_de_pagamento.index, fontsize=12, color=AZUL_1)
+
+# Eixo Y removido
+ax.set_ylabel('')
+ax.set_yticks([])
+
+# Bordas removidas
+ax.spines['top'].set_visible(False)
+ax.spines['left'].set_visible(False)
+ax.spines['right'].set_visible(False)
+
+# Valores acima das colunas
+for barra in barras:
+    altura = barra.get_height()
+    ax.text(
+        barra.get_x() + barra.get_width() / 2,
+        altura + max(metodos_de_pagamento.values) * 0.01,
+        str(altura),
+        ha='center',
+        va='bottom',
+        fontsize=12,
+        color=AZUL_1
+    )
+
+# Texto analítico dentro do plot
+ax.text(
+    x=2,
+    y=2500,
+    s=(
+        f"$\\bf{percentual:.2f}$% dos clientes utilizam Cartão de Crédito ou PIX \n"
+        "para pagamento. Seria interessante recorrer a parcerias\n"
+        "com bancos para a construção de um Zoop Pay a fim\n"
+        "de fidelizar a nossa clientela."
+    ),
+    fontsize=10,
+    color=AZUL_3
+)
+
+plt.tight_layout()
+
+# Adding visual elements
+# 
+# Dicionário de tradução de meses
+meses = {
+    'January': 'Jan',
+    'February': 'Fev',
+    'March': 'Mar',
+    'April': 'Abr',
+    'May': 'Mai',
+    'June': 'Jun',
+    'July': 'Jul',
+    'August': 'Ago',
+    'September': 'Set',
+    'October': 'Out',
+    'November': 'Nov',
+    'December': 'Dez'
+}
+
+# Agrupar por mês e calcular as vendas totais
+data_merged['mes'] = data_merged['data'].dt.strftime('%B')
+vendas_mensais = data_merged.groupby('mes')['faturamento'].sum().reindex(list(meses.keys()))
+
+# Configurações do gráfico
+plt.figure(figsize=(12, 6))
+plt.plot(vendas_mensais.index, vendas_mensais, marker='o', color='#1890FF', linewidth=2)
+
+# Adicionar rótulos e título
+plt.title('Vendas Totais Mensais da Zoop', fontsize=18, color='#555555')
+plt.xlabel('Mês', fontsize=12, color='#1890FF')
+plt.ylabel('Vendas', fontsize=12, color='#1890FF')
+
+# Alterar rótulos do eixo x utilizando o dicionário de tradução
+plt.xticks(vendas_mensais.index, [meses[mes] for mes in vendas_mensais.index], fontsize=10, color='#1890FF')
+
+plt.show()
+
+# Using AI to generate the plot
+# Adiciona a coluna de mês
+sns.set_theme(style="ticks")
+data_merged['mes'] = data_merged['data'].dt.strftime('%B')
+
+# Agrupamento por mês
+vendas_mensais = data_merged.groupby('mes')['faturamento'].sum().reindex(list(meses.keys()))
+vendas_mensais = vendas_mensais.rename(index=meses)  # traduz o índice
+
+# Criação do gráfico
+fig, ax = plt.subplots(figsize=(12, 6))
+fig.patch.set_facecolor(CINZA_1)
+ax.set_facecolor(CINZA_1)
+
+# Linha de vendas
+ax.plot(
+    list(vendas_mensais.index),
+    list(vendas_mensais.values),
+    marker='o',
+    color=AZUL_1,
+    linewidth=2
+)
+
+# Título
+ax.set_title('Vendas totais mensais em 2023', fontsize=18, color=CINZA_5)
+
+# Eixos X e Y
+ax.set_xlabel('')
+ax.set_ylabel('')
+ax.set_xticks(range(len(vendas_mensais.index)))
+ax.set_xticklabels(vendas_mensais.index, fontsize=12, color=AZUL_1)
+ax.tick_params(axis='y', labelsize=12, colors=AZUL_1)
+
+# Formato do eixo Y em milhões com R$
+formatter = ticker.FuncFormatter(lambda x, _: f'R$ {x / 1e6:.2f} M')
+ax.yaxis.set_major_formatter(formatter)
+
+# Remover bordas
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
+
+plt.tight_layout()
+
+# Emphasizing points
+for i, point in enumerate([(4, vendas_mensais.iloc[4]), (7, vendas_mensais.iloc[7]), (10, vendas_mensais.iloc[10]), (11, vendas_mensais.iloc[11])], start=1):
+    plt.scatter(point[0], point[1], s=200, color='none', edgecolors=VERMELHO_1, alpha=0.7)
+    plt.text(point[0] - 0.3, point[1] + 0.1, str(i), fontsize=12, color=VERMELHO_1)
+
 
 # # #
 # 05. Concluindo o projeto
