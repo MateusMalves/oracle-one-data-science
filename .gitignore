@@ -7,6 +7,3 @@
 # Python cache folder
 __pycache__/
 *.py[cod]
-
-# Ignore Jupyter Notebooks
-*.ipynb
