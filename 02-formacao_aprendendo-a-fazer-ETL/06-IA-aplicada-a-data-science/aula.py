@@ -222,14 +222,14 @@ if 'faturamento' not in data_merged.columns:
 data_merged['ano_mes'] = data_merged['data'].dt.to_period('M').dt.to_timestamp()
 
 # Agrupar por mês e somar faturamento
-vendas_mensais = data_merged.groupby('ano_mes')['faturamento'].sum().reset_index()
+vendas_mensais = data_merged.groupby('ano_mes')['faturamento'].sum().reset_index() # type: ignore
 
 # Criar coluna com nome do mês traduzido
-vendas_mensais['mes'] = vendas_mensais['ano_mes'].dt.strftime('%B').map(meses)
+vendas_mensais['mes'] = vendas_mensais['ano_mes'].dt.strftime('%B').map(meses) # type: ignore
 
 # Criar gráfico de linha
 plt.figure(figsize=(10, 6))
-sns.lineplot(data=vendas_mensais, x='mes', y='faturamento', marker='o', linewidth=2.5, color='royalblue')
+sns.lineplot(data=vendas_mensais, x='mes', y='faturamento', marker='o', linewidth=2.5, color='royalblue') # type: ignore
 
 plt.title('Faturamento Mensal da Zoop em 2023')
 plt.xlabel('Mês')
@@ -517,11 +517,11 @@ meses = {
 
 # Agrupar por mês e calcular as vendas totais
 data_merged['mes'] = data_merged['data'].dt.strftime('%B')
-vendas_mensais = data_merged.groupby('mes')['faturamento'].sum().reindex(list(meses.keys()))
+vendas_mensais = data_merged.groupby('mes')['faturamento'].sum().reindex(list(meses.keys())) # type: ignore
 
 # Configurações do gráfico
 plt.figure(figsize=(12, 6))
-plt.plot(vendas_mensais.index, vendas_mensais, marker='o', color='#1890FF', linewidth=2)
+plt.plot(vendas_mensais.index, vendas_mensais, marker='o', color='#1890FF', linewidth=2) # type: ignore
 
 # Adicionar rótulos e título
 plt.title('Vendas Totais Mensais da Zoop', fontsize=18, color='#555555')
@@ -529,7 +529,7 @@ plt.xlabel('Mês', fontsize=12, color='#1890FF')
 plt.ylabel('Vendas', fontsize=12, color='#1890FF')
 
 # Alterar rótulos do eixo x utilizando o dicionário de tradução
-plt.xticks(vendas_mensais.index, [meses[mes] for mes in vendas_mensais.index], fontsize=10, color='#1890FF')
+plt.xticks(vendas_mensais.index, [meses[mes] for mes in vendas_mensais.index], fontsize=10, color='#1890FF') # type: ignore
 
 plt.show()
 
@@ -539,8 +539,8 @@ sns.set_theme(style="ticks")
 data_merged['mes'] = data_merged['data'].dt.strftime('%B')
 
 # Agrupamento por mês
-vendas_mensais = data_merged.groupby('mes')['faturamento'].sum().reindex(list(meses.keys()))
-vendas_mensais = vendas_mensais.rename(index=meses)  # traduz o índice
+vendas_mensais = data_merged.groupby('mes')['faturamento'].sum().reindex(list(meses.keys())) # type: ignore
+vendas_mensais = vendas_mensais.rename(index=meses)  # traduz o índice # type: ignore
 
 # Criação do gráfico
 fig, ax = plt.subplots(figsize=(12, 6))
@@ -549,8 +549,8 @@ ax.set_facecolor(CINZA_1)
 
 # Linha de vendas
 ax.plot(
-    list(vendas_mensais.index),
-    list(vendas_mensais.values),
+    list(vendas_mensais.index), # type: ignore
+    list(vendas_mensais.values), # type: ignore
     marker='o',
     color=AZUL_1,
     linewidth=2
@@ -562,8 +562,8 @@ ax.set_title('Vendas totais mensais em 2023', fontsize=18, color=CINZA_5)
 # Eixos X e Y
 ax.set_xlabel('')
 ax.set_ylabel('')
-ax.set_xticks(range(len(vendas_mensais.index)))
-ax.set_xticklabels(vendas_mensais.index, fontsize=12, color=AZUL_1)
+ax.set_xticks(range(len(vendas_mensais.index))) # type: ignore
+ax.set_xticklabels(vendas_mensais.index, fontsize=12, color=AZUL_1) # type: ignore
 ax.tick_params(axis='y', labelsize=12, colors=AZUL_1)
 
 # Formato do eixo Y em milhões com R$
@@ -577,10 +577,457 @@ ax.spines['right'].set_visible(False)
 plt.tight_layout()
 
 # Emphasizing points
-for i, point in enumerate([(4, vendas_mensais.iloc[4]), (7, vendas_mensais.iloc[7]), (10, vendas_mensais.iloc[10]), (11, vendas_mensais.iloc[11])], start=1):
+for i, point in enumerate([(4, vendas_mensais.iloc[4]), (7, vendas_mensais.iloc[7]), (10, vendas_mensais.iloc[10]), (11, vendas_mensais.iloc[11])], start=1): # type: ignore
     plt.scatter(point[0], point[1], s=200, color='none', edgecolors=VERMELHO_1, alpha=0.7)
     plt.text(point[0] - 0.3, point[1] + 0.1, str(i), fontsize=12, color=VERMELHO_1)
 
 
 # # #
 # 05. Concluindo o projeto
+
+def metodos_pag():
+  # Agrupar por método de pagamento e contar o total de ocorrências
+  metodos_de_pagamento = data_merged['metodo_pagamento'].value_counts()
+
+  # Calcular percentual
+  total_clientes = metodos_de_pagamento.sum()
+  percentual = (metodos_de_pagamento[0] + metodos_de_pagamento[1]) / total_clientes * 100
+
+  # Configurações do gráfico
+  plt.figure(figsize=(10, 6), facecolor=CINZA_1)
+  ax = plt.axes()
+  ax.set_facecolor(CINZA_1)
+  plt.bar(metodos_de_pagamento.index, metodos_de_pagamento, color=VERMELHO_1)
+
+  # Adicionar texto com o total acima de cada barra
+  for i, v in enumerate(metodos_de_pagamento):
+      plt.text(i, v + 0.1, str(v), ha='center', va='bottom', color=AZUL_1, fontsize=12)
+
+  # Adicionar texto dentro da área do plot
+  plt.text(2, 2500, f"$\\bf{percentual:.2f}$% dos clientes utilizam Cartão de Crédito ou PIX \npara pagamento. Seria interessante recorrer a parcerias\ncom bancos para a construção de um Zoop Pay a fim\nde fidelizar a nossa clientela.",
+          ha='left', va='center', color=AZUL_3, fontsize=10)
+
+  # Configurações adicionais
+  plt.title('Métodos de Pagamentos mais Utilizados em 2023', fontsize=18, color=CINZA_5)
+  plt.xticks(fontsize=12, color=AZUL_1)
+  plt.yticks([])
+  plt.xlabel('Método de Pagamento', fontsize=12, color=AZUL_1)
+  ax.spines[['top', 'right', 'left']].set_visible(False)
+  plt.grid(False)
+
+  return plt
+
+def vendas_mensais():
+  # Dicionário de tradução de meses
+  meses = {'January': 'Jan', 'February': 'Fev', 'March': 'Mar', 'April': 'Abr',
+           'May': 'Mai', 'June': 'Jun', 'July': 'Jul', 'August': 'Ago',
+           'September': 'Set', 'October': 'Out', 'November': 'Nov', 'December': 'Dez'}
+
+  # Agrupar por mês e calcular as vendas totais
+  data_merged['mes'] = data_merged['data'].dt.strftime('%B')
+  vendas_mensais = data_merged.groupby('mes')['faturamento'].sum().reindex(list(meses.keys()))
+
+  # Configurações do gráfico
+  plt.figure(figsize=(12, 6), facecolor=CINZA_1)
+  ax = plt.axes()
+  ax.set_facecolor(CINZA_1)
+  plt.plot(vendas_mensais.index, vendas_mensais, marker='o', color=AZUL_1, linewidth=2)
+
+  # Adicionar rótulos e título
+  plt.title('Vendas Totais Mensais em 2023', fontsize=18, color=CINZA_5)
+  plt.xlabel('')
+  plt.ylabel('')
+
+  # Formatando rótulos do eixo y em "R$ valor M"
+  formatted_yticks = ['R$ {:.2f} M'.format(val / 1e6) for val in ax.get_yticks()]
+  ax.set_yticks(ax.get_yticks()) # para evitar o Warning
+  ax.set_yticklabels(formatted_yticks, fontsize=12, color=AZUL_1)
+
+  # Adicionar círculos numerados
+  for i, point in enumerate([(4, vendas_mensais.iloc[4]), (7, vendas_mensais.iloc[7]), (10, vendas_mensais.iloc[10]), (11, vendas_mensais.iloc[11])], start=1):
+      plt.scatter(point[0], point[1], s=200, color='none', edgecolors=VERMELHO_1, alpha=0.7)
+      plt.text(point[0] - 0.3, point[1] + 0.1, str(i), fontsize=12, color=VERMELHO_1)
+
+  # Configurações adicionais
+  plt.xticks(vendas_mensais.index, [meses[mes] for mes in vendas_mensais.index], fontsize=12, color=AZUL_1)
+  ax.spines['top'].set_visible(False)
+  ax.spines['right'].set_visible(False)
+
+  return plt
+
+data_merged['faturamento'] = (data_merged['preco'] * data_merged['quantidade']) + data_merged['frete']
+
+# Agrupar por categoria e calcular o faturamento total
+faturamento_por_categoria = data_merged.groupby('categoria')['faturamento'].sum().reset_index() # type: ignore
+
+# Ordenar por faturamento
+faturamento_por_categoria = faturamento_por_categoria.sort_values(by='faturamento', ascending=False) # type: ignore
+
+# Visualização
+plt.figure(figsize=(10, 8))
+plt.barh(faturamento_por_categoria['categoria'], faturamento_por_categoria['faturamento'], color='skyblue') # type: ignore
+plt.title('Faturamento por Categoria')
+plt.xlabel('Faturamento')
+plt.ylabel('Categoria')
+
+# Using AI
+# 
+# Cálculo do faturamento por categoria
+def faturamento_por_categoria():
+    data_merged['faturamento'] = data_merged['preco'] * data_merged['quantidade'] + data_merged['frete']
+    faturamento_categoria = data_merged.groupby('categoria')['faturamento'].sum().sort_values(ascending=False)
+
+    # Percentual da categoria com maior faturamento (última barra)
+    percentual = (faturamento_categoria.iloc[-1] / faturamento_categoria.sum()) * 100
+
+    # Geração do gráfico
+    fig, ax = plt.subplots(figsize=(10, 6))
+    fig.patch.set_facecolor(CINZA_1)
+    ax.set_facecolor(CINZA_1)
+
+    # Barras horizontais
+    bars = ax.barh(
+        list(faturamento_categoria.index),
+        list(faturamento_categoria.values),
+        color=AQUA_1
+    )
+
+    # Título
+    ax.set_title('Faturamento por categoria de produto em 2023', fontsize=18, color=CINZA_5)
+
+    # Rótulos do eixo y
+    ax.set_yticklabels(faturamento_categoria.index, fontsize=12, color=AZUL_1)
+
+    # Supressão de rótulos e labels do eixo x e y
+    ax.set_xticks([])
+    ax.set_xlabel('')
+    ax.set_ylabel('')
+
+    # Supressão das bordas
+    for spine in ax.spines.values():
+        spine.set_visible(False)
+
+    # Texto de valor ao lado de cada barra
+    for bar in bars:
+        width = bar.get_width()
+        y = bar.get_y() + bar.get_height() / 2
+        ax.text(
+            width + 100000,  # leve deslocamento à direita
+            y,
+            f'R$ {width:,.2f}',
+            va='center',
+            fontsize=12,
+            color=AZUL_1
+        )
+
+    # Texto adicional dentro do plot
+    ax.text(
+        0.4e7,
+        5,
+        f"$\\bf{percentual:.2f}$% das vendas correspondem apenas as vendas de Eletrônicos.\n"
+        "Isso é equivalente a quase o dobro em relação a todas as outras categorias\n"
+        "presentes no portfólio da Zoop.",
+        fontsize=12,
+        color=AZUL_3
+    )
+
+    plt.tight_layout()
+
+    return plt
+
+faturamento_por_categoria()
+
+# Adjusting visual compositions
+
+data_merged['data'] = pd.to_datetime(data_merged['data'])
+
+# Criar uma nova coluna para identificar o trimestre
+data_merged['trimestre'] = data_merged['data'].dt.to_period('Q')
+
+# Agrupar por trimestre e método de pagamento, somando o faturamento
+vendas_por_trimestre = data_merged.groupby(['trimestre', 'metodo_pagamento'])['faturamento'].sum().unstack()
+
+# Visualização em gráfico de barras empilhadas
+vendas_por_trimestre.plot(kind='bar', stacked=True, figsize=(12, 8), colormap='viridis')
+plt.title('Vendas por Trimestre e Método de Pagamento')
+plt.xlabel('Trimestre')
+plt.ylabel('Vendas')
+plt.legend(title='Método de Pagamento')
+
+# Using AI
+# 
+# Preparação dos dados
+def vendas_tri_metodo():
+    data_merged['trimestre'] = data_merged['data'].dt.to_period('Q')
+    faturamento_trimestre = data_merged.groupby(['trimestre', 'metodo_pagamento'])['faturamento'].sum().unstack().fillna(0)
+
+    # Conversão do índice para string (ex: '2023Q1') e formatação para 'T1', 'T2', ...
+    faturamento_trimestre.index = [f"T{int(str(q)[-1])}" for q in faturamento_trimestre.index] # type: ignore
+
+    # Cores para os métodos de pagamento
+    cores = [BRANCO, CINZA_3, AQUA_1, AQUA_3]
+
+    # Plotagem
+    fig, ax = plt.subplots(figsize=(10, 6))
+    fig.patch.set_facecolor(CINZA_1)
+    ax.set_facecolor(CINZA_1)
+
+    # Plot do gráfico de barras empilhadas
+    faturamento_trimestre.plot(kind='bar', stacked=True, ax=ax, color=cores, edgecolor=CINZA_1)
+
+    # Título
+    ax.set_title('Vendas por Trimestre e Método de Pagamento em 2023', fontsize=18, color=CINZA_5)
+
+    # Estilização dos ticks e labels
+    ax.set_xticklabels(faturamento_trimestre.index, rotation=0, fontsize=12, color=AZUL_1)
+    ax.tick_params(axis='y', labelsize=12, colors=AZUL_1)
+
+    # Formatação dos valores do eixo y
+    ax.set_yticklabels([f'R$ {int(label/1e6)} M' for label in ax.get_yticks()])
+
+    # Supressão dos labels
+    ax.set_xlabel('')
+    ax.set_ylabel('')
+
+    # Supressão das bordas
+    for spine in ['top', 'bottom', 'left', 'right']:
+        ax.spines[spine].set_visible(False)
+
+    # Grade tracejada
+    ax.yaxis.grid(True, linestyle='--', alpha=0.6)
+    ax.set_axisbelow(True)
+
+    plt.tight_layout()
+
+    return plt
+
+# Cashback
+# 
+proporcao_cashback = data_merged['cashback'].value_counts(normalize=True)
+
+# Cores invertidas
+cores_invertidas = ['lightcoral', 'skyblue']
+
+# Visualização em gráfico de rosca (donut)
+plt.figure(figsize=(6, 6))
+plt.pie(proporcao_cashback, labels=list(proporcao_cashback.index), autopct='%1.1f%%', startangle=90, colors=cores_invertidas, wedgeprops=dict(width=0.6))
+plt.title('Proporção de Usuários Aderindo ao Cashback')
+
+# Using AI
+# 
+# Contagem dos valores
+def cashback():
+    cashback_counts = data_merged['cashback'].value_counts()
+
+    # Cores para as fatias conforme valores 'Não' e 'Sim'
+    labels = cashback_counts.index
+    colors = [CINZA_3 if label == False else AZUL_1 for label in labels]
+    label_colors = colors  # Mesma cor da fatia
+
+    # Plotagem
+    fig, ax = plt.subplots(figsize=(6, 6))
+    fig.patch.set_facecolor(CINZA_1)
+    ax.set_facecolor(CINZA_1)
+
+    wedges, texts, autotexts = ax.pie( # type: ignore
+        cashback_counts,
+        labels=list(labels),
+        labeldistance=1.1,
+        colors=colors,
+        startangle=180,
+        wedgeprops={'width': 0.4},
+        textprops={'fontsize': 12},
+        autopct='%1.1f%%',
+        pctdistance=0.8
+    )
+
+    # Cor dos textos e porcentagens
+    for text, color in zip(texts, label_colors):
+        text.set_color(color)
+    for autotext in autotexts:
+        autotext.set_color(BRANCO)
+        autotext.set_fontsize(12)
+
+    # Título
+    ax.set_title('Participam do programa de cashback?', fontsize=18, color=CINZA_5)
+
+    plt.tight_layout()
+
+    return plt
+
+# Adjusting distribution visuals
+
+plt.figure(figsize=(10, 6))
+plt.hist(data_merged['avaliacao_compra'], bins=11, edgecolor='black', color='skyblue')
+plt.title('Distribuição das Avaliações de Compra')
+plt.xlabel('Avaliação')
+plt.ylabel('Frequência')
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+
+plt.show()
+
+# Using AI
+# 
+# Criar figura e eixo
+def avaliacao_compra():
+    fig, ax = plt.subplots(figsize=(10, 6))
+    fig.patch.set_facecolor(CINZA_1)
+    ax.set_facecolor(CINZA_1)
+
+    # Histograma
+    bins = range(0, 12)  # 11 bins: de 0 a 10
+    ax.hist(data_merged['avaliacao_compra'], bins=bins, color=VERMELHO_1, edgecolor=CINZA_1)
+
+    # Título
+    ax.set_title('Distribuição das avaliações das compras em 2023', fontsize=18, color=CINZA_5)
+
+    # Rótulos dos eixos
+    ax.set_xlabel('Nota de Avaliação', fontsize=12, color=AZUL_1)
+    ax.set_ylabel('Frequência', fontsize=12, color=AZUL_1)
+
+    # Estilo dos ticks
+    ax.set_xticks(range(0, 11))
+    ax.tick_params(axis='x', labelsize=12, colors=AZUL_1)
+    ax.tick_params(axis='y', labelsize=12, colors=AZUL_1)
+
+    # Grade atrás do gráfico
+    ax.grid(True, axis='y', linestyle='--', alpha=0.7)
+    ax.set_axisbelow(True)
+
+    # Remover as bordas
+    for spine in ['top', 'bottom', 'left', 'right']:
+        ax.spines[spine].set_visible(False)
+
+    # Dados para anotação
+    media = data_merged['avaliacao_compra'].mean().round(2) # type: ignore
+    mais_comum = data_merged['avaliacao_compra'].value_counts().idxmax()
+    frequencia = data_merged['avaliacao_compra'].value_counts().max()
+
+    texto_anotacao = (
+        f"Média de avaliações = {media}\n"
+        f"Avaliação mais comum = {mais_comum}\n"
+        f"Frequência da mais comum = {frequencia}"
+    )
+
+    # Caixa de anotação
+    ax.annotate(
+        texto_anotacao,
+        xy=(9, 2250), xycoords='data',
+        xytext=(2, 1800), textcoords='data',
+        fontsize=12, color=AZUL_1,
+        bbox=dict(boxstyle="round,pad=0.5", fc=BRANCO, ec=CINZA_3),
+        arrowprops=dict(arrowstyle="->", color=AZUL_1)
+    )
+
+    plt.tight_layout()
+
+    return plt
+
+# Next graph
+# Visualização em boxplot
+plt.figure(figsize=(12, 8))
+sns.boxplot(data=data_merged, x='sexo', y='idade', palette='pastel')
+plt.title('Distribuição da Idade por Sexo Biológico')
+plt.xlabel('Sexo Biológico')
+plt.ylabel('Idade')
+
+# Using AI
+# 
+# Criar figura e eixos
+def dist_idade_sexo():
+    fig, ax = plt.subplots(figsize=(10, 6))
+    fig.patch.set_facecolor(CINZA_1)
+    ax.set_facecolor(CINZA_1)
+
+    # Boxplot com seaborn
+    sns.boxplot(data=data_merged, x='sexo', y='idade', palette=[AZUL_1, AQUA_1], ax=ax)
+
+    # Título
+    ax.set_title('Distribuição da Idade por Sexo dos clientes', fontsize=18, color=CINZA_5)
+
+    # Eixos e estilo
+    ax.set_xlabel('')
+    ax.set_ylabel('Idade', fontsize=12, color=AZUL_1)
+    ax.tick_params(axis='x', labelsize=12, colors=AZUL_1)
+    ax.tick_params(axis='y', labelsize=12, colors=AZUL_1)
+    ax.set_axisbelow(True)
+    ax.grid(True, axis='y', linestyle='--', alpha=0.7)
+
+    # Remover bordas
+    for spine in ['top', 'bottom', 'left', 'right']:
+        ax.spines[spine].set_visible(False)
+
+    # Agrupar os dados para estatísticas
+    grupo = data_merged.groupby("sexo")["idade"]
+
+    # Texto da anotação 1 (Feminino)
+    texto1 = (
+        f"Mínimo = {grupo.min()['Feminino']}\n"
+        f"1º quartil = {grupo.quantile(.25)['Feminino']}\n"
+        f"2º quartil = {grupo.median()['Feminino']}\n"
+        f"3º quartil = {grupo.quantile(.75)['Feminino']}\n"
+        f"Máximo = {grupo.max()['Feminino']}"
+    )
+
+    ax.annotate(
+        texto1,
+        xy=(-0.1, 45), xycoords='data',
+        xytext=(-0.4, 50), textcoords='data',
+        fontsize=12, color=AZUL_1,
+        bbox=dict(boxstyle="round,pad=0.5", fc=BRANCO, ec=CINZA_3),
+        arrowprops=dict(arrowstyle="->", color=AZUL_1)
+    )
+
+    # Texto da anotação 2 (Masculino)
+    texto2 = (
+        f"Mínimo = {grupo.min()['Masculino']}\n"
+        f"1º quartil = {grupo.quantile(.25)['Masculino']}\n"
+        f"2º quartil = {grupo.median()['Masculino']}\n"
+        f"3º quartil = {grupo.quantile(.75)['Masculino']}\n"
+        f"Máximo = {grupo.max()['Masculino']}"
+    )
+
+    ax.annotate(
+        texto2,
+        xy=(0.9, 45), xycoords='data',
+        xytext=(0.6, 50), textcoords='data',
+        fontsize=12, color=AZUL_1,
+        bbox=dict(boxstyle="round,pad=0.5", fc=BRANCO, ec=CINZA_3),
+        arrowprops=dict(arrowstyle="->", color=AZUL_1)
+    )
+
+    plt.tight_layout()
+
+    return plt
+
+# Save graphs
+def save():
+    grafico_metodos_pag = metodos_pag()
+    grafico_metodos_pag.savefig(f'{outputs_folder}metodos_pag.png', bbox_inches='tight')
+    grafico_metodos_pag.close()
+
+    grafico_vendas_mensais = vendas_mensais()
+    grafico_vendas_mensais.savefig(f'{outputs_folder}vendas_mensais.png', bbox_inches='tight')
+    grafico_vendas_mensais.close()
+
+    grafico_faturamento_por_categoria = faturamento_por_categoria()
+    grafico_faturamento_por_categoria.savefig(f'{outputs_folder}faturamento_por_categoria.png', bbox_inches='tight')
+    grafico_faturamento_por_categoria.close()
+
+    grafico_vendas_tri_metodo = vendas_tri_metodo()
+    grafico_vendas_tri_metodo.savefig(f'{outputs_folder}vendas_tri_metodo.png', bbox_inches='tight')
+    grafico_vendas_tri_metodo.close()
+
+    grafico_cashback = cashback()
+    grafico_cashback.savefig(f'{outputs_folder}cashback.png', bbox_inches='tight')
+    grafico_cashback.close()
+
+    grafico_avaliacao_compra = avaliacao_compra()
+    grafico_avaliacao_compra.savefig(f'{outputs_folder}avaliacao_compra.png', bbox_inches='tight')
+    grafico_avaliacao_compra.close()
+
+    grafico_dist_idade_sexo = dist_idade_sexo()
+    grafico_dist_idade_sexo.savefig(f'{outputs_folder}dist_idade_sexo.png', bbox_inches='tight')
+    grafico_dist_idade_sexo.close()
+
+save()
