@@ -68,7 +68,7 @@ Then:
 - [**Alura**](https://www.alura.com.br/) for providing the course materials and support.
 - [**Python community**](https://www.python.org/) for providing top-tier open-source libraries and resources.
 
-<div style="display: flex; justify-content: center; align-items: center; gap: 40px;">
+
 <img src="https://raw.githubusercontent.com/devicons/devicon/ca28c779441053191ff11710fe24a9e6c23690d6/icons/oracle/oracle-original.svg" alt="logo-oracle" style="width: 70px; font-size: 10px"/>  
+
 <img src="https://moebius78.github.io/moebius78-sprint03-aluraONE.github.io/assets/Oracle_Alura.png" alt="logo-oracle-alura-latam" style="width: 115px; background: #FCFCFC; color: #333; font-size: 10px; padding: 2px 3px"/>
-</div>
