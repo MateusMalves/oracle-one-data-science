@@ -39,7 +39,7 @@ if load_data_path not in sys.path:
     sys.path.append(load_data_path)
 from load_data import load_data
 
-data_folder = cwd + '/data/02-pandas_conhecendo-a-biblioteca/'
+data_folder = cwd + '/data/02-formacao_aprendendo-a-fazer-ETL/02-pandas_conhecendo-a-biblioteca/'
 data = load_data(data_folder + 'alunos.csv', is_pandas=True)
 
 # 1) Os alunos participaram de uma atividade extracurricular e ganharam pontos extras. Esses pontos extras correspondem a 40% da nota atual de cada um deles. Com base nisso, crie uma coluna chamada "Pontos_extras" que contenha os pontos extras de cada aluno, ou seja, 40% da nota atual deles.

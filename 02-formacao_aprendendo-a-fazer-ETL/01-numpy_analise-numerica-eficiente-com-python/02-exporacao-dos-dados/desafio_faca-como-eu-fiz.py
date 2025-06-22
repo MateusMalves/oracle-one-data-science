@@ -22,7 +22,7 @@ if load_data_path not in sys.path:
     sys.path.append(load_data_path)
 from load_data import load_data
 
-data_folder = cwd + '/data/01-numpy_analise-numerica-e-eficiente-com-python/'
+data_folder = cwd + '/data/02-formacao_aprendendo-a-fazer-ETL/01-numpy_analise-numerica-e-eficiente-com-python/'
 data = load_data(data_folder + 'citrus.csv', usecols=(1, 6), skiprows=1)
 
 # Generate the arrays

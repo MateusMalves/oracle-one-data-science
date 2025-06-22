@@ -17,7 +17,7 @@ import matplotlib.pyplot as plt
 cwd = os.getcwd()
 while bool(re.search(r'\d-', cwd)):
     cwd = os.path.dirname(cwd)
-data_folder = cwd + '/data/03-pandas-io_trabalhando-com-diferentes-formatos-de-arquivos/'
+data_folder = cwd + '/data/02-formacao_aprendendo-a-fazer-ETL/03-pandas-io_trabalhando-com-diferentes-formatos-de-arquivos/'
 
 data = pd.read_csv(data_folder + 'dados_sus.csv', encoding='ISO-8859-1', skiprows=3, skipfooter=9, engine='python', sep=';', thousands='.', decimal=',')
 data

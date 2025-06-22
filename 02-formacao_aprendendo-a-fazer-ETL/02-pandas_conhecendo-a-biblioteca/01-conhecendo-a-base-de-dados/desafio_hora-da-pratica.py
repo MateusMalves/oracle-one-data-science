@@ -36,7 +36,7 @@ if load_data_path not in sys.path:
     sys.path.append(load_data_path)
 from load_data import load_data
 
-data_folder = cwd + '/data/02-pandas_conhecendo-a-biblioteca/'
+data_folder = cwd + '/data/02-formacao_aprendendo-a-fazer-ETL/02-pandas_conhecendo-a-biblioteca/'
 
 # 1) Import the file alunos.csv and store its content in a Pandas DataFrame.
 data = load_data(data_folder + 'alunos.csv', is_pandas=True)

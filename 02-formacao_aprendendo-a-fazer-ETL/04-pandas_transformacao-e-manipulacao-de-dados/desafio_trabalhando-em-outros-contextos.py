@@ -102,7 +102,7 @@ cwd = os.getcwd()
 while bool(re.search(r'\d-', cwd)):
     cwd = os.path.dirname(cwd)
 
-data_folder = cwd + '/data/04-pandas_transformacao-e-manipulacao-de-dados/'
+data_folder = cwd + '/data/02-formacao_aprendendo-a-fazer-ETL/04-pandas_transformacao-e-manipulacao-de-dados/'
 outputs_folder = data_folder + 'outputs/'
 
 # # # 

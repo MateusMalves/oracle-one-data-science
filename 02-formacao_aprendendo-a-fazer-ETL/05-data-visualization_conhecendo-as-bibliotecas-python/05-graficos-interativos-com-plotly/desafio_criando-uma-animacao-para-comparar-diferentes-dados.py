@@ -38,7 +38,7 @@ if load_data_path not in sys.path:
     sys.path.append(load_data_path)
 from load_data import load_data
 
-data_folder = cwd + '/data/05-data-visualization_conhecendo-as-bibliotecas-python/'
+data_folder = cwd + '/data/02-formacao_aprendendo-a-fazer-ETL/05-data-visualization_conhecendo-as-bibliotecas-python/'
 outputs_folder = data_folder + 'outputs/'
 
 # Load data

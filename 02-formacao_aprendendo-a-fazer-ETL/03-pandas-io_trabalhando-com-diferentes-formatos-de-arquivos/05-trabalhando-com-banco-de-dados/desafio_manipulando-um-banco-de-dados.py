@@ -51,7 +51,7 @@ if load_data_path not in sys.path:
     sys.path.append(load_data_path)
 from load_data import load_data
 
-data_folder = cwd + '/data/03-pandas-io_trabalhando-com-diferentes-formatos-de-arquivos/'
+data_folder = cwd + '/data/02-formacao_aprendendo-a-fazer-ETL/03-pandas-io_trabalhando-com-diferentes-formatos-de-arquivos/'
 outputs_folder = data_folder + 'outputs/'
 
 # 1. Criar o banco de dados local com a biblioteca SQLAlchemy.

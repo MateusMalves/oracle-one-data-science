@@ -35,7 +35,7 @@ def load_data(
 
 def load_data(
         filepath: str,
-        usecols: tuple = (),
+        usecols: tuple = (0, 0),
         delimiter: str = ',',
         skiprows: int = 0,
         is_pandas: bool = False
@@ -89,12 +89,12 @@ def load_data(
     # Gets to the root through iteratively moving back from folders containing numerical folders
     file_path = os.path.join(filepath)
     if is_pandas:
-        if usecols == ():
+        if usecols == (0, 0):
             data = pd.read_csv(file_path, sep=delimiter, skiprows=skiprows)
         else:
             data = pd.read_csv(file_path, sep=delimiter, skiprows=skiprows, usecols=np.arange(usecols[0], usecols[1]))
     else:
-        if usecols == ():
+        if usecols == (0, 0):
             data = np.loadtxt(file_path, delimiter=delimiter, skiprows=skiprows)
         else:
             data = np.loadtxt(file_path, delimiter=delimiter, skiprows=skiprows, usecols=np.arange(usecols[0], usecols[1]))

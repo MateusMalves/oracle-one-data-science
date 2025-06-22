@@ -26,7 +26,7 @@ if load_data_path not in sys.path:
     sys.path.append(load_data_path)
 from load_data import load_data
 
-data_folder = cwd + '/data/06-IA-aplicada-a-data-science/'
+data_folder = cwd + '/data/02-formacao_aprendendo-a-fazer-ETL/06-IA-aplicada-a-data-science/'
 outputs_folder = data_folder + 'outputs/'
 
 data_customers = load_data(data_folder + 'zoop_clientes.csv', is_pandas=True)

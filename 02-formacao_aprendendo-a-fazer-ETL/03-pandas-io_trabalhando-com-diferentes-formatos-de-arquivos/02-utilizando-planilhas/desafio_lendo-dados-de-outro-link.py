@@ -29,7 +29,7 @@ if load_data_path not in sys.path:
     sys.path.append(load_data_path)
 from load_data import load_data
 
-data_folder = cwd + '/data/03-pandas-io_trabalhando-com-diferentes-formatos-de-arquivos/'
+data_folder = cwd + '/data/02-formacao_aprendendo-a-fazer-ETL/03-pandas-io_trabalhando-com-diferentes-formatos-de-arquivos/'
 outputs_folder = data_folder + 'outputs/'
 
 sheet_id = '1pvBoLyX8kP0TjtUbadVMGdTl4yzm6bHMThhPiqCVtpw'
