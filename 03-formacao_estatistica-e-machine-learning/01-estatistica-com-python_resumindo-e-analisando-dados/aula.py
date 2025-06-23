@@ -15,6 +15,7 @@ import sys
 import re
 import pandas as pd
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 cwd = os.getcwd()
 while bool(re.search(r'\d-', cwd)):
@@ -71,9 +72,33 @@ print(f'We have sold from {min(data["total_compra"]):,.2f} to {max(data["total_c
 
 data.sort_values(by='total_compra')
 
+
 # # # Section of the course:
 # 02. Identificando o perfil do público
 # # #
+
+data.head()
+# Absolute frequency
+freq_evaluations = (data.groupby('avaliacao_indicador', observed=False)
+                    .size()
+                    .reset_index(name='absolute_frequency')
+                    .sort_values(by='avaliacao_indicador', ascending=False))
+
+# Relative frequency
+freq_evaluations['relative_frequency'] = round(freq_evaluations['absolute_frequency'] / freq_evaluations['absolute_frequency'].sum() * 100, 2)
+freq_evaluations.columns = ['Evaluation', 'Quantity', 'Percentage']
+
+# Plotting
+plt.figure(figsize=(10, 6))
+sns.barplot(data=freq_evaluations, x='Evaluation', y='Quantity')
+
+plt.title('Frequency of Evaluations Distribution', fontsize=16)
+plt.xlabel('Evaluation', fontsize=14)
+plt.ylabel('Frequency', fontsize=14)
+
+for index, row in freq_evaluations.iterrows():
+    plt.text(index, row['Quantity'] + 500, f"{row['Quantity']} ({row['Percentage']:.1f}%)",
+             ha='center', va='bottom', fontsize=12)
 
 # # # Section of the course:
 # 03. Analisando a tendência dos dados
