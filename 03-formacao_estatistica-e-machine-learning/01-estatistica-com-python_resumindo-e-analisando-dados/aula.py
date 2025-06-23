@@ -110,6 +110,10 @@ result_positive = table_positive_evaluations_filtered.sum()
 table_negative_evaluations_filtered = table_region_relative_evaluation[table_region_relative_evaluation.index.isin(['Ruim', 'Péssimo'])]
 result_negative = table_negative_evaluations_filtered.sum()
 
+# Crossing customers data
+average_ticket_by_sex = round(pd.crosstab(data['sexo'], data['regiao_cliente'], data['total_compra'], aggfunc='mean'), 2)
+
+
 # # # Section of the course:
 # 03. Analisando a tendência dos dados
 # # #
