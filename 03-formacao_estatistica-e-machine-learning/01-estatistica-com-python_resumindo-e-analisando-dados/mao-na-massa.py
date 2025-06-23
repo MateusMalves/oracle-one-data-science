@@ -7,6 +7,8 @@
 # # #
 # # #
 
+
+# Case aula 1
 # Enunciado do desafio
 '''
 Vamos aproveitar esse espaço para praticar tudo o que aprendemos durante a aula. Para isso, serão apresentados alguns problemas para que você possa aplicar os seus conhecimentos e explorar as suas habilidades. Para você responder a este e os próximos cases ao longo do curso, disponibilizamos o notebook Desafios.ipynb com os textos e orientações de cada problema.
@@ -84,3 +86,26 @@ for column in categorical_columns:
 # Printing min and max for 'Renda' in the database
 print(f'The minimum value for "Renda" is {data["Renda"].min()} and the maximum value for "Renda" is {data["Renda"].max()}.')
 data['Renda'].sort_values()
+
+
+# Case aula 2
+# Enunciado do desafio
+'''
+Case Aula 2:
+Continuando a análise dos dados da PNAD de 2015, você precisa agora identificar o perfil das pessoas responsáveis pelo domicílio. Para isso, siga as instruções abaixo e reflita sobre os resultados encontrados:
+
+Construa uma tabela de frequências das pessoas responsáveis pelo domicílio por Cat.Sexo. Adicione também uma coluna com esse valor em porcentagem: utilize a variável categórica com o sexo biológico que criamos no Mão na Massa da aula anterior, para construir esta tabela. Esteja atento(a) ao agrupamento dos dados e aos cálculos de frequência absoluta e relativa.
+
+Construa uma tabela de frequências absolutas e outra de relativas cruzando as variáveis Cat.Sexo e Cat.Cor das pessoas responsáveis pelo domicílio. utilize as variáveis categórica com o sexo biológico e cor ou raça que criamos no Mão na Massa da aula anterior, para construir esta tabela. Leia as dicas no documento para criar uma tabela que considere a relação entre todos os cruzamentos dos dados para o cálculo da frequência relativa.
+
+Construa uma tabela cruzada para calcular a Renda média das pessoas responsáveis pelo domicílio em relação ao Cat.Sexo e Cat.Cor. crie a tabela relacionando as duas variáveis categóricas que trabalhamos anteriormente juntamente a uma variável quantitativa, resumindo os dados pela média. Preste atenção na forma de agrupamento dos dados e cálculo da estatística descritiva requerida.
+'''
+
+data.head()
+table_frequency_sex = data['Sexo'].value_counts().reset_index(name='Absolute Frequency')
+table_frequency_sex['Relative Frequency'] = round(table_frequency_sex['Absolute Frequency'] / table_frequency_sex['Absolute Frequency'].sum() * 100, 2)
+
+crosstable_absolute_sex_color = pd.crosstab(data['Sexo'], data['Cor'], margins=True)
+crosstable_relative_sex_color = pd.crosstab(data['Sexo'], data['Cor'], margins=True, normalize='all') * 100
+
+average_income_sex_color = round(pd.crosstab(data['Sexo'], data['Cor'], values=data['Renda'], aggfunc='mean'), 2)
