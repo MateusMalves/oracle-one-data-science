@@ -100,6 +100,16 @@ for index, row in freq_evaluations.iterrows():
     plt.text(index, row['Quantity'] + 500, f"{row['Quantity']} ({row['Percentage']:.1f}%)",
              ha='center', va='bottom', fontsize=12)
 
+# Frequency distribution with 2 variables
+table_region_evaluation = pd.crosstab(data['avaliacao_indicador'], data['regiao_cliente'])
+table_region_relative_evaluation = round(pd.crosstab(data['avaliacao_indicador'], data['regiao_cliente'], normalize='columns') * 100, 2)
+
+table_positive_evaluations_filtered = table_region_relative_evaluation[table_region_relative_evaluation.index.isin(['Ótimo', 'Bom'])]
+result_positive = table_positive_evaluations_filtered.sum()
+
+table_negative_evaluations_filtered = table_region_relative_evaluation[table_region_relative_evaluation.index.isin(['Ruim', 'Péssimo'])]
+result_negative = table_negative_evaluations_filtered.sum()
+
 # # # Section of the course:
 # 03. Analisando a tendência dos dados
 # # #
