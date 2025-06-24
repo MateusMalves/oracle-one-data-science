@@ -151,6 +151,11 @@ data_nordeste['total_compra'].mean() - median
 # Plotting
 sns.histplot(list(data_nordeste['total_compra']), bins=30)
 
+# Identifying the most frequent values
+data['regiao_cliente'].value_counts()
+data_filtered = data[data['categoria_produto'] == 'Livros']
+data_filtered['quantidade'].mode()
+
 # # # Section of the course:
 # 04. Investigando os dados dos funcionários
 # # #
