@@ -39,6 +39,7 @@ import sys
 import re
 import pandas as pd
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 cwd = os.getcwd()
 while bool(re.search(r'\d-', cwd)):
@@ -109,3 +110,97 @@ crosstable_absolute_sex_color = pd.crosstab(data['Sexo'], data['Cor'], margins=T
 crosstable_relative_sex_color = pd.crosstab(data['Sexo'], data['Cor'], margins=True, normalize='all') * 100
 
 average_income_sex_color = round(pd.crosstab(data['Sexo'], data['Cor'], values=data['Renda'], aggfunc='mean'), 2)
+
+# Case aula 3
+# Enunciado do desafio
+'''
+Case Aula 3:
+Continuando a análise dos dados da PNAD de 2015, você precisa agora analisar os dados das pessoas responsáveis pelo domicílio, focando na renda e explorando brevemente as variáveis das idades e alturas das pessoas observando o comportamento das medidas de tendência central nos dois casos. Para isso, siga as instruções abaixo e reflita sobre os resultados encontrados:
+
+Calcule as medidas de tendência central (média, mediana e moda) para a variável Renda: calcule os valores e observe o que estes dados representam. Quais os valores mais frequentes? Eles condizem com a média ou estão aquém? Será que temos dados muito extremos?
+
+Crie um gráfico de barras do Top 5 estados pela médias de Renda: Leia as dicas no documento para conseguir filtrar os dados dos estados com as maiores médias de renda e construa uma tabela e visual com esses dados.
+
+Construa 3 tabelas cruzadas calculando a média, mediana e valores máximos de Renda relacionando as pessoas responsáveis por estado da Região Sudeste (UF) e por Cat.Sexo: filtre os dados pelos estados da Região Sudeste c("Espírito Santo", "Minas Gerais", "Rio de Janeiro", "São Paulo") e crie uma tabela para cada medida requisitada. O que você encontrou aqui? Tem algum dado que te chamou atenção? Se quiser, crie um gráfico você mesmo ou com auxílio da IA para observar esses comportamentos.
+
+Construa 2 histogramas com curva de densidade com os valores das colunas Altura e Idade de todas as pessoas responsáveis e compare as curvas obtidas com as suas MTCs: Crie para cada variável um histograma com curva de densidade e interprete o que a curva pode apontar. Utilize como suporte uma tabela com as medidas de tendência central verificando se o comportamento da curva esperado bate com os dados encontrados.
+'''
+
+data.head()
+# Calculating the mean, median and mode of the 'Renda' column
+mean_income = data['Renda'].mean()
+median_income = data['Renda'].median()
+mode_income = data['Renda'].mode()[0]
+print(f'The mean of the "Renda" column is {mean_income}, the median is {median_income} and the mode is {mode_income}.')
+
+income_by_state = data.groupby('UF')['Renda'].mean().sort_values(ascending=False).reset_index().head(5)
+# Creating a bar chart of the top 5 states with the highest average income
+plt.figure(figsize=(10, 6))
+sns.barplot(x='UF', y='Renda', data=income_by_state)
+plt.title('Top 5 States with Highest Average Income')
+plt.xlabel('State')
+plt.ylabel('Average Income')
+
+for i, row in income_by_state.iterrows():
+    plt.text(i, row['Renda'] + 10, round(row['Renda'], 2), ha='center', va='bottom')
+
+# Creating a crosstab for the average, median and maximum income by state and sex
+southeast_states = ["Espírito Santo", "Minas Gerais", "Rio de Janeiro", "São Paulo"]
+df_southeast = data[data['UF'].isin(southeast_states)]
+crosstable_average_income_sex = pd.crosstab(df_southeast['UF'], df_southeast['Sexo'], values=df_southeast['Renda'], aggfunc='mean')
+crosstable_median_income_sex = pd.crosstab(df_southeast['UF'], df_southeast['Sexo'], values=df_southeast['Renda'], aggfunc='median')
+crosstable_mode_income_sex = df_southeast.groupby(['UF', 'Sexo'])['Renda'].agg(lambda x: x.mode().iloc[0]).unstack()
+
+# Plotting data for the average income by state and sex
+def plot_crosstab(crosstab, title, xlabel):
+    plt.figure(figsize=(10, 6))
+
+    states = crosstab.index
+    y_pos = range(len(states))
+
+    plt.barh(y=y_pos, width=crosstab['Masculino'], color='blue', height=0.4, label='Homens', align='center')
+    plt.barh(y=[p - 0.4 for p in y_pos], width=crosstab['Feminino'], color='red', height=0.4, label='Mulheres', align='center')
+
+    # Ajustes visuais
+    plt.yticks([p - 0.2 for p in y_pos], states)
+    plt.xlabel(xlabel, fontsize=12)
+    plt.title(title, fontsize=14)
+    plt.legend()
+    plt.grid(axis='x', linestyle='--', alpha=0.7)
+
+    plt.tight_layout()
+
+plot_crosstab(crosstable_average_income_sex, 'Average Income by State and Sex', 'Average Income')
+plot_crosstab(crosstable_median_income_sex, 'Median Income by State and Sex', 'Median Income')
+plot_crosstab(crosstable_mode_income_sex, 'Mode Income by State and Sex', 'Mode Income')
+
+# Creating histograms with density curves for the 'Altura' and 'Idade' columns
+def plot_histogram(x, title, xlabel, tendencies):
+    plt.figure(figsize=(10, 6))
+    sns.histplot(data=data, x=x, kde=True, kde_kws={'bw_adjust':2}, color='blue', label=x, bins=30)
+
+    plt.axvline(tendencies['average'], color="red", linestyle="--", label=f'Average: {tendencies['average']:.2f}')
+    plt.axvline(tendencies['median'], color="green", linestyle="-.", label=f'Median: {tendencies['median']:.2f}')
+    plt.axvline(tendencies['mode'], color="black", linestyle=":", label=f'Mode: {tendencies['mode']:.2f}')
+
+    plt.title(title, fontsize=18, ha='center')
+    plt.xlabel(xlabel, fontsize=14)
+    plt.legend(title='', fontsize=12)
+
+    # Validate
+    print(f'Average: {tendencies['average']:.2f} || Median: {tendencies['median']:.2f} || Mode: {tendencies['mode']:.2f}')
+
+tendencies_height = {
+    'average': data['Altura'].mean(),
+    'median': data['Altura'].median(),
+    'mode': data['Altura'].mode()[0]
+}
+
+tendecies_age = {
+    'average': data['Idade'].mean(),
+    'median': data['Idade'].median(),
+    'mode': data['Idade'].mode()[0]
+}
+
+plot_histogram('Altura', 'Height Distribution', 'Height', tendencies_height)
+plot_histogram('Idade', 'Age Distribution', 'Age', tendecies_age)
