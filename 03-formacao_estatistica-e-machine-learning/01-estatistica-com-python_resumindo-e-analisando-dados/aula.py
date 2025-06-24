@@ -97,7 +97,7 @@ plt.xlabel('Evaluation', fontsize=14)
 plt.ylabel('Frequency', fontsize=14)
 
 for index, row in freq_evaluations.iterrows():
-    plt.text(index, row['Quantity'] + 500, f"{row['Quantity']} ({row['Percentage']:.1f}%)",
+    plt.text(index, row['Quantity'] + 500, f"{row['Quantity']} ({row['Percentage']:.1f}%)", # type: ignore
              ha='center', va='bottom', fontsize=12)
 
 # Frequency distribution with 2 variables
@@ -146,7 +146,7 @@ median = round((data_nordeste['total_compra'].iloc[mid_element - 1] + data_norde
 data_nordeste['total_compra'].median()
 
 # Comparing mean vs median
-data_nordeste['total_compra'].mean() - median
+mean_minus_median = data_nordeste['total_compra'].mean() - median
 
 # Plotting
 sns.histplot(list(data_nordeste['total_compra']), bins=30)
@@ -155,6 +155,22 @@ sns.histplot(list(data_nordeste['total_compra']), bins=30)
 data['regiao_cliente'].value_counts()
 data_filtered = data[data['categoria_produto'] == 'Livros']
 data_filtered['quantidade'].mode()
+
+# Understanding the relation between mean, median and mode
+sns.histplot(data=data, bins=21, x='tempo_entrega', kde=True, kde_kws={'bw_adjust':3})
+delivery_time_summary = {
+    'mean': data['tempo_entrega'].mean(),
+    'median': data['tempo_entrega'].median(),
+    'mode': data['tempo_entrega'].mode()[0]
+}
+
+data_score_5 = data[data['avaliacao_indicador'] == 'Ótimo']
+sns.histplot(data=data_score_5, bins=21, x='tempo_entrega', kde=True, kde_kws={'bw_adjust':3})
+delivery_time_score_5_summary = {
+    'mean': data_score_5['tempo_entrega'].mean(),
+    'median': data_score_5['tempo_entrega'].median(),
+    'mode': data_score_5['tempo_entrega'].mode()[0]
+}
 
 # # # Section of the course:
 # 04. Investigando os dados dos funcionários
