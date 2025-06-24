@@ -133,6 +133,24 @@ plt.xlabel('Average Delivery', fontsize=14)
 plt.ylabel('Category', fontsize=14)
 plt.title('Average Delivery by Category', fontsize=16)
 
+# Applying median in the investigation
+# Manual calculation
+data_nordeste = data[(data['regiao_cliente'] == 'Nordeste') & (data['categoria_produto'] == 'Eletrônicos')]
+data_nordeste = data_nordeste.sort_values(by='total_compra')
+
+n = data_nordeste.shape[0]
+mid_element = int(n / 2)
+median = round((data_nordeste['total_compra'].iloc[mid_element - 1] + data_nordeste['total_compra'].iloc[mid_element]) / 2, 2)
+
+# Built-in function
+data_nordeste['total_compra'].median()
+
+# Comparing mean vs median
+data_nordeste['total_compra'].mean() - median
+
+# Plotting
+sns.histplot(list(data_nordeste['total_compra']), bins=30)
+
 # # # Section of the course:
 # 04. Investigando os dados dos funcionários
 # # #
