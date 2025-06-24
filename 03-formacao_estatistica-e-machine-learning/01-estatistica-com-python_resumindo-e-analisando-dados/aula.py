@@ -118,6 +118,21 @@ average_ticket_by_sex = round(pd.crosstab(data['sexo'], data['regiao_cliente'], 
 # 03. Analisando a tendência dos dados
 # # #
 
+# Calculating the average of a variable
+average_delivery = data['tempo_entrega'].mean()
+
+average_delivery_category = data.groupby('categoria_produto')['tempo_entrega'].mean().reset_index().round(1)
+average_delivery_category.columns = ['Category', 'Average Delivery']
+average_delivery_category = average_delivery_category.sort_values(by='Average Delivery', ascending=False)
+
+plt.figure(figsize=(8, 8))
+sns.barplot(data=average_delivery_category, x='Average Delivery', y='Category', order=list(average_delivery_category['Category']))
+plt.axvline(x=average_delivery, color='red', linestyle='--')
+
+plt.xlabel('Average Delivery', fontsize=14)
+plt.ylabel('Category', fontsize=14)
+plt.title('Average Delivery by Category', fontsize=16)
+
 # # # Section of the course:
 # 04. Investigando os dados dos funcionários
 # # #
