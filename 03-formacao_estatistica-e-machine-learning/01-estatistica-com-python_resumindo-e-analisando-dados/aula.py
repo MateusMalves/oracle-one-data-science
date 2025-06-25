@@ -13,9 +13,10 @@
 import os
 import sys
 import re
+import math
 import pandas as pd
-import matplotlib.pyplot as plt
 import seaborn as sns
+import matplotlib.pyplot as plt
 
 cwd = os.getcwd()
 while bool(re.search(r'\d-', cwd)):
@@ -172,9 +173,30 @@ delivery_time_score_5_summary = {
     'mode': data_score_5['tempo_entrega'].mode()[0]
 }
 
+
 # # # Section of the course:
 # 04. Investigando os dados dos funcionários
 # # #
+
+workers = load_data(f'{data_folder}/dados_funcionarios.csv', is_pandas=True)
+workers.rename(columns={'sexo_biologico': 'sexo', 'nota_desempenho': 'desempenho'}, inplace=True)
+
+# Applying Sturges' rule
+n = workers.shape[0]
+k = 1 + (10/3) * math.log10(n)
+k = int(k)
+
+# Creating the salary ranges
+ranges = workers.copy()
+ranges['faixa_salarial'] = pd.cut(workers['remuneracao'], bins=k, include_lowest=True)
+
+# Plotting the histogram
+table_frequencies = ranges.groupby('faixa_salarial', observed=False).size().reset_index(name='frequencia')
+table_frequencies['porcentagem'] = (table_frequencies['frequencia'] / n) * 100
+
+plt.figure(figsize=(15, 6))
+sns.histplot(data=ranges, x='remuneracao')
+sns.histplot(data=ranges, x='remuneracao', bins=k, kde=True)
 
 # # # Section of the course:
 # 05. Analisando as variações dos dados

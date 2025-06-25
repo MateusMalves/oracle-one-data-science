@@ -49,7 +49,7 @@ if load_data_path not in sys.path:
     sys.path.append(load_data_path)
 from load_data import load_data
 
-data_folder = cwd + '/data/03-formacao_estatistica-e-machine-learning'
+data_folder = cwd + '/data/03-formacao_estatistica-e-machine-learning/01-estatistica-com-python_resumindo-e-analisando-dados'
 outputs_folder = data_folder + 'outputs/'
 
 # Import data
@@ -142,7 +142,7 @@ plt.xlabel('State')
 plt.ylabel('Average Income')
 
 for i, row in income_by_state.iterrows():
-    plt.text(i, row['Renda'] + 10, round(row['Renda'], 2), ha='center', va='bottom')
+    plt.text(i, row['Renda'] + 10, round(row['Renda'], 2), ha='center', va='bottom') # type: ignore
 
 # Creating a crosstab for the average, median and maximum income by state and sex
 southeast_states = ["Espírito Santo", "Minas Gerais", "Rio de Janeiro", "São Paulo"]
