@@ -218,6 +218,21 @@ num_coordinators = coordinators.shape[0]
 num_coordinators_with_high_salary = coordinators[coordinators['remuneracao'] > percentile_99].shape[0]
 print(num_coordinators_with_high_salary == num_coordinators) # Return True
 
+# CLassying data by separative measurements #2
+plt.figure(figsize=(15, 6))
+sns.histplot(data=workers, x='idade', bins=10, cumulative=True, stat='proportion', kde=True)
+plt.axhline(0.20, color='red', linestyle='dashed')
+
+# Classifying workers and identifying public
+ages_classification = workers.copy()
+ages_classification = ages_classification.sort_values(by='idade')
+
+ages_classification['cumulativo'] = (ages_classification.reset_index().index + 1) / ages_classification.shape[0]
+ages_classification['qualificado'] = ages_classification['cumulativo'] <= 0.20
+
+ages_qualified = ages_classification[ages_classification['qualificado'] == True]
+ages_qualified.shape[0]
+
 # # # Section of the course:
 # 05. Analisando as variações dos dados
 # # #
