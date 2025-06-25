@@ -198,6 +198,26 @@ plt.figure(figsize=(15, 6))
 sns.histplot(data=ranges, x='remuneracao')
 sns.histplot(data=ranges, x='remuneracao', bins=k, kde=True)
 
+# Evaluating salaries by separative measurements
+quartiles = {
+    'first_quartile': workers['remuneracao'].quantile(0.25),
+    'second_quartile': workers['remuneracao'].quantile(0.50),
+    'third_quartile': workers['remuneracao'].quantile(0.75)
+}
+
+plt.figure(figsize=(15, 6))
+sns.histplot(binwidth=500, data=workers, x='remuneracao')
+plt.axvline(quartiles['first_quartile'], color='red', linestyle='--')
+plt.axvline(quartiles['second_quartile'], color='red', linestyle='--')
+plt.axvline(quartiles['third_quartile'], color='red', linestyle='--')
+
+percentile_99 = workers['remuneracao'].quantile(0.99)
+coordinators = workers[workers['cargo'] == 'Coordenador(a)']
+
+num_coordinators = coordinators.shape[0]
+num_coordinators_with_high_salary = coordinators[coordinators['remuneracao'] > percentile_99].shape[0]
+print(num_coordinators_with_high_salary == num_coordinators) # Return True
+
 # # # Section of the course:
 # 05. Analisando as variações dos dados
 # # #
