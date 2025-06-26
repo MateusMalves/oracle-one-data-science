@@ -37,9 +37,10 @@ Apresente em texto a menor e maior Renda da base de dados: Utilize a função pr
 import os
 import sys
 import re
+import math
 import pandas as pd
-import matplotlib.pyplot as plt
 import seaborn as sns
+import matplotlib.pyplot as plt
 
 cwd = os.getcwd()
 while bool(re.search(r'\d-', cwd)):
@@ -204,3 +205,117 @@ tendecies_age = {
 
 plot_histogram('Altura', 'Height Distribution', 'Height', tendencies_height)
 plot_histogram('Idade', 'Age Distribution', 'Age', tendecies_age)
+
+
+# Case Aula 4
+# Enunciado do desafio
+'''
+Case Aula 3:
+Continuando a análise dos dados da PNAD de 2015, você precisa agora analisar os dados das pessoas responsáveis pelo domicílio, por meio das medidas separatrizes ou de posição observando a distribuição dos dados. Para isso, siga as instruções abaixo e reflita sobre os resultados encontrados:
+
+Calcule o número de classes para Renda até R$15.000 utilizando a regra de Sturges: lembre-se de filtrar os dados para a faixa de renda requerida antes de calcular o número de classes
+
+Crie o histograma da Renda das pessoas responsáveis até R$15.000 seguindo o número de classes calculado anteriormente: com o número de classes calculado anteriormente, segregue os dados em faixas de amplitude fixa e crie a tabela de frequências absolutas e relativas com as faixas definidas. Posteriormente, crie o histograma com o nº de classes definidas.
+
+Responda às seguintes questões sobre o nosso dataset completo utilizando os conceitos que estudamos até aqui:
+
+Qual o percentual de pessoas responsáveis que ganhava até um salário mínimo em 2015 (R$ 788,00)?
+
+Qual a renda máxima de 95% das pessoas responsáveis pelo domicílio na pesquisa?
+
+Qual a renda mínima das 1% mais bem pagas da pesquisa?
+
+Qual a renda máxima de 25%, 50% e 75% das pessoas responsáveis que receberam até R$ 6.000 de rendimento mensal? Construa o boxplot e traga o resumo desses dados.
+
+Construa o boxplot da Renda até o percentil 95% (renda_6k) das pessoas responsáveis por Cat.Sexo e Cat.Cor. Interprete o resultado. Utilize o conjunto de dados gerado na última pergunta do exercício anterior para filtrar os dados e siga a dica para incluir uma 3ª variável na construção de um boxplot, por meio do parâmetro fill.
+
+Qual a idade limite para 20% da população? Construa o histograma acumulado com curva de densidade, definindo a idade limite e quantas pessoas se encaixam nessa porcentagem. Construa o visual e determine a idade limite e quantidade de pessoas dentro da faixa dos 20% mais jovens. Leia a dica sobre como ler os últimos valores de um data.frame utilizando a função tail().
+'''
+
+data.head()
+data_filtered = data[data['Renda'] <= 15000]
+
+# Applying Sturges' rule
+n = data_filtered.shape[0]
+k = 1 + (10/3) * math.log10(n)
+k = int(k) # Number of classes
+
+# Ranges
+ranges = data_filtered.copy()
+ranges['faixa_renda'] = pd.cut(data_filtered['Renda'], bins=k, include_lowest=True)
+ranges.head()
+
+# Frequencies
+frequencies = ranges['faixa_renda'].value_counts().reset_index(name='frequencia')
+frequencies['percentual'] = (frequencies['frequencia'] / n) * 100
+
+# Plotting
+plt.figure(figsize=(15, 6))
+sns.histplot(x=data_filtered['Renda'], bins=k, color='blue', label='Renda')
+plt.title('Histograma da Renda até R$15.000')
+plt.xlabel('Renda (R$)')
+plt.ylabel('Frequência')
+
+# Questions:
+# Percentile of people earning up to a minimum wage in 2015 (R$ 788.00)
+percentile_minimun_wage = (data[data['Renda'] <= 788].shape[0] / data.shape[0]) * 100
+
+# Maximum income of 95% of the people responsible for the household in the research
+percentile_95 = data['Renda'].quantile(0.95)
+
+# Minimum income of the 1% of the most paid people in the research
+percentile_99 = data['Renda'].quantile(0.99)
+
+# Maximum income of 25%, 50% and 75% of the people responsible who received up to R$ 6.000 of monthly income
+tendencies_income = data_filtered['Renda'].agg(
+    Q1 = lambda x: x.quantile(0.25),
+    median = 'median',
+    mean = 'mean',
+    Q3 = lambda x: x.quantile(0.75),
+    IIQ = lambda x: x.quantile(0.75) - x.quantile(0.25),
+)
+
+# Plotting
+plt.figure(figsize=(15, 6))
+sns.boxplot(x=data_filtered['Renda'], color='steelblue')
+plt.title('Boxplot de Renda das pessoas responsáveis pelos domicílios')
+plt.xlabel('Renda (R$)')
+plt.ylim(-1, 1)
+
+# Building the boxplot with the 95% percentile of the income <= 6k by sex and color
+def plot_boxplot(data, title, x, y, hue, xlabel='', ylabel=''):
+    plt.figure(figsize=(10, 6))
+    ax = sns.boxplot(data=data, x=x, y=y, hue=hue)
+    plt.title(title)
+    if xlabel != '':
+        plt.xlabel(xlabel)
+    if ylabel != '':
+        plt.ylabel(ylabel)
+
+plot_boxplot(
+    data=data_filtered,
+    title='Boxplot da Renda até o percentil 95% das pessoas responsáveis pelo domicílio',
+    x= 'Renda',
+    y= 'Cor',
+    hue='Sexo',
+    xlabel='Renda (R$)',
+    ylabel='Cor ou Raça'
+)
+
+# Age limit for 20% of the population
+ages_classification = data.copy().sort_values(by='Idade')
+ages_classification['Cumulativo'] = (ages_classification['Idade'].reset_index().index + 1) / ages_classification.shape[0]
+
+ages_classification['20%'] = ages_classification['Cumulativo'] <= 0.20
+ages_qualified = ages_classification[ages_classification['20%'] == True]
+
+# How many people qualifies?
+ages_qualified.shape[0]
+# Age limit
+ages_qualified['Idade'].max()
+ages_qualified.tail()
+
+# Plotting
+plt.figure(figsize=(15, 6))
+sns.histplot(data=data, x='Idade', bins= 10, cumulative=True, stat='proportion', kde=True )
+plt.axhline(0.20, color='red', linestyle='dashed')
