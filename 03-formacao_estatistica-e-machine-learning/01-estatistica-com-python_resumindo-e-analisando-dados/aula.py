@@ -233,6 +233,42 @@ ages_classification['qualificado'] = ages_classification['cumulativo'] <= 0.20
 ages_qualified = ages_classification[ages_classification['qualificado'] == True]
 ages_qualified.shape[0]
 
+# Building a boxplot to visualize distributions
+plt.figure(figsize=(8, 6))
+sns.boxplot(x=workers['remuneracao'], color='steelblue')
+
+plt.title('Boxplot de Salários')
+plt.xlabel('Salário (R$)')
+plt.ylim(-1, 1)
+
+workers.describe()
+
+def plot_sex_boxplort(data):
+    plt.figure(figsize=(8, 6))
+    ax = sns.boxplot(x='remuneracao', y='sexo', data=data, hue='sexo')
+
+    plt.title('Boxplot de Salários por Sexo')
+    plt.xlabel('Salário (R$)')
+    plt.ylabel('Sexo')
+
+plot_sex_boxplort(workers)
+
+workers_filtered = workers[workers['remuneracao'] <= 10e3]
+plot_sex_boxplort(workers_filtered)
+
+plot_sex_boxplort(workers[workers['remuneracao'] <= 7500])
+
+# Calculate descriptive statistic per sex
+stats_income = workers.groupby('sexo')['remuneracao'].agg(
+    Q1 = lambda x: x.quantile(0.25),
+    median = 'median',
+    mean = 'mean',
+    Q3 = lambda x: x.quantile(0.75),
+    IIQ = lambda x: x.quantile(0.75) - x.quantile(0.25),
+).reset_index()
+# ** DISCLAIMER: The data was intentionally generated to emulate a scenary
+# where women earn less than men, in order to fit feminist agendas.
+
 # # # Section of the course:
 # 05. Analisando as variações dos dados
 # # #
