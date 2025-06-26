@@ -14,6 +14,7 @@ import os
 import sys
 import re
 import math
+import numpy as np
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -272,3 +273,25 @@ stats_income = workers.groupby('sexo')['remuneracao'].agg(
 # # # Section of the course:
 # 05. Analisando as variações dos dados
 # # #
+
+commercial = workers[workers['cargo'].isin(['Inteligência comercial', 'Consultor(a) de vendas'])]
+commercial.groupby('cargo')['remuneracao'].describe()[['mean', '50%']]
+
+np.random.seed(42)
+sample = commercial.sample(n=10)
+
+plt.stem(sample['remuneracao'], bottom=sample['remuneracao'].mean())
+plt.axhline(y=sample['remuneracao'].mean(), color='red')
+
+stats_workers = commercial.groupby('cargo')['remuneracao'].agg(
+    media='mean',
+    median='median',
+    mad = lambda x: (abs(x - x.mean())).mean(),
+).reset_index()
+
+plt.figure(figsize=(8, 6))
+sns.boxplot(x='remuneracao', y='cargo', data=commercial)
+
+plt.title('Distribuição de Salários por Cargo')
+plt.xlabel('Salário (R$)')
+plt.ylabel('')
