@@ -274,6 +274,7 @@ stats_income = workers.groupby('sexo')['remuneracao'].agg(
 # 05. Analisando as variações dos dados
 # # #
 
+# Calculating the mean absolute deviation
 commercial = workers[workers['cargo'].isin(['Inteligência comercial', 'Consultor(a) de vendas'])]
 commercial.groupby('cargo')['remuneracao'].describe()[['mean', '50%']]
 
@@ -295,3 +296,34 @@ sns.boxplot(x='remuneracao', y='cargo', data=commercial)
 plt.title('Distribuição de Salários por Cargo')
 plt.xlabel('Salário (R$)')
 plt.ylabel('')
+
+# Calculating variance and standard deviation
+operational_workers = workers[workers['cargo'].isin(['Estoquista', 'Repositor(a)'])]
+operational_workers.groupby('cargo')['remuneracao'].describe()[['mean', '50%']]
+
+stats_operational = operational_workers.groupby('cargo')['remuneracao'].agg(
+    media='mean',
+    mediana='median',
+    mad= lambda x: (abs(x - x.mean())).mean(),
+    variancia_populacional= lambda x: ((x - x.mean())**2).mean(),
+    variancia_amostral= lambda x: ((x - x.mean())**2).sum() / (x.shape[0] - 1),
+    variancia='var', # Built-in - Same as variancia_amostral
+    desvio_padrao_populacional= lambda x: ((x - x.mean())**2).mean()**0.5,
+    desvio_padrao_amostral= lambda x: (((x - x.mean())**2).sum() / (x.shape[0] - 1))**0.5,
+    desvio_padrao='std', # Built-in - Same as desvio_padrao_amostral
+).reset_index()
+
+# Plotting
+def plot_operational_distribution(data, kind_of_plot='violinplot'):
+    plt.figure(figsize=(8, 6))
+    if kind_of_plot == 'violinplot':
+        sns.violinplot(x='remuneracao', y='cargo', data=data)
+    elif kind_of_plot == 'boxplot':
+        sns.boxplot(x='remuneracao', y='cargo', data=data)
+
+    plt.title('Distribuição de Salários por Cargo')
+    plt.xlabel('Salário (R$)')
+    plt.ylabel('')
+
+plot_operational_distribution(operational_workers)
+plot_operational_distribution(operational_workers, kind_of_plot='boxplot')
