@@ -319,3 +319,55 @@ ages_qualified.tail()
 plt.figure(figsize=(15, 6))
 sns.histplot(data=data, x='Idade', bins= 10, cumulative=True, stat='proportion', kde=True )
 plt.axhline(0.20, color='red', linestyle='dashed')
+
+# Case aula 5
+# Enunciado do desafio
+'''
+Nesta última etapa do treinamento, vamos analisar os dados de renda das pessoas responsáveis pelo domicílio de acordo com os dados da PNAD de 2015, calculando a variação das rendas para determinadas características da amostra. Para isso, siga as instruções abaixo e reflita sobre os resultados encontrados:
+
+Responda às seguintes questões sobre o nosso dataset utilizando os conceitos que estudamos até aqui: Responda cada uma das perguntas abaixo utilizando o que foi aprendido até o momento.
+Qual o desvio médio absoluto, a variância e desvio padrão da renda das pessoas responsáveis na pesquisa?
+Construa uma tabela com a média, mediana e desvio padrão para a renda das pessoas em relação aos Anos de Estudo. O que podemos interpretar com esses dados?
+Construa uma tabela com a média, mediana e desvio padrão para a renda das pessoas do sexo biológico masculino e feminino até R$ 15.000. O que podemos interpretar com esses dados?
+Construa um boxplot da Renda dos estados da Região Centro-Oeste até R$ 10.000 segundo o Cat.Sexo. Para interpretar o resultado construa 3 tabelas com cada uma das estatísticas descritivas (média, mediana e desvio padrão). Filtre o conjunto de dados para as unidades federativas da Região Centro-Oeste isin(['Goiás', 'Distrito Federal', 'Mato Grosso', 'Mato Grosso do Sul', 'Tocantins']) e na faixa desejada para depois gerar o boxplot desejado. Lembre-se da utilização do parâmetro hue para adição de mais uma variável categórica. Por fim, crie as tabelas cruzadas com as estatísticas descritivas desejadas segundo os dados de sexo biológico e estados.
+'''
+
+data.head()
+stats_income = data['Renda'].agg(
+    mad= lambda x: (abs(x - x.mean())).mean(),
+    variance = 'var',
+    std = 'std'
+).reset_index()
+
+stats_income_by_education = data.groupby('Anos.de.Estudo')['Renda'].agg(
+    mean = 'mean',
+    median = 'median',
+    mad= lambda x: (abs(x - x.mean())).mean(),
+    variance = 'var',
+    std = 'std'
+).reset_index()
+
+stats_income_by_sex = data[data['Renda'] <= 15000].groupby('Sexo')['Renda'].agg(
+    mean='mean',
+    median='median',
+    mad= lambda x: (abs(x - x.mean())).mean(),
+    variance='var',
+    std='std'
+)
+
+west_central_states = ['Goiás', 'Distrito Federal', 'Mato Grosso', 'Mato Grosso do Sul', 'Tocantins']
+income_10k = data[data['Renda'] <= 10000]
+west_central_states_income_10k = income_10k[income_10k['UF'].isin(west_central_states)]
+
+plt.figure(figsize=(15, 6))
+sns.boxplot(data=west_central_states_income_10k, x='Renda', y='UF', hue='Sexo')
+plt.ylabel('')
+
+stats_west_central_states_income_10k = pd.DataFrame({
+    'total': west_central_states_income_10k['Renda'].sum(),
+    'mean': west_central_states_income_10k['Renda'].mean(),
+    'median': west_central_states_income_10k['Renda'].median(),
+    'mad': (abs(west_central_states_income_10k['Renda'] - west_central_states_income_10k['Renda'].mean())).mean(),
+    'variance': west_central_states_income_10k['Renda'].var(),
+    'std': west_central_states_income_10k['Renda'].std(),
+}, index=['Renda'])
