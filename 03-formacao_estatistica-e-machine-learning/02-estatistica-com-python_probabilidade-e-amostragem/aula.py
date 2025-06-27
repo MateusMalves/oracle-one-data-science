@@ -13,8 +13,11 @@
 import os
 import sys
 import re
+import math
+import numpy as np
 from scipy.special import comb
 from scipy.stats import binom
+from scipy.stats import poisson
 
 cwd = os.getcwd()
 while bool(re.search(r'\d-', cwd)):
@@ -62,7 +65,6 @@ k = 5
 # Probability of 5 sucesses
 probability = (comb(n, k) * (p ** k) * (q ** (n - k)))
 probability = binom.pmf(k, n, p)
-probability
 
 # Probability of passing
 probability = binom.pmf([k, k+1, k+2, k+3, k+4, k+5], n, p).sum()
@@ -93,26 +95,43 @@ probability = binom.pmf(k, n_kids, p)
 n_families = 50
 expected_value = n_families * probability
 
+
 # # # Section of the course:
-# 02.
+# 02. Distribuição de Poisson
+# # #
+
+# Um restaurante recebe em média **20 pedidos por hora**. Qual a chance de que, em determinada hora escolhida ao acaso, o restaurante receba **15 pedidos**?
+mi = 20
+k = 15
+e = np.e
+
+probability = (e ** (-mi)) * (mi ** k) / (math.factorial(k))
+print('%0.8f' % probability)
+
+# Built-in way
+probability = poisson.pmf(k, mi)
+print('%0.8f' % probability)
+
+# O número médio de clientes que entram em uma padaria por hora é igual a 20. Obtenha a probabilidade de, na próxima hora, entrarem exatamente 25 clientes.
+probability = poisson.pmf(25, 20)
+
+
+# # # Section of the course:
+# 03. Distribuição normal
 # # #
 
 # # # Section of the course:
-# 03.
+# 04. Técnicas de amostragem
 # # #
 
 # # # Section of the course:
-# 04.
+# 05. Nível de intervalo de confiança
 # # #
 
 # # # Section of the course:
-# 05.
+# 06. Calculando o tamanho da amostra
 # # #
 
 # # # Section of the course:
-# 06.
-# # #
-
-# # # Section of the course:
-# 07.
+# 07. Resumo e projeto final
 # # #
