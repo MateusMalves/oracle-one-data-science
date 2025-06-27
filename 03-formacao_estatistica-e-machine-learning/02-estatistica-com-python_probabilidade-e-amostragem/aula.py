@@ -69,6 +69,29 @@ probability = binom.pmf([k, k+1, k+2, k+3, k+4, k+5], n, p).sum()
 probability = 1 - binom.cdf(4, n, p)
 probability = binom.sf(4, n, p)
 
+# Uma cidade do interior realiza todos os anos uma gincana para arrecadar fundos para o hospital da cidade. Na última gincana se sabe que a **proporção de participantes do sexo feminino foi de 60%**. **O total de equipes, com 12 integrantes, inscritas na gincana deste ano é de 30**. Com as informações acima responda: Quantas equipes deverão ser formadas por **8 mulheres**?
+
+# Probability for individual teams with 8 women
+n_team = 12
+p = 0.6
+k = 8
+probability = binom.pmf(k, n_team, p)
+
+# Average of binomial distribution for 30 teams
+n_teams = 30
+expected_value = n_teams * probability
+
+# Suponha que a probabilidade de um casal ter filhos com olhos azuis seja de 22%. Em 50 famílias, com 3 crianças cada uma, quantas podemos esperar que tenham dois filhos com olhos azuis?
+
+# Probability per family
+n_kids = 3
+p = 0.22
+k = 2
+
+probability = binom.pmf(k, n_kids, p)
+
+n_families = 50
+expected_value = n_families * probability
 
 # # # Section of the course:
 # 02.
