@@ -254,9 +254,20 @@ probability_4 = norm.cdf(-0.59)
 
 print(probability_1, probability_2, probability_3, probability_4)
 
+
 # # # Section of the course:
 # 04. Técnicas de amostragem
 # # #
+
+# Amostragem aleatória simples
+income_mean = data['Renda'].mean()
+
+sample = data.sample(n=1000, random_state=101)
+sample['Renda'].mean()
+
+data['Sexo'].value_counts(normalize=True)
+sample['Sexo'].value_counts(normalize=True)
+
 
 # # # Section of the course:
 # 05. Nível de intervalo de confiança
