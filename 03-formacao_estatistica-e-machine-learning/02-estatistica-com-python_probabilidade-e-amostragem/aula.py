@@ -15,9 +15,11 @@ import sys
 import re
 import math
 import numpy as np
+import pandas as pd
 from scipy.special import comb
 from scipy.stats import binom
 from scipy.stats import poisson
+from scipy.stats import norm
 
 cwd = os.getcwd()
 while bool(re.search(r'\d-', cwd)):
@@ -119,6 +121,138 @@ probability = poisson.pmf(25, 20)
 # # # Section of the course:
 # 03. Distribuição normal
 # # #
+
+# Z-score table
+tabela_normal_padronizada = pd.DataFrame(
+    [], 
+    index=["{0:0.2f}".format(i / 100) for i in range(0, 400, 10)],
+    columns = ["{0:0.2f}".format(i / 100) for i in range(0, 10)])
+
+for index in tabela_normal_padronizada.index:
+    for column in tabela_normal_padronizada.columns:
+        Z = np.round(float(index) + float(column), 2)
+        tabela_normal_padronizada.loc[index, column] = "{0:0.4f}".format(norm.cdf(Z))
+
+tabela_normal_padronizada.rename_axis('Z', axis = 'columns', inplace = True)
+
+# Problema:
+# Em um estudo sobre as alturas dos moradores de uma cidade verificou-se que o conjunto de dados segue uma **distribuição aproximadamente normal**, com **média 1,70** e **desvio padrão de 0,1**. Com estas informações obtenha o seguinte conjunto de probabilidades:
+
+# > **A.** probabilidade de uma pessoa, selecionada ao acaso, ter menos de 1,80 metros.
+
+# > **B.** probabilidade de uma pessoa, selecionada ao acaso, ter entre 1,60 metros e 1,80 metros.    
+
+# > **C.** probabilidade de uma pessoa, selecionada ao acaso, ter mais de 1,90 metros.
+
+def calculate_Z(x, mean, std):
+    return (x - mean) / std
+
+def get_probability(Z):
+    split = str(Z).split('.') if str(Z)[0] != '-' else str(abs(Z)).split('.')
+    integer = split[0]
+    decimal = split[1]
+    if len(decimal) < 2:
+        decimal = decimal + '0'
+    
+    index = integer + '.' + decimal[0] + '0'
+    column = '0.0' + decimal[1]
+
+    probability = tabela_normal_padronizada.loc[index][column]
+    if isinstance(probability, pd.Series):
+        probability = probability.iloc[0]
+    return float(probability) if Z >= 0 else 1 - float(probability)
+
+mean = 1.7
+std = 0.1
+
+# A
+z = calculate_Z(1.8, mean, std)
+probability = get_probability(z)
+norm.cdf(z) # Built-in way using scipy
+
+# B
+z1 = calculate_Z(1.6, mean, std)
+z2 = calculate_Z(1.8, mean, std)
+probability = get_probability(z2) - get_probability(z1)
+probability = (get_probability(z2) - 0.5) * 2 # Another way, valid because the distance between the mean and both z1 and z2 are the same (0.1)
+
+probability = norm.cdf(z2) - norm.cdf(z1) # Built-in way using scipy
+probability = norm.cdf(z2) - (1 - norm.cdf(z2)) # Another way, valid because the distance between the mean and both z1 and z2 are the same (0.1)
+
+# C
+z = calculate_Z(1.9, mean, std)
+probability = 1 - get_probability(z)
+probability = 1 - norm.cdf(z) # Built-in way using scipy
+probability = norm.cdf(-z) # Smarter way
+
+
+# Problema:
+# A aplicação de uma prova de estatística em um concurso apresentou um conjunto de notas normalmente distribuídas. Verificou-se que o conjunto de notas tinha média 70 e desvio padrão de 5 pontos.
+
+# Qual a probabilidade de um aluno, selecionado ao acaso, ter nota menor que 85?
+z = calculate_Z(85, 70, 5)
+probability = norm.cdf(z)
+
+
+# Problema
+# O faturamento diário de um motorista de aplicativo segue uma distribuição aproximadamente normal, com média R$ 300,00 e desvio padrão igual a R$ 50,00. Obtenha as probabilidades de que, em um dia aleatório, o motorista ganhe:
+
+# 1) Entre R$ 250,00 e R$ 350,00
+# 2) Entre R$ 400,00 e R$ 500,00
+mean = 300
+std = 50
+
+# 1
+z1 = calculate_Z(250, mean, std)
+z2 = calculate_Z(350, mean, std)
+probability_1 = norm.cdf(z2) - norm.cdf(z1)
+# 2
+z1 = calculate_Z(400, mean, std)
+z2 = calculate_Z(500, mean, std)
+probability_2 = norm.cdf(z2) - norm.cdf(z1)
+
+
+# Problema
+# O Inmetro verificou que as lâmpadas incandescentes da fabricante XPTO apresentam uma vida útil normalmente distribuída, com média igual a 720 dias e desvio padrão igual a 30 dias. Calcule a probabilidade de uma lâmpada, escolhida ao acaso, durar:
+
+# 1) Entre 650 e 750 dias
+# 2) Mais que 800 dias
+# 3) Menos que 700 dias
+mean = 720
+std = 30
+
+# 1
+z1 = calculate_Z(650, mean, std)
+z2 = calculate_Z(750, mean, std)
+probability_1 = norm.cdf(z2) - norm.cdf(z1)
+# 2
+z = calculate_Z(800, mean, std)
+probability_2 = norm.cdf(-z)
+# 3
+z = calculate_Z(700, mean, std)
+probability_3 = norm.cdf(z)
+
+print(probability_1, probability_2, probability_3)
+
+
+# Problema
+# Utilizando a tabela padronizada, ou o ferramental disponibilizado pelo Python, encontre a área sob a curva normal para os valores de Z abaixo:
+
+# 1) Z < 1,96
+# 2) Z > 2,15
+# 3) Z < -0,78
+# 4) Z > 0,59
+
+# 1
+probability_1 = norm.cdf(1.96)
+# 2
+probability_2 = 1 - norm.cdf(2.15)
+# 3
+probability_3 = norm.cdf(-0.78)
+# 4
+probability_4 = norm.cdf(-0.59)
+
+print(probability_1, probability_2, probability_3, probability_4)
 
 # # # Section of the course:
 # 04. Técnicas de amostragem
