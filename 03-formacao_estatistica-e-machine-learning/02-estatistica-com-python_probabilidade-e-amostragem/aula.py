@@ -16,6 +16,7 @@ import re
 import math
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 from scipy.special import comb
 from scipy.stats import binom
 from scipy.stats import poisson
@@ -272,6 +273,145 @@ sample['Sexo'].value_counts(normalize=True)
 # # # Section of the course:
 # 05. Nível de intervalo de confiança
 # # #
+
+n = 2000
+total_samples = 1500
+
+columns = []
+for i in range(total_samples):
+    _ = data.Idade.sample(n)
+    _.index = range(0, len(_)) # type: ignore
+    _.name = f'Sample_{i}'
+    columns.append(_)
+
+samples = pd.concat(columns, axis=1)
+
+# > O **Teorema do Limite Central** afirma que, com o aumento do tamanho da amostra, a distribuição das médias amostrais se aproxima de uma distribuição normal com média igual à média da população e desvio padrão igual ao desvio padrão da variável original dividido pela raiz quadrada do tamanho da amostra. Este fato é assegurado para $n$ maior ou igual a 30.
+
+# Checking through histogram
+samples.mean().hist()
+
+# Checking the mean
+samples.mean().mean()
+data.Idade.mean()
+
+# Checking the standard deviation
+samples.mean().std()
+print(data.Idade.std() / np.sqrt(n))
+
+# Checking samples : Personal experiment
+samples_std_by_sqrt_n = []
+for i in range(total_samples):
+    samples_std_by_sqrt_n.append(samples['Sample_' + str(i)].std()  / np.sqrt(n))
+
+error = []
+higher_limit = samples.mean().std() + (samples.mean().std() * 0.05)
+lower_limit = samples.mean().std() - (samples.mean().std() * 0.05)
+for i in range(total_samples):
+    if samples_std_by_sqrt_n[i] > higher_limit or samples_std_by_sqrt_n[i] < lower_limit:
+        error.append(samples_std_by_sqrt_n[i])
+len(error)
+
+print(samples['Sample_0'].std() / np.sqrt(n))
+
+# Further testing:
+def generate_sample_df(data, variable, n):
+    n = n
+    total_samples = 1500
+
+    columns = []
+    for i in range(total_samples):
+        _ = data[variable].sample(n)
+        _.index = range(0, len(_)) # type: ignore
+        _.name = f'Sample_{i}'
+        columns.append(_)
+
+    samples = pd.concat(columns, axis=1)
+    return samples
+
+
+def check_central_limit_theorem(data, variable, n):
+    """
+    Demonstrates the Central Limit Theorem for a given variable from a dataset.
+
+    Parameters:
+    - data (pd.DataFrame): The original dataset.
+    - variable (str): Name of the numeric column to analyze.
+    - n (int): Sample size to draw repeatedly.
+    """
+
+    # Generate samples DataFrame: each column is a sample of size `n`
+    samples = generate_sample_df(data, variable, n)
+
+    # === Pre-computations ===
+    sample_means = samples.mean()
+    population_mean = data[variable].mean()
+    population_std = data[variable].std()
+    se = population_std / np.sqrt(n)
+    z = norm.ppf(0.975)  # 95% confidence (two-tailed)
+    margin_of_error = z * se
+    ci_lower = population_mean - margin_of_error
+    ci_upper = population_mean + margin_of_error
+    sample_means_std = sample_means.std()
+
+    # === Display Histogram of Sample Means ===
+    print("\n📊 Histogram of sample means:")
+    plt.title(f"Distribution of Sample Means ({variable})")
+    plt.xlabel("Sample Mean")
+    plt.ylabel("Frequency")
+    sample_means.hist(grid=True)
+    plt.axvline(population_mean, color='red', linestyle='dashed', label='Population Mean')
+    plt.legend()
+    plt.show()
+
+    # === Display Summary Statistics ===
+    print("\n🔍 Descriptive Statistics:\n")
+    print(f"→ Population mean:        {population_mean:.4f}")
+    print(f"→ Mean of sample means:   {sample_means.mean():.4f}")
+    print(f"→ Population std dev:     {population_std:.4f}")
+    print(f"→ Standard error (σ/√n):  {se:.4f}")
+    print(f"→ Std dev of sample means:{sample_means_std:.4f}")
+
+    # === Confidence Interval ===
+    print("\n📏 95% Confidence Interval for the Mean:")
+    print(f"→ z-score (95%):          {z:.4f}")
+    print(f"→ Margin of error:        ±{margin_of_error:.4f}")
+    print(f"→ Confidence Interval:    ({ci_lower:.4f}, {ci_upper:.4f})")
+
+    # === Summary Line ===
+    within_ci = (sample_means >= ci_lower) & (sample_means <= ci_upper)
+    percent_within = within_ci.mean() * 100
+    print(f"\n✅ {percent_within:.2f}% of the sample means fall within the 95% confidence interval.")
+
+quantitative_columns = ['Idade', 'Renda', 'Altura']
+for column in quantitative_columns:
+    print(f'\n\n# # # # # # # # # #\nChecking statistics for {column}:')
+    print('\n\n')
+    check_central_limit_theorem(data, column, 2000)
+
+
+# Suponha que os pesos dos sacos de arroz de uma indústria alimentícia se distribuem aproximadamente como uma normal de **desvio padrão populacional igual a 150 g**. Selecionada uma **amostra aleatório de 20 sacos** de um lote específico, obteve-se um **peso médio de 5.050 g**. Construa um **intervalo de confiança para a média populacional** assumindo um **nível de significância de 5%**.
+mean_sample = 5050
+std = 150
+n = 20
+significance_level = 0.05
+trust_level = 1 - significance_level
+
+# Calculating z
+z = norm.ppf(trust_level + (significance_level / 2)) # 0.975
+
+# Calculating $\sigma_{\bar{x}}$ 
+sigma = std / np.sqrt(n)
+
+# O **erro inferencial** é definido pelo **desvio padrão das médias amostrais** $\sigma_{\bar{x}}$ e pelo **nível de confiança** determinado para o processo.
+e = z * sigma
+# Calculating the confidence interval
+confidence_interval = (
+    mean_sample - e,
+    mean_sample + e,
+)
+
+interval = norm.interval(confidence = 0.95, loc = mean_sample, scale = sigma) # Built-in way
 
 # # # Section of the course:
 # 06. Calculando o tamanho da amostra
