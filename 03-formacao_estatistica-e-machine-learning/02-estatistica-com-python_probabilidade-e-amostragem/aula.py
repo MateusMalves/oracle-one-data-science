@@ -389,7 +389,6 @@ for column in quantitative_columns:
     print('\n\n')
     check_central_limit_theorem(data, column, 2000)
 
-
 # Suponha que os pesos dos sacos de arroz de uma indústria alimentícia se distribuem aproximadamente como uma normal de **desvio padrão populacional igual a 150 g**. Selecionada uma **amostra aleatório de 20 sacos** de um lote específico, obteve-se um **peso médio de 5.050 g**. Construa um **intervalo de confiança para a média populacional** assumindo um **nível de significância de 5%**.
 mean_sample = 5050
 std = 150
@@ -464,3 +463,119 @@ print(int(np.round(n)))
 # # # Section of the course:
 # 07. Resumo e projeto final
 # # #
+
+# Estamos estudando o **rendimento mensal dos chefes de domicílios com renda até R$\$$ 5.000,00 no Brasil**. Nosso supervisor determinou que o **erro máximo em relação a média seja de R$\$$ 10,00**. Sabemos que o **desvio padrão populacional** deste grupo de trabalhadores é de **R$\$$ 1.082,79** e que a **média populacional** é de **R$\$$ 1.426,54**. Para um **nível de confiança de 95%**, qual deve ser o tamanho da amostra de nosso estudo? Qual o intervalo de confiança para a média considerando o tamanho de amostra obtido?
+
+# Building dataset
+income_5000 = data[data['Renda'] <= 5000]
+sigma = income_5000['Renda'].std()
+mean = income_5000['Renda'].mean()
+
+# Calculating sample size
+z = norm.ppf(0.975)
+e = 10
+n = (z * (sigma / e)) ** 2
+n = int(np.round(n))
+print(n)
+
+# Calculating confidence interval
+confidence_interval = norm.interval(confidence=0.95, loc=mean, scale=sigma/np.sqrt(n))
+print(confidence_interval)
+
+# Plotting
+size_simulation = 1000
+
+averages = [income_5000['Renda'].sample(n=n).mean() for i in range(1, size_simulation)]
+averages = pd.DataFrame(averages)
+
+plt.figure(figsize=(12,6))
+ax = averages.plot(style='.')
+ax.hlines(y=mean, xmin=0, xmax=size_simulation, color='red', linestyle='--')
+ax.hlines(y=confidence_interval[0], xmin=0, xmax=size_simulation, color='green', linestyle='--')
+ax.hlines(y=confidence_interval[1], xmin=0, xmax=size_simulation, color='green', linestyle='--')
+
+
+# # # Appendix:
+# Estimatives Project
+# # #
+
+# Avaliando nosso dataset é possível verificar que a **proporção de homens** como chefes de domicílios é de quase **70%**. Precisamos **selecionar aleatoriamente grupos de 10 indivíduos** para verificar as diferenças entre os rendimentos em cada grupo. Qual a **probabilidade de selecionamos um grupo que apresente a mesma proporção da população**, ou seja, selecionarmos um grupo que seja **composto por 7 homens e 3 mulheres**?
+#### <font color='blue'>Como tarefa extra, verifique a real proporção de homens e mulheres em nosso dataset (vimos como fazer isso em nosso primeiro curso de estatística).</font>
+#### <font color='red'>Verifique que tipo de distribuição de probabilidade se encaixa neste experimento.</font>
+
+men_proportion = data['Sexo'].value_counts(normalize=True)[0]
+probability = binom.pmf(k=7, n=10, p=men_proportion)
+print(probability)
+
+# Ainda sobre a questão anterior, **quantos grupos de 10 indivíduos** nós precisaríamos selecionar, de forma aleatória, para conseguir **100 grupos compostos por 7 homens e 3 mulheres**?
+#### <font color='red'>Lembre-se da forma de cálculo da média de uma distribuição binomial</font>
+n = 100 / probability
+n = int(np.round(n))
+print(n)
+
+# Um cliente nos encomendou um estudo para avaliar o **rendimento dos chefes de domicílio no Brasil**. Para isso precisamos realizar uma nova coleta de dados, isto é, uma nova pesquisa de campo. Após reunião com o cliente foi possível elencar o seguinte conjunto de informações:
+
+# > A. O resultado da pesquisa precisa estar pronto em **2 meses**;
+# > B. Teremos somente **R$\$$ 150.000,00** de recursos para realização da pesquisa de campo; e
+# > C. Seria interessante uma **margem de erro não superior a 10% em relação a média estimada**.
+
+# Em nossa experiência com estudos deste tipo, sabemos que o **custo médio por indivíduo entrevistado fica em torno de R$\$$ 100,00**. Com este conjunto de fatos avalie e obtenha o seguinte conjunto de informações para passar ao cliente:
+
+# > 1. Para obter uma estimativa para os parâmetros da população (renda dos chefes de domicílio no Brasil), realize uma amostragem aleatória simples em nosso conjunto de dados. Essa amostra deve conter 200 elementos (utilize random_state = 101 para garantir que o mesmo experimento posso ser realizado novamente). Obtenha a média e o desvio-padrão dessa amostra.
+
+sample = data.Renda.sample(n=200, random_state=101)
+mean = sample.mean()
+sigma = sample.std()
+
+# > 2. Para a **margem de erro** especificada pelo cliente obtenha os **tamanhos de amostra** necessários para garantir os **níveis de confiança de 90%, 95% e 99%**.
+
+def get_z(confidence):
+    significance = 1 - confidence
+    z = norm.ppf(1 - significance/2)
+    return z
+
+confidence_intervals = [0.90, 0.95, 0.99]
+zs = [get_z(confidence) for confidence in confidence_intervals]
+e = mean * 0.1
+ns = [np.round((z * (sigma / e)) ** 2) for z in zs]
+
+def print_message(message, x):
+    message += '\n\nConfiança | Tamanho da Amostra\n'
+    for confidence, n in zip(confidence_intervals, x):
+        message += f'{confidence}: {int(np.round(n))}\n'
+    print(message)
+
+print_message('Os tamanhos das amostras são:', ns)
+
+# > 3. Obtenha o **custo da pesquisa** para os três níveis de confiança.
+
+interview_cost = 100
+costs = [n * interview_cost for n in ns]
+print_message('Os custos são:', costs)
+
+# > 4. Para o maior nível de confiança viável (dentro do orçamento disponível), obtenha um **intervalo de confiança para a média da população**.
+
+resources = 150000
+viable_values = [int(cost) if cost <= resources else 0 for cost in costs]
+max_viable_value_index = viable_values.index(max(viable_values))
+best_confidence = confidence_intervals[max_viable_value_index]
+best_z = zs[max_viable_value_index]
+best_n = ns[max_viable_value_index]
+
+interval = norm.interval(confidence=best_confidence, loc=mean, scale=sigma/np.sqrt(best_n))
+print(interval)
+
+# > 5. Assumindo o **nível de confiança escolhido no item anterior**, qual **margem de erro** pode ser considerada utilizando todo o recurso disponibilizado pelo cliente?
+
+n_trust_95 = resources / interview_cost
+e = best_z * (sigma / np.sqrt(n_trust_95))
+e_percent = (e / mean) * 100
+print(f'A margem de erro é de {e:.2f} ({e_percent:.2f}%) para um nível de confiança de {best_confidence * 100}%')
+
+# > 6. Assumindo um **nível de confiança de 95%**, **quanto a pesquisa custaria ao cliente** caso fosse considerada uma **margem de erro de apenas 5%** em relação a média estimada?
+
+e = 0.05 * mean
+n = (best_z * (sigma / e)) ** 2
+n = int(np.round(n))
+cost = n * interview_cost
+print(f'A pesquisa custaria R${cost:,.2f} para uma margem de erro de 5%')
