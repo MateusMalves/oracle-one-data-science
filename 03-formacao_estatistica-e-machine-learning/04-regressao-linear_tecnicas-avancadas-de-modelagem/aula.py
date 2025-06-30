@@ -24,3 +24,7 @@ from load_data import load_data
 
 data_folder = cwd + '/data/03-formacao_estatistica-e-machine-learning/04-regressao-linear_tecnicas-avancadas-de-modelagem'
 outputs_folder = data_folder + 'outputs/'
+
+# # # Section of the course:
+# 0.
+# # #
