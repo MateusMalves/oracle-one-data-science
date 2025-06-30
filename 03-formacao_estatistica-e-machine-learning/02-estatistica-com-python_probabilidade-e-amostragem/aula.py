@@ -413,9 +413,53 @@ confidence_interval = (
 
 interval = norm.interval(confidence = 0.95, loc = mean_sample, scale = sigma) # Built-in way
 
+
 # # # Section of the course:
 # 06. Calculando o tamanho da amostra
 # # #
+
+# Infinite population
+
+# Problema
+# Estamos estudando o rendimento mensal dos chefes de domicílios com renda até R$\$$ 5.000,00 no Brasil. Nosso supervisor determinou que o **erro máximo em relação a média seja de R$ 100,00**. Sabemos que o **desvio padrão populacional** deste grupo de trabalhadores é de **R$\$$ 3323.39**. Para um **nível de confiança de 95%**, qual deve ser o tamanho da amostra de nosso estudo?
+z = norm.ppf(0.975)
+sigma = 3323.39
+e = 100
+n = (z * (sigma / e)) ** 2
+print(int(np.round(n)))
+
+# Problema
+# O valor do gasto médio dos clientes de uma loja de conveniência é de R$ 45,50. Assumindo que o desvio padrão dos gastos é igual a R$ 15,00, qual deve ser o tamanho da amostra para estimarmos a média populacional com um nível de significância de 10%?
+
+# Considere que o erro máximo aceitável seja de 10%.
+z = norm.ppf(0.95)
+sigma = 15
+e = 45.5 * 0.1
+n = (z * (sigma / e)) ** 2
+print(int(np.round(n)))
+
+# Finite population
+
+# Problema
+# Em um lote de **10.000 latas** de refrigerante foi realizada uma amostra aleatória simples de **100 latas** e foi obtido o **desvio padrão amostral do conteúdo das latas igual a 12 ml**. O fabricante estipula um **erro máximo sobre a média populacional de apenas 5 ml**. Para garantir um **nível de confiança de 95%** qual o tamanho de amostra deve ser selecionado para este estudo?
+z = norm.ppf(0.975)
+N = 10000
+s = 12
+e = 5
+n = ((z**2) * (s**2) * N) / (((z**2) * (s**2)) + ((e**2) * (N-1)))
+print(int(np.round(n)))
+
+# Problema
+# Um fabricante de farinha verificou que, em uma amostra aleatória formada por 200 sacos de 25 kg de um lote formado por 2.000 sacos, apresentou um desvio padrão amostral do peso igual a 480 g.
+
+# Considerando um erro máximo associado à média populacional igual a 0,3 kg e um nível de confiança igual a 95%, qual tamanho de amostra deveria ser selecionado para obtermos uma estimativa confiável do parâmetro populacional?
+z = norm.ppf(0.975)
+N = 2000
+s = 0.480
+e = 0.3
+n = ((z**2) * (s**2) * N) / (((z**2) * (s**2)) + ((e**2) * (N-1)))
+print(int(np.round(n)))
+
 
 # # # Section of the course:
 # 07. Resumo e projeto final
