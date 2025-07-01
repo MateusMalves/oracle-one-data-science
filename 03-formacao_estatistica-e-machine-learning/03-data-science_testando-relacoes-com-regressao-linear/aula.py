@@ -26,6 +26,7 @@ load_data_path = os.path.join(cwd)
 if load_data_path not in sys.path:
     sys.path.append(load_data_path)
 from load_data import load_data
+from label_plots import label_plot
 
 data_folder = cwd + '/data/03-formacao_estatistica-e-machine-learning/03-data-science_testando-relacoes-com-regressao-linear'
 outputs_folder = data_folder + 'outputs/'
@@ -61,10 +62,7 @@ plot_corr_heatmap(corr)
 # Plotting a dispersion plot
 plt.scatter(data['area_primeiro_andar'], data['preco_de_venda'])
 plt.axline(xy1=(66,250000), xy2=(190,1700000), color='red')
-
-plt.title('Relation Price vs Area')
-plt.xlabel('Area 1st floor')
-plt.ylabel('Price')
+label_plot(title='Relation Price vs Area', xlabel='Area 1st floor', ylabel='Price')
 
 # Obtaining the best line
 px.scatter(data, x='area_primeiro_andar', y='preco_de_venda', trendline_color_override='red', trendline='ols')
@@ -72,6 +70,8 @@ px.scatter(data, x='area_primeiro_andar', y='preco_de_venda', trendline_color_ov
 # # # Section of the course:
 # 02. Explicando a reta
 # # #
+
+
 
 # # # Section of the course:
 # 03. Adicionando outros fatores
