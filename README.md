@@ -48,7 +48,7 @@ It is meant to be a register of all my projects and exercises, as well as a show
 │
 ├── data/ # Data files used in the projects (I/O)
 │
-├── label_plots.py # Module with a function to abstract plot labelling
+├── plot_utils.py # Module with functions to abstract plot labelling etc.
 │
 ├── load_data.py # Module with functions to load data from CSV files
 │

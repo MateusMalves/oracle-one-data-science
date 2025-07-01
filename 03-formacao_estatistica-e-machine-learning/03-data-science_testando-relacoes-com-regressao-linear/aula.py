@@ -18,6 +18,9 @@ import pandas as pd
 import seaborn as sns
 import plotly.express as px
 import matplotlib.pyplot as plt
+from sklearn.metrics import r2_score
+from sklearn.model_selection import train_test_split
+from statsmodels.formula.api import ols
 
 cwd = os.getcwd()
 while bool(re.search(r'\d-', cwd)):
@@ -26,7 +29,7 @@ load_data_path = os.path.join(cwd)
 if load_data_path not in sys.path:
     sys.path.append(load_data_path)
 from load_data import load_data
-from label_plots import label_plot
+from plot_utils import label_plot, plot_central_tendency
 
 data_folder = cwd + '/data/03-formacao_estatistica-e-machine-learning/03-data-science_testando-relacoes-com-regressao-linear'
 outputs_folder = data_folder + 'outputs/'
@@ -71,6 +74,64 @@ px.scatter(data, x='area_primeiro_andar', y='preco_de_venda', trendline_color_ov
 # 02. Explicando a reta
 # # #
 
+mean = data['preco_de_venda'].mean()
+median = data['preco_de_venda'].median()
+mode = data['preco_de_venda'].mode()
+
+sns.boxplot(list(data['preco_de_venda']), showmeans=True)
+plot_central_tendency(data['preco_de_venda'], axis=1)
+
+sns.displot(list(data['preco_de_venda']), kde=True, color='green')
+plot_central_tendency(data['preco_de_venda'])
+label_plot(title='Price Distribution', xlabel='Price', ylabel='Frequency')
+
+# Separating between train and test
+# 
+# Defining y and x
+y = data['preco_de_venda']
+x = data.drop(columns=['preco_de_venda'])
+if data['preco_de_venda'].dtype == 'float64':
+    print('opa')
+# Applying the split of y and x
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=230)
+
+# Training data to use the formula
+df_train = pd.DataFrame(data=x_train)
+df_train['preco_de_venda'] = y_train
+
+# Adjusting the first model
+model_0 = ols('preco_de_venda ~ area_primeiro_andar', data=df_train).fit()
+
+# Visualizing params
+model_0.params
+
+# Visualizing summary
+print(model_0.summary())
+
+# Observing R²
+model_0.rsquared
+
+# Understanding residuals
+# 
+# Who are the residuals
+model_0.resid
+
+# How they are distributed
+model_0.resid.describe()
+
+# Plotting the residuals
+model_0.resid.hist()
+plot_central_tendency(model_0.resid)
+label_plot(title='Residuals Distribution', xlabel='Residuals', ylabel='Frequency')
+
+# Obtaining R² of the prediction
+# 
+# Defining the predicted Y
+y_predict = model_0.predict(x_test)
+
+# Printing r²
+print("r²:", r2_score(y_test, y_predict))
+sns.histplot(y_predict, kde=True, kde_kws={'bw_adjust':2}, color='green')
 
 
 # # # Section of the course:
