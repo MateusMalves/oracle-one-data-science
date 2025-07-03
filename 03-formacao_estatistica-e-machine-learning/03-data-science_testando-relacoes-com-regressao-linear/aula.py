@@ -13,6 +13,7 @@
 import os
 import sys
 import re
+import pickle
 import numpy as np
 import pandas as pd
 import seaborn as sns
@@ -32,14 +33,14 @@ if load_data_path not in sys.path:
 from load_data import load_data
 from plot_utils import label_plot, plot_central_tendency
 
-data_folder = cwd + '/data/03-formacao_estatistica-e-machine-learning/03-data-science_testando-relacoes-com-regressao-linear'
+data_folder = cwd + '/data/03-formacao_estatistica-e-machine-learning/03-data-science_testando-relacoes-com-regressao-linear/'
 outputs_folder = data_folder + 'outputs/'
 
 # # # Section of the course:
 # 01. Ajustando uma reta
 # # #
 
-data = load_data(f'{data_folder}/Preços_de_casas.csv', is_pandas=True)
+data = load_data(f'{data_folder}Preços_de_casas.csv', is_pandas=True)
 data.drop(columns = "Id", inplace=True)
 
 corr = data.corr()
@@ -186,6 +187,56 @@ model_3.params
 # # # Section of the course:
 # 04. Precificando as casas
 # # #
+
+# Obtaining R² of the prediction
+x_test.columns
+model_3.params
+
+# Add constant
+x_test = sm.add_constant(x_test)
+x_test = pd.DataFrame(x_test, columns=['const'] + list(x.columns))
+x_test.head()
+
+# Predicting
+predict_3 = model_3.predict(x_test[['const', 'area_primeiro_andar', 'existe_segundo_andar', 'quantidade_banheiros', 'qualidade_da_cozinha_Excelente']])
+
+# What's the R² of the prediction?
+print(model_3.rsquared)
+print("Test R²:", r2_score(y_test, predict_3))
+
+# Precifying a house
+# 
+# House characteristics:
+house = pd.DataFrame({
+    'const': [1],
+    'area_primeiro_andar': [120],
+    'existe_segundo_andar': [1],
+    'quantidade_banheiros': [2],
+    'qualidade_da_cozinha_Excelente': [0]
+})
+
+# Predicting
+print(f'{model_0.predict(house['area_primeiro_andar'])[0]:,.2f}')
+print(f'{model_3.predict(house)[0]:,.2f}')
+
+# Precifying various houses
+new_houses = load_data(f'{data_folder}/Novas_casas.csv', delimiter=';', is_pandas=True)
+new_houses.drop(columns=['Casa'], inplace=True)
+new_houses = sm.add_constant(new_houses)
+new_houses = pd.DataFrame(new_houses)
+new_houses.head(10)
+
+# Predicting
+predict_new_houses = model_3.predict(new_houses)
+
+# Saving model in a file using Pickle
+file_name = 'linear_regression_model.pkl'
+with open(f'{outputs_folder}{file_name}', 'wb') as file:
+    pickle.dump(model_3, file)
+
+# Loading model from file using Pickle
+with open(f'{outputs_folder}{file_name}', 'rb') as file:
+    model_3_loaded = pickle.load(file)
 
 
 # # # Section of the course:

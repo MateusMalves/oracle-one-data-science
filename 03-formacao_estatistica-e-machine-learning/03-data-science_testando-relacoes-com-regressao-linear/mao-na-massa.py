@@ -8,6 +8,7 @@
 # # #
 
 
+# Case 03: Precificação de quartos de hotéis
 # Enunciado do desafio
 '''
 Como um Cientista de Dados, você está encarregado da análise do problema de precificação de quartos de hotéis, fazendo uso do conjunto de dados fornecidos.
@@ -30,6 +31,7 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import r2_score
 from statsmodels.formula.api import ols
 import statsmodels.api as sm
 
@@ -42,7 +44,7 @@ if load_data_path not in sys.path:
     sys.path.append(load_data_path)
 from load_data import load_data
 
-data_folder = cwd + '/data/03-formacao_estatistica-e-machine-learning/03-data-science_testando-relacoes-com-regressao-linear'
+data_folder = cwd + '/data/03-formacao_estatistica-e-machine-learning/03-data-science_testando-relacoes-com-regressao-linear/'
 outputs_folder = data_folder + 'outputs/'
 
 # Import data
@@ -131,3 +133,49 @@ print("Model 5:", len(model_5.params))
 # Best model
 print("=> Best model params")
 print("Modelo 3:\n", model_3.params)
+
+
+# Case 04: Precificação de uma casa
+# Enunciado do desafio
+'''
+Você recebeu uma demanda para estimar o preço de uma casa com as seguintes características:
+
+1 banheiro
+Área 98m²
+Não contém segundo andar
+Qualidade da cozinha excelente
+
+Sua tarefa é utilizar o modelo de regressão treinado durante o curso para obter o preço da casa com essas características. Por isso, crie um DataFrame com essas informações e faça a previsão do valor do imóvel.
+'''
+
+data_houses = load_data(f'{data_folder}Preços_de_casas.csv', is_pandas=True)
+
+y = data_houses['preco_de_venda']
+x = data_houses.drop(columns=['preco_de_venda'])
+
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=230)
+x_train = sm.add_constant(x_train)
+x_train = pd.DataFrame(x_train, columns=['const'] + list(x.columns))
+
+model = sm.OLS(y_train, x_train[['const', 'area_primeiro_andar', 'existe_segundo_andar', 'quantidade_banheiros', 'qualidade_da_cozinha_Excelente']]).fit()
+
+model.params
+model.rsquared
+
+x_test = sm.add_constant(x_test)
+x_test = pd.DataFrame(x_test, columns=['const'] + list(x.columns))
+
+y_predict = model.predict(x_test[['const', 'area_primeiro_andar', 'existe_segundo_andar', 'quantidade_banheiros', 'qualidade_da_cozinha_Excelente']])
+print("Test R²:", r2_score(y_test, y_predict))
+
+# Defining the house
+house = pd.DataFrame({
+    'const': [1],
+    'area_primeiro_andar': [98],
+    'existe_segundo_andar': [0],
+    'quantidade_banheiros': [1],
+    'qualidade_da_cozinha_Excelente': [1]
+})
+
+house_predict = model.predict(house)
+print(f'House predict: {house_predict[0]:,.2f}')
