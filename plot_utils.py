@@ -147,12 +147,12 @@ def plot_central_tendency(
 
     # Plot the lines
     if axis == 0:
-        plt.axvline(mean, color=colors_dict['mean'], linestyle='dashed', linewidth=linewidth)
-        plt.axvline(median, color=colors_dict['median'], linestyle='dashed', linewidth=linewidth)
-        plt.axvline(mode, color=colors_dict['mode'], linestyle='dashed', linewidth=linewidth)
+        plt.axvline(mean, color=colors_dict['mean'], linestyle='dashed', linewidth=linewidth, label=f'Mean: {mean:,.2f}')
+        plt.axvline(median, color=colors_dict['median'], linestyle='dashed', linewidth=linewidth, label=f'Median: {median:,.2f}')
+        plt.axvline(mode, color=colors_dict['mode'], linestyle='dashed', linewidth=linewidth, label=f'Mode: {mode:,.2f}')
     elif axis == 1:
-        plt.axhline(mean, color=colors_dict['mean'], linestyle='dashed', linewidth=linewidth)
-        plt.axhline(median, color=colors_dict['median'], linestyle='dashed', linewidth=linewidth)
-        plt.axhline(mode, color=colors_dict['mode'], linestyle='dashed', linewidth=linewidth)
+        plt.axhline(mean, color=colors_dict['mean'], linestyle='dashed', linewidth=linewidth, label=f'Mean: {mean:,.2f}')
+        plt.axhline(median, color=colors_dict['median'], linestyle='dashed', linewidth=linewidth, label=f'Median: {median:,.2f}')
+        plt.axhline(mode, color=colors_dict['mode'], linestyle='dashed', linewidth=linewidth, label=f'Mode: {mode:,.2f}')
     
-    plt.legend([f'Mean: {mean:.2f}', f'Median: {median:.2f}', f'Mode: {mode:.2f}'])
+    plt.legend()

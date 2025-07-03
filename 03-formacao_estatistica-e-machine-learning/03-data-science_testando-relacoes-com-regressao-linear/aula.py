@@ -21,6 +21,7 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import r2_score
 from sklearn.model_selection import train_test_split
 from statsmodels.formula.api import ols
+import statsmodels.api as sm
 
 cwd = os.getcwd()
 while bool(re.search(r'\d-', cwd)):
@@ -130,17 +131,62 @@ label_plot(title='Residuals Distribution', xlabel='Residuals', ylabel='Frequency
 y_predict = model_0.predict(x_test)
 
 # Printing r²
-print("r²:", r2_score(y_test, y_predict))
+print("Test R²:", r2_score(y_test, y_predict))
 sns.histplot(y_predict, kde=True, kde_kws={'bw_adjust':2}, color='green')
+plot_central_tendency(y_predict)
+label_plot(title='Residuals Distribution', xlabel='Residuals', ylabel='Frequency')
 
 
 # # # Section of the course:
 # 03. Adicionando outros fatores
 # # #
 
+# Other factors that may explain the prices
+sns.pairplot(data)
+# Filtering
+sns.pairplot(data, y_vars='preco_de_venda', x_vars=['quantidade_banheiros', 'area_segundo_andar', 'capacidade_carros_garagem'])
+
+# Adding a constant
+x_train = sm.add_constant(x_train)
+x_train = pd.DataFrame(x_train, columns=['const'] + list(x.columns))
+x_train.head()
+
+# Creating another model (no formula): saturated
+model_1 = sm.OLS(y_train, x_train[['const', 'area_primeiro_andar', 'existe_segundo_andar', 'area_segundo_andar', 'quantidade_banheiros', 'capacidade_carros_garagem', 'qualidade_da_cozinha_Excelente']]).fit()
+
+# Model without second floor area
+model_2 = sm.OLS(y_train, x_train[['const', 'area_primeiro_andar', 'existe_segundo_andar', 'quantidade_banheiros', 'capacidade_carros_garagem', 'qualidade_da_cozinha_Excelente']]).fit()
+
+# Model without information about garage
+model_3 = sm.OLS(y_train, x_train[['const', 'area_primeiro_andar', 'existe_segundo_andar', 'quantidade_banheiros', 'qualidade_da_cozinha_Excelente']]).fit()
+
+# Summaries of the models
+print(model_0.summary())
+print(model_1.summary())
+print(model_2.summary())
+print(model_3.summary())
+
+# Comparing models
+print("=> R²")
+print("Model 0:", model_0.rsquared)
+print("Model 1:", model_1.rsquared)
+print("Model 2:", model_2.rsquared)
+print("Model 3:", model_3.rsquared)
+
+print("=> Lenght of the models")
+print("Model 0:", len(model_0.params))
+print("Model 1:", len(model_1.params))
+print("Model 2:", len(model_2.params))
+print("Model 3:", len(model_3.params))
+
+# Analyzing the effect
+model_3.params
+
+
 # # # Section of the course:
 # 04. Precificando as casas
 # # #
+
 
 # # # Section of the course:
 # 05. Investigando nosso modelo
