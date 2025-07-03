@@ -23,6 +23,7 @@ from sklearn.metrics import r2_score
 from sklearn.model_selection import train_test_split
 from statsmodels.formula.api import ols
 import statsmodels.api as sm
+from statsmodels.stats.outliers_influence import variance_inflation_factor
 
 cwd = os.getcwd()
 while bool(re.search(r'\d-', cwd)):
@@ -242,3 +243,49 @@ with open(f'{outputs_folder}{file_name}', 'rb') as file:
 # # # Section of the course:
 # 05. Investigando nosso modelo
 # # #
+
+explanatory_variables_1 = ['const', 'area_primeiro_andar', 'existe_segundo_andar', 'area_segundo_andar', 'quantidade_banheiros', 'capacidade_carros_garagem', 'qualidade_da_cozinha_Excelente']
+
+explanatory_variables_2 = ['const', 'area_primeiro_andar', 'existe_segundo_andar', 'quantidade_banheiros', 'capacidade_carros_garagem', 'qualidade_da_cozinha_Excelente']
+
+explanatory_variables_3 = ['const', 'area_primeiro_andar', 'existe_segundo_andar', 'quantidade_banheiros', 'qualidade_da_cozinha_Excelente']
+
+# VIF 1
+vif_1 = pd.DataFrame()
+vif_1['variavel'] = explanatory_variables_1
+vif_1['vif'] = [variance_inflation_factor(x_train[explanatory_variables_1], i) for i in range(len(explanatory_variables_1))]
+vif_1.head(7)
+
+# VIF 2
+vif_2 = pd.DataFrame()
+vif_2['variavel'] = explanatory_variables_2
+vif_2['vif'] = [variance_inflation_factor(x_train[explanatory_variables_2], i) for i in range(len(explanatory_variables_2))]
+vif_2.head(7)
+
+# VIF 3
+vif_3 = pd.DataFrame()
+vif_3['variavel'] = explanatory_variables_3
+vif_3['vif'] = [variance_inflation_factor(x_train[explanatory_variables_3], i) for i in range(len(explanatory_variables_3))]
+vif_3.head(7)
+
+# Comparing predicted vs real
+# 
+# Predicting values of train "x_train" [explanatory_3]
+y_predict_train = model_3.predict(x_train[explanatory_variables_3])
+
+# Plotting
+fig = px.scatter(x=y_predict_train, y=y_train, title="Predicted vs Real", labels={'x': 'Predicted', 'y': 'Real'})
+fig.show()
+
+# Identifying homoscedasticity
+# 
+# Residuals
+residuals = model_3.resid
+
+# Plotting
+fig, ax = plt.subplots(figsize=(20, 8))
+sns.scatterplot(x=y_predict_train, y=residuals, s=150, ax=ax)
+ax.set_title('Residuals vs Predicted', fontsize=18)
+ax.set_xlabel('Predicted', fontsize=14)
+ax.set_ylabel('Residuals', fontsize=14)
+fig.show() # Heteroscedasticity detected

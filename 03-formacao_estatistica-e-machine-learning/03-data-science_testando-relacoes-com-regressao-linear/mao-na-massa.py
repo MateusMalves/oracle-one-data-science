@@ -29,11 +29,13 @@ import math
 import numpy as np
 import pandas as pd
 import seaborn as sns
+import plotly.express as px
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score
 from statsmodels.formula.api import ols
 import statsmodels.api as sm
+from statsmodels.stats.outliers_influence import variance_inflation_factor
 
 
 cwd = os.getcwd()
@@ -179,3 +181,53 @@ house = pd.DataFrame({
 
 house_predict = model.predict(house)
 print(f'House predict: {house_predict[0]:,.2f}')
+
+
+# Case 05: Usina de energia
+# Enunciado do desafio
+'''
+Nesta atividade, vamos aplicar os conceitos de multicolinearidade e homocedasticidade em um contexto diferente: o setor de energia. Utilizaremos esse dataset de uma usina de energia para explorar como esses conceitos podem afetar os nossos modelos de regressão. Vamos lá!
+
+Sua tarefa envolve conduzir as seguintes etapas:
+
+Primeira etapa: Verifique a multicolinearidade utilizando o conceito de VIF. Se houver indícios de multicolinearidade entre as variáveis, tente pensar em quais medidas podem ser tomadas. Para isso você deverá construir um modelo de regressão linear assumindo que a coluna PE é a variável y.
+
+Segunda etapa: Realize uma análise de resíduos e identifique se há ou não heterocedasticidade nos dados.
+
+Dedique-se às atividades e desenvolva as suas habilidades por meio da aplicação do seu conhecimento adquirido ao longo do curso.
+'''
+
+# 1st step
+data_energy = load_data(f'{data_folder}usina.csv', is_pandas=True)
+columns = data_energy.columns
+data_energy = sm.add_constant(data_energy)
+data_energy = pd.DataFrame(data_energy, columns=['const'] + list(columns))
+
+y = data_energy['PE']
+x = data_energy.drop(columns=['PE'])
+
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=230)
+
+model_0 = sm.OLS(y_train, x_train).fit()
+print(model_0.summary())
+
+vif = pd.DataFrame()
+vif['variable'] = x.columns
+vif['VIF'] = [variance_inflation_factor(x_train, i) for i in range(x_train.shape[1])]
+vif.head() # Variable AT has VIF > 5 (6.03)
+
+# 2nd step
+y_predict_train = model_0.predict(x_train)
+residuals = model_0.resid
+
+# Plotting
+# 
+# Comparing predicted vs real
+fig = px.scatter(y_predict_train, y_train, title='Predicted Values vs Real Values', labels={'x': 'Predicted Values', 'y': 'Real Values'})
+fig.show()
+
+# Comparing predicted vs residuals
+fig = px.scatter(y_predict_train, residuals, title='Predicted Values vs Residuals', labels={'x': 'Predicted Values', 'y': 'Residuals'})
+fig.show()
+
+# The model shows no heterocedasticity and the slight multicoliearity found in the variable AT (Air Temperature) does not impact the model significantly
