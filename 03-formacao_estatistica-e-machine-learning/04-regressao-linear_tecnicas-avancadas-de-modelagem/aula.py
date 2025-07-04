@@ -55,6 +55,25 @@ sns.heatmap(corr, mask=mask, annot=True, cmap='coolwarm', vmin=-1, vmax=1, ax=ax
 # 02. Análises gráficas
 # # #
 
+# Behaviour of the Dependent Variable (Y)
+sns.set_palette('Accent')
+sns.set_style('darkgrid')
+
+plt.figure(figsize=(20, 5))
+sns.boxplot(data=data, x='Valor', orient='h', width=0.3)
+label_plot(title='Valor', xlabel='Reais', fontsizes='large')
+plot_central_tendency(column=data['Valor'])
+
+# Frequency distribution
+plt.figure(figsize=(20, 6))
+sns.histplot(list(data['Valor']), kde=True, color='green')
+label_plot(title='Distribuição de Frequências', xlabel='Preço dos Imóveis (R$)', fontsizes='large')
+plot_central_tendency(column=data['Valor'])
+
+# Dispersion between variables
+plt.suptitle('Dispersão entre variáveis', fontsize=20, y=1.05)
+sns.pairplot(data=data, y_vars='Valor', x_vars=['Area', 'Dist_Praia', 'Dist_Farmacia'], height=5, kind='reg')
+
 
 # # # Section of the course:
 # 03. Transformação de variáveis
