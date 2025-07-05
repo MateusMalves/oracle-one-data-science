@@ -79,6 +79,29 @@ sns.pairplot(data=data, y_vars='Valor', x_vars=['Area', 'Dist_Praia', 'Dist_Farm
 # 03. Transformação de variáveis
 # # #
 
+np.log(1) # Returns 0
+np.log(0) # Returns -inf
+
+def add_log(data: pd.DataFrame, columns_with_zeros: list[str])-> None:
+    columns = list(data.columns)
+    for column in columns:
+        if not column in columns_with_zeros:
+            data[f'log_{column}'] = np.log(data[column])
+        else:
+            data[f'log_{column}'] = np.log(data[column] + 1)
+
+add_log(data, columns_with_zeros=['Dist_Praia', 'Dist_Farmacia'])
+data.head()
+
+plt.figure(figsize=(20, 6))
+sns.histplot(list(data['log_Valor']), kde=True, color='green')
+label_plot(title='Distribuição de Frequências', xlabel='log do Preço dos Imóveis', fontsizes='large')
+plot_central_tendency(column=data['log_Valor'])
+
+
+# Verifying linear relation
+sns.pairplot(data=data, y_vars='log_Valor', x_vars=['log_Area', 'log_Dist_Praia', 'log_Dist_Farmacia'], height=5, kind='reg')
+
 
 # # # Section of the course:
 # 04. Regressão linear com Statsmodels
