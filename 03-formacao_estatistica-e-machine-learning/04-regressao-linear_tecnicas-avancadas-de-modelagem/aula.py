@@ -17,7 +17,8 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
-import plotly.express as px
+from sklearn.model_selection import train_test_split
+import statsmodels.api as sm
 
 cwd = os.getcwd()
 while bool(re.search(r'\d-', cwd)):
@@ -106,7 +107,25 @@ sns.pairplot(data=data, y_vars='log_Valor', x_vars=['log_Area', 'log_Dist_Praia'
 # # # Section of the course:
 # 04. Regressão linear com Statsmodels
 # # #
+y = data['log_Valor']
+X = data[['log_Area', 'log_Dist_Praia', 'log_Dist_Farmacia']]
 
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=2811)
+
+X_train_with_constant = sm.add_constant(X_train)
+model_statsmodels = sm.OLS(y_train, X_train_with_constant, hasconst=True).fit()
+
+print(model_statsmodels.summary())
+
+# Modifying model and reevaluating
+X = data[['log_Area', 'log_Dist_Praia']]
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=2811)
+
+X_train_with_constant = sm.add_constant(X_train)
+new_model_statsmodels = sm.OLS(y_train, X_train_with_constant, hasconst=True).fit()
+
+print(new_model_statsmodels.summary())
 
 # # # Section of the course:
 # 05. Regressão linear com Scikit-learn
