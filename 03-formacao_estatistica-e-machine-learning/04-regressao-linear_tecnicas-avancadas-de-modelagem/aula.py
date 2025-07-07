@@ -17,8 +17,10 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split
 import statsmodels.api as sm
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn import metrics
 
 cwd = os.getcwd()
 while bool(re.search(r'\d-', cwd)):
@@ -127,6 +129,100 @@ new_model_statsmodels = sm.OLS(y_train, X_train_with_constant, hasconst=True).fi
 
 print(new_model_statsmodels.summary())
 
+
 # # # Section of the course:
 # 05. Regressão linear com Scikit-learn
 # # #
+
+# Estimating the model with training data
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+print('R² = {}'.format(model.score(X_train, y_train)))
+
+# Testing the model
+y_predict = model.predict(X_test)
+
+print('R² = %s' % metrics.r2_score(y_test, y_predict))
+
+# Obtaining punctual predictions
+entry = X_test[0:1]
+
+model.predict(entry)[0] # Returns log(y)
+# Inverting transformation to obtain R$ values
+np.exp(model.predict(entry)[0])
+
+# Creating a simple simulator
+def predict_property_price(model, property: dict, is_log: bool = False, add_const: bool = False) -> float:
+    log_area = property['Area'] if is_log else np.log(property['Area'])
+    log_dist_praia = property['Dist_Praia'] if is_log else np.log(property['Dist_Praia'] + 1)
+
+    if add_const:
+        X = pd.DataFrame({
+            'const': [1.0],
+            'log_Area': log_area,
+            'log_Dist_Praia': log_dist_praia,
+        }, index=[0])
+
+        return np.exp(model.predict(X)[0])
+    
+    X = pd.DataFrame({
+        'log_Area': log_area,
+        'log_Dist_Praia': log_dist_praia,
+    }, index=[0])
+
+    return np.exp(model.predict(X)[0])
+
+property = {
+    'Area': 250,
+    'Dist_Praia': 1,
+}
+
+predicted = predict_property_price(model, property)
+print('R$ {0:,.2f}'.format(predicted))
+
+# Playing
+def build_property_obj(area: float, dist_praia: float) -> dict:
+    return {
+        'Area': area,
+        'Dist_Praia': dist_praia,
+    }
+
+predict_property_price(model, build_property_obj(250, 100))
+predict_property_price(model, build_property_obj(100, 100))
+predict_property_price(model, build_property_obj(50, 10))
+predict_property_price(model, build_property_obj(50, 100))
+predict_property_price(model, build_property_obj(50, 10000)) # Starts to fail and predict absurd values for high distances
+
+# Interpreting the estimated coefficients
+# 
+# Obtaining the intercept
+model.intercept_ # Returns log(y)
+np.exp(model.intercept_) # Transforming back
+
+# Obtaining the coefficients B2* ... Bn
+# (Some literatures may use B1, B2, ... Bn, and B0 for the intercept)
+model.coef_
+# 
+# Storing the coefficients in a DataFrame
+X.columns # Confirming the order of the variables
+index = ['Intercept', 'log_Area (m²)', 'log_Distance to the Beach (km)']
+coefs = pd.DataFrame(data=np.append(model.intercept_, model.coef_), index=index, columns=['Parameters'])
+
+# Graphical analysis of the model's results
+# 
+# Generating previsions of the model for training data
+y_predict_train = model.predict(X_train)
+
+# Plotting
+plt.figure(figsize=(12, 6))
+sns.scatterplot(x=y_predict_train, y=y_train)
+label_plot(title='Previsões do Modelo', xlabel='Previsões', ylabel='Valores Reais', footer='Valores em log', fontsizes='large')
+
+# Analyzing residuals
+residuals = y_train - y_predict_train
+
+# Plotting
+plt.figure(figsize=(12, 6))
+sns.histplot(residuals, kde=True, color='green')
+label_plot(title='Residuals Frequency Distribution', xlabel='log of the Price', fontsizes='large')
