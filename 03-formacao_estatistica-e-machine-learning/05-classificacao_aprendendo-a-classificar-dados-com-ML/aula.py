@@ -16,6 +16,9 @@ import re
 import pandas as pd
 import matplotlib.pyplot as plt
 import plotly.express as px
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.compose import make_column_transformer
+from sklearn.preprocessing import LabelEncoder
 
 
 cwd = os.getcwd()
@@ -76,6 +79,26 @@ plot_boxplot(data, 'numero_contatos', 'Distribuição do Número de Contatos', c
 # # # Section of the course:
 # 02. Transformação de dados
 # # #
+
+# Variables separation
+x = data.drop(columns=['aderencia_investimento'], axis=1)
+y = data['aderencia_investimento']
+
+# Transforming explanatory variables
+columns = x.columns
+
+one_hot = make_column_transformer((
+    OneHotEncoder(drop='if_binary'),
+    ['estado_civil', 'escolaridade', 'inadimplencia', 'fez_emprestimo']
+), remainder='passthrough', sparse_threshold=0)
+x = one_hot.fit_transform(x)
+one_hot.get_feature_names_out(columns)
+
+pd.DataFrame(x, columns=one_hot.get_feature_names_out(columns)) # type: ignore
+
+# Transforming target variable
+label_encoder = LabelEncoder()
+y = label_encoder.fit_transform(y)
 
 
 # # # Section of the course:

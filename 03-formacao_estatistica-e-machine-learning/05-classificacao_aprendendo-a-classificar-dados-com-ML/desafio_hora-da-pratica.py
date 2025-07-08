@@ -23,7 +23,11 @@
 import os
 import sys
 import re
+import pandas as pd
 import plotly.express as px
+from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.compose import make_column_transformer
 
 cwd = os.getcwd()
 while bool(re.search(r'\d-', cwd)):
@@ -49,7 +53,6 @@ data['membro_ativo'] = data['membro_ativo'].astype('category')
 # Exploring uniques
 def get_uniques(df, col):
     uniques = df[col].unique()
-    uniques.sort()
     return uniques
 
 columns = list(data.columns)
@@ -77,3 +80,27 @@ def plot_boxplot(df, column, title, color=None):
 columns_numerics = [col for col in columns if data[col].dtype != 'object' and col != 'churn' and data[col].dtype.name != 'category']
 for col in columns_numerics:
     plot_boxplot(data, col, f'Boxplot: {col}', 'churn')
+
+# Case aula 2
+# Enunciado do desafio
+'''
+1 - Para utilizar os dados nos algoritmos de Machine Learning, precisamos informar quais são as variáveis explicativas e qual é a variável alvo. Neste desafio, faça a separação da base de dados de churn entre as variáveis explicativas, armazenando em uma variável x e a variável alvo em y.
+2 - Variáveis categóricas que estejam em formato de texto não podem ser utilizadas diretamente nos modelos de Machine Learning. Neste desafio, faça a transformação das variáveis categóricas para o formato numérico usando o OneHotEncoder, utilizando o parâmetro drop='if_binary' caso alguma variável tenha apenas 2 categorias.
+3 - A variável alvo, como é do tipo categórica, também precisa passar por um tratamento similar às variáveis explicativas categóricas para que possa ser usada nos algoritmos. Nessa tarefa, utilize o método LabelEncoder para fazer a transformação da variável churn.
+'''
+
+x = data.drop(columns=['churn'])
+y = data['churn']
+
+# Transforming categorical variables
+one_hot = make_column_transformer((
+    OneHotEncoder(drop='if_binary'), columns_categorical
+), remainder='passthrough', sparse_threshold=0)
+x = one_hot.fit_transform(x)
+
+one_hot.get_feature_names_out()
+pd.DataFrame(x, columns=one_hot.get_feature_names_out()) # type: ignore
+
+# Transforming target variable
+label_encoder = LabelEncoder()
+y = label_encoder.fit_transform(y)
