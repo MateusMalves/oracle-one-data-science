@@ -14,11 +14,15 @@ import os
 import sys
 import re
 import pandas as pd
-import matplotlib.pyplot as plt
 import plotly.express as px
-from sklearn.preprocessing import OneHotEncoder
+import matplotlib.pyplot as plt
 from sklearn.compose import make_column_transformer
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import OneHotEncoder
 from sklearn.preprocessing import LabelEncoder
+from sklearn.dummy import DummyClassifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.tree import plot_tree
 
 
 cwd = os.getcwd()
@@ -105,6 +109,42 @@ y = label_encoder.fit_transform(y)
 # 03. Ajustando modelos
 # # #
 
+# Splitting data
+x_train, x_test, y_train, y_test = train_test_split(x, y, stratify=y, random_state=5)
+
+# Base Model: Dummy classifier
+dummy = DummyClassifier()
+dummy.fit(x_train, y_train)
+dummy.score(x_test, y_test)
+
+# Decision tree
+# 
+tree = DecisionTreeClassifier(random_state=5)
+tree.fit(x_train, y_train)
+
+# Predicting
+tree.predict(x_test)
+
+# Plotting
+column_names = ['casado(a)', 'divorciado(a)', 'solteiro(a)', 'fundamental', 'médio', 'superior', 'indadimplencia', 'fez_emprestimo', 'idade', 'saldo', 'tempo_ult_contato', 'numero_contatos']
+plt.figure(figsize=(15, 6))
+plot_tree(tree, filled=True, class_names=['Não', 'Sim'], fontsize=1, feature_names=column_names)
+
+# Scores
+tree.score(x_test, y_test) # Test score
+tree.score(x_train, y_train) # Train score: Overfitting
+
+# Fixing...
+tree = DecisionTreeClassifier(max_depth=3, random_state=5)
+tree.fit(x_train, y_train)
+
+# New scores
+tree.score(x_test, y_test) # Test score
+tree.score(x_train, y_train) # Train score: No overfitting
+
+# Plotting
+plt.figure(figsize=(15, 6))
+plot_tree(tree, filled=True, class_names=['Não', 'Sim'], fontsize=7, feature_names=column_names)
 
 # # # Section of the course:
 # 04. Seleção de modelos

@@ -25,9 +25,14 @@ import sys
 import re
 import pandas as pd
 import plotly.express as px
+import matplotlib.pyplot as plt
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.compose import make_column_transformer
+from sklearn.model_selection import train_test_split
+from sklearn.dummy import DummyClassifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.tree import plot_tree
 
 cwd = os.getcwd()
 while bool(re.search(r'\d-', cwd)):
@@ -104,3 +109,33 @@ pd.DataFrame(x, columns=one_hot.get_feature_names_out()) # type: ignore
 # Transforming target variable
 label_encoder = LabelEncoder()
 y = label_encoder.fit_transform(y)
+
+
+# Case aula 3
+# Enunciado do desafio
+'''
+1 - A separação dos dados entre conjunto de treinamento e teste é essencial para compreender se um modelo está conseguindo aprender os padrões e generalizar para novos dados. Nesta tarefa, faça a divisão da base de dados entre treinamento e teste de forma estratificada.
+2 - Um modelo de base é muito importante para definir um critério de comparação para modelos mais complexos. Nesta etapa, crie um modelo de base com o DummyClassifier e encontre a taxa de acerto com o método score.
+3 - A árvore de decisão é um algoritmo que faz as classificações a partir de decisões simples tomadas a partir dos dados. Temos que tomar certo cuidado para não utilizar uma profundidade muito grande, porque isso pode provocar um sobreajuste do modelo aos dados de treinamento. Neste desafio, crie um modelo de árvore de decisão com o parâmetro max_depth=4, avalie o desempenho do modelo nos dados de teste e visualize as decisões da árvore usando o método plot_tree.
+'''
+
+# Splitting data
+x_train, x_test, y_train, y_test = train_test_split(x, y, random_state=42, stratify=y)
+
+# Base model
+base_model = DummyClassifier()
+base_model.fit(x_train, y_train)
+base_model.score(x_test, y_test)
+base_model.score(x_train, y_train)
+
+# Decision tree
+tree = DecisionTreeClassifier(max_depth=4, random_state=42)
+tree.fit(x_train, y_train)
+tree.score(x_test, y_test) # Good score 0.8552
+tree.score(x_train, y_train) # Not overfitted: 0.8552
+
+# Plotting
+column_names = ['Alemanha', 'Espanha', 'França', 'Mulher', 'Tem Cartão', 'Membro Ativo', 'Score Crédito', 'Idade', 'Anos de Cliente', 'Saldo', 'Serviços Adquiridos', 'Salário Estimado']
+
+plt.figure(figsize=(15, 6))
+plot_tree(tree, filled=True, feature_names=column_names, fontsize=7, class_names=['Não', 'Sim'])
