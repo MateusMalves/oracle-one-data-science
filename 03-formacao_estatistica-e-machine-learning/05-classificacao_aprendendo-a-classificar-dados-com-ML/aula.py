@@ -13,6 +13,7 @@
 import os
 import sys
 import re
+import pickle
 import pandas as pd
 import plotly.express as px
 import matplotlib.pyplot as plt
@@ -23,6 +24,8 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.dummy import DummyClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.tree import plot_tree
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.neighbors import KNeighborsClassifier
 
 
 cwd = os.getcwd()
@@ -149,3 +152,67 @@ plot_tree(tree, filled=True, class_names=['Não', 'Sim'], fontsize=7, feature_na
 # # # Section of the course:
 # 04. Seleção de modelos
 # # #
+
+# Scaling data
+normalization = MinMaxScaler()
+x_train_normalized = normalization.fit_transform(x_train)
+pd.DataFrame(x_train_normalized, columns=one_hot.get_feature_names_out())
+
+# Using KNN
+knn = KNeighborsClassifier()
+knn.fit(x_train_normalized, y_train)
+
+x_test_normalized = normalization.transform(x_test)
+knn.score(x_test_normalized, y_test) # Test score
+knn.score(x_train_normalized, y_train) # Train score: No overfitting
+
+# Comparing models
+def compare_models(models):
+    scores = {}
+    best_model = None
+    for model in models:
+        model_name = model.__class__.__name__
+        if type(model) is KNeighborsClassifier:
+            scores[model_name] = model.score(x_test_normalized, y_test)
+        else:
+            scores[model_name] = model.score(x_test, y_test)
+        if best_model is None or scores[model_name] > scores[best_model]:
+            best_model = model_name
+
+    for model_name, score in scores.items():
+        print(f'{model_name} Score: {score}')
+
+    print(f'\nBest Model: {best_model}')
+
+compare_models([dummy, tree, knn])
+
+# Exporting data:
+# 
+# Exporting one hot encoder
+with open(f'{outputs_folder}model_onehotenc.pkl', 'wb') as file:
+    pickle.dump(one_hot, file)
+
+# Exporting the tree
+with open(f'{outputs_folder}model_tree.pkl', 'wb') as file:
+    pickle.dump(tree, file)
+
+# Testing how to use the saved data
+data.head()
+new_data = {
+    'idade': [45],
+    'estado_civil': ['solteiro (a)'],
+    'escolaridade': ['superior'],
+    'inadimplencia': ['nao'],
+    'saldo': [23040],
+    'fez_emprestimo': ['nao'],
+    'tempo_ult_contato': [800],
+    'numero_contatos': [4]
+}
+new_data = pd.DataFrame(new_data)
+new_data.head()
+
+model_one_hot = pd.read_pickle(f'{outputs_folder}model_onehotenc.pkl')
+model_tree = pd.read_pickle(f'{outputs_folder}model_tree.pkl')
+
+new_data = model_one_hot.transform(new_data)
+model_tree.predict(new_data)

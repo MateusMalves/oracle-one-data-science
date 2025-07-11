@@ -23,6 +23,7 @@
 import os
 import sys
 import re
+import pickle
 import pandas as pd
 import plotly.express as px
 import matplotlib.pyplot as plt
@@ -33,6 +34,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.dummy import DummyClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.tree import plot_tree
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.neighbors import KNeighborsClassifier
 
 cwd = os.getcwd()
 while bool(re.search(r'\d-', cwd)):
@@ -42,7 +45,7 @@ if load_data_path not in sys.path:
     sys.path.append(load_data_path)
 from load_data import load_data
 
-data_folder = cwd + '/data/03-formacao_estatistica-e-machine-learning/05-classificacao_aprendendo-a-classificar-dados-com-ML'
+data_folder = cwd + '/data/03-formacao_estatistica-e-machine-learning/05-classificacao_aprendendo-a-classificar-dados-com-ML/'
 outputs_folder = data_folder + 'outputs/'
 
 # Import data
@@ -139,3 +142,92 @@ column_names = ['Alemanha', 'Espanha', 'França', 'Mulher', 'Tem Cartão', 'Memb
 
 plt.figure(figsize=(15, 6))
 plot_tree(tree, filled=True, feature_names=column_names, fontsize=7, class_names=['Não', 'Sim'])
+
+
+# Case aula 4
+# Enunciado do desafio
+'''
+1 - A normalização de dados é uma tarefa importante para manter todos os valores numéricos em uma mesma escala e garantir que todas as características tenham o mesmo impacto no modelo. Nesta tarefa, faça a normalização da base de dados usando o MinMaxScaler.
+
+2 - Com os dados normalizados, podemos utilizar o modelo KNN, que faz cálculos de distância para encontrar os vizinhos mais próximos. Nesta atividade, crie um modelo KNN usando o KNeighborsClassifier com os dados normalizados e avalie o desempenho nos dados de teste, também normalizados.
+
+3 - Após a construção dos modelos, é o momento de comparar os resultados e selecionar aquele que tem o melhor desempenho. Neste desafio, avalie a taxa de acerto dos modelos DummyClassifier, DecisionTreeClassifier e KNeighborsClassifier que foram construídos nos outros desafios utilizando o método score e, em seguida, armazene o modelo com melhor acurácia em um arquivo pickle. Os modelos de transformação também precisam ser armazenados, que é o caso do OneHotEncoder e do MinMaxScaler, caso o KNN tenha o melhor desempenho.
+
+4 - Depois que o modelo está em produção, já pode ser utilizado para classificar novos dados. Neste desafio, faça a leitura dos arquivos pickle dos modelos que foram salvos no desafio anterior e utilize os modelos para fazer a predição do seguinte registro:
+
+novo_dado = pd.DataFrame({
+    'score_credito': [850],
+    'pais':['França'],
+    'sexo_biologico':['Homem'],
+    'idade': [27],
+    'anos_de_cliente': [3],
+    'saldo': [56000],
+    'servicos_adquiridos': [1],
+    'tem_cartao_credito': [1],
+    'membro_ativo': [1],
+    'salario_estimado': [85270.00]
+})
+'''
+
+# Scaling data
+normalization = MinMaxScaler()
+x_train_normalized = normalization.fit_transform(x_train)
+x_test_normalized = normalization.transform(x_test)
+pd.DataFrame(x_train_normalized, columns=one_hot.get_feature_names_out())
+
+# Using KNN
+knn = KNeighborsClassifier()
+knn.fit(x_train_normalized, y_train)
+knn.score(x_test_normalized, y_test)
+knn.score(x_train_normalized, y_train)
+
+# Comparing models
+def compare_models(models):
+    scores = {}
+    best_model = None
+    for model in models:
+        model_name = model.__class__.__name__
+        if type(model) is KNeighborsClassifier:
+            scores[model_name] = model.score(x_test_normalized, y_test)
+        else:
+            scores[model_name] = model.score(x_test, y_test)
+        if best_model is None or scores[model_name] > scores[best_model]:
+            best_model = model_name
+
+    for model_name, score in scores.items():
+        print(f'{model_name} Score: {score}')
+
+    print(f'\nBest Model: {best_model}')
+
+# Models to compare
+models = [base_model, tree, knn]
+compare_models(models) # Best = Decision tree
+
+# Saving one hot encoder
+with open(f'{outputs_folder}desafio_one_hot_encoder.pkl', 'wb') as file:
+    pickle.dump(one_hot, file)
+
+# Saving the tree
+with open(f'{outputs_folder}desafio_tree.pkl', 'wb') as file:
+    pickle.dump(tree, file)
+
+# Predicting the new registry using the pickle saved model
+model_one_hot = pd.read_pickle(f'{outputs_folder}desafio_one_hot_encoder.pkl')
+with open(f'{outputs_folder}desafio_tree.pkl', 'rb') as file:
+    new_tree = pickle.load(file)
+
+new_data = pd.DataFrame({
+    'score_credito': [850],
+    'pais':['França'],
+    'sexo':['Homem'],
+    'idade': [27],
+    'anos_de_cliente': [3],
+    'saldo': [56000],
+    'servicos_adquiridos': [1],
+    'tem_cartao_credito': [1],
+    'membro_ativo': [1],
+    'salario_estimado': [85270.00]
+})
+
+new_data = model_one_hot.transform(new_data)
+new_tree.predict(new_data)
