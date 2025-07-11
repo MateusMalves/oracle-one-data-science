@@ -25,6 +25,22 @@ from load_data import load_data
 data_folder = cwd + '/data/03-formacao_estatistica-e-machine-learning/07-ia-aumentada_prevendo-atrasos-de-voos/'
 outputs_folder = data_folder + 'outputs/'
 
+
 # # # Section of the course:
-# 0.
+# 01. Explorando os dados
+# # #
+
+
+# # # Section of the course:
+# 02. Feature engeneering
+# # #
+
+
+# # # Section of the course:
+# 03. Seleção e validação do modelo
+# # #
+
+
+# # # Section of the course:
+# 04. Otimização de hiperparâmetros
 # # #

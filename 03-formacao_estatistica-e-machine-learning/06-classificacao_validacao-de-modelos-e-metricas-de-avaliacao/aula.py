@@ -25,6 +25,22 @@ from load_data import load_data
 data_folder = cwd + '/data/03-formacao_estatistica-e-machine-learning/06-classificacao_validacao-de-modelos-e-metricas-de-avaliacao/'
 outputs_folder = data_folder + 'outputs/'
 
+
 # # # Section of the course:
-# 0.
+# 01. Classificando dados
+# # #
+
+
+# # # Section of the course:
+# 02. Métricas de avaliação
+# # #
+
+
+# # # Section of the course:
+# 03. Validação cruzada
+# # #
+
+
+# # # Section of the course:
+# 04. Balanceamento de dados
 # # #
