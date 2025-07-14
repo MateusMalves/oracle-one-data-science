@@ -15,7 +15,7 @@ import sys
 import re
 import pandas as pd
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, cross_validate, KFold, StratifiedKFold
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import (
     confusion_matrix,
@@ -163,6 +163,58 @@ print(classification_report(y_val, y_predicted))
 # # # Section of the course:
 # 03. Validação cruzada
 # # #
+
+# Using K-Fold Cross-Validation
+model = DecisionTreeClassifier(max_depth=10)
+kf = KFold(n_splits=5, shuffle=True, random_state=5)
+cv_results = cross_validate(model, x, y, cv=kf)
+
+# Displaying the results
+average = cv_results['test_score'].mean()
+std_dev = cv_results['test_score'].std()
+print(f'Confidence Interval: [{average - 2 * std_dev:.2%}, {min(average + 2 * std_dev, 1):.2%}]')
+
+# Cross validation with Recall
+def interval_conf(results):
+    average = results['test_score'].mean()
+    std_dev = results['test_score'].std()
+    print(f'Confidence Interval: [{average - 2 * std_dev:.2%}, {min(average + 2 * std_dev, 1):.2%}]')
+
+model = DecisionTreeClassifier(max_depth=10)
+kf = KFold(n_splits=5, shuffle=True, random_state=5)
+cv_results = cross_validate(model, x, y, cv=kf, scoring='recall')
+
+interval_conf(cv_results)
+
+# Como desafio, construa um código para gerar o intervalo de confiança para cada uma das métricas com a utilização da validação cruzada:
+
+# Acurácia
+# Recall
+# Precisão
+# F1-score
+def build_cross_validation(scoring):
+    model = DecisionTreeClassifier(max_depth=10)
+    kf = KFold(n_splits=5, shuffle=True, random_state=5)
+    cv_results = cross_validate(model, x, y, cv=kf, scoring=scoring)
+
+    print(cv_results['test_score'])
+    interval_conf(cv_results)
+
+build_cross_validation('accuracy')
+build_cross_validation('recall')
+build_cross_validation('precision')
+build_cross_validation('f1')
+
+# Stratifying the data
+# 
+# Checking proportions
+data['inadimplente'].value_counts(normalize=True)
+
+# Using StratifiedKFold
+model = DecisionTreeClassifier(max_depth=10)
+skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=5)
+cv_results = cross_validate(model, x, y, cv=skf, scoring='recall')
+interval_conf(cv_results)
 
 
 # # # Section of the course:

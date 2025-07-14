@@ -26,9 +26,16 @@ import os
 import sys
 import re
 import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import (
+    train_test_split,
+    KFold,
+    cross_validate,
+    cross_val_score,
+    StratifiedKFold,
+    LeaveOneOut
+)
 from sklearn.metrics import (
     confusion_matrix,
     ConfusionMatrixDisplay,
@@ -153,3 +160,54 @@ for model in models_to_evaluate:
     for func in model_evaluation_functions:
         func(model, x_val, y_val)
         print('-' * 40)
+
+
+# Case aula 3
+# Enunciado do desafio
+'''
+1 - No processo de validação cruzada, são gerados diferentes modelos para cada divisão realizada nos dados e consequentemente diferentes valores de métricas de avaliação. Para encontrar um resultado médio das métricas, pode ser construído um intervalo de confiança a partir da média e desvio padrão das métricas. Crie uma função para calcular o intervalo de confiança dos resultados de uma validação cruzada com 2 desvios padrão. A função precisa de 2 parâmetros: um para receber uma lista com os resultados das métricas da validação cruzada e outro para receber o nome do algoritmo. Para gerar o intervalo de confiança, extraia a média dos resultados da lista e o desvio padrão. O intervalo de confiança deve ser apresentado em um print com o valor mínimo sendo a média subtraída de 2 desvios padrão e o valor máximo sendo a média somada de 2 desvios padrão. Exemplo de retorno da função:
+
+# Intervalo de confiança ("nome do modelo"): ["valor mínimo do intervalo", "valor máximo do intervalo"]
+
+2 - KFold é a estratégia mais simples de validação cruzada, que permite a divisão aleatória dos dados em k partes, sendo utilizada uma parte para validação e o restante para treinamento do modelo. O processo de criação de modelos é feito novamente até que todas as partes sejam utilizadas como validação. Sabendo disso, avalie o desempenho dos modelos com um intervalo de confiança utilizando a validação cruzada com o método KFold, usando 10 partes, com uso do parâmetro n_splits e embaralhando os dados antes da separação com o parâmetro shuffle. Use o método cross_val_score que não retorna o tempo de execução, apenas as métricas.
+
+3 - No processo de divisão de dados com o KFold aleatório, pode ser que a proporção de cada categoria da variável alvo não seja mantida em cada uma das partes dos dados. Para manter essa proporção em cada uma das partes, podemos utilizar o KFold estratificado, deixando o processo de validação de dados bem mais consistente. Avalie o desempenho dos modelos com um intervalo de confiança utilizando a validação cruzada (cross_val_score) com o método StratifiedKFold, com uso do parâmetro n_splits e embaralhando os dados antes da separação com o parâmetro shuffle e avaliando a métrica F1-Score usando o parâmetro scoring.
+
+4 - Em conjuntos de dados com poucos registros (poucas linhas), as estratégias de separação dos dados para validação podem fazer com que reste pouca informação nos dados de treinamento, fazendo com que o modelo não compreenda bem o padrão dos dados. O LeaveOneOut é uma estratégia para contornar esse problema, utilizando apenas um registro como dado de validação. Avalie o desempenho dos modelos utilizando a validação cruzada (cross_val_score) com o método LeaveOneOut.
+'''
+
+# 1. Confidence Interval Function
+def interval_conf(results, model_name):
+    average = results.mean()
+    std_dev = results.std()
+    confidence_interval = [average - 2 * std_dev, min(average + 2 * std_dev, 1)]
+
+    print(f'=> Confidence Interval ({model_name}):\n[{confidence_interval[0]:.2%}, {confidence_interval[1]:.2%}]')
+
+# 2. K-Fold Cross-Validation
+def k_fold_cross_validation(model, x, y, n_splits=10):
+    kf = KFold(n_splits=n_splits, shuffle=True, random_state=5)
+    cv_results = cross_val_score(model, x, y, cv=kf)
+    print(f'=> K-Fold Cross-Validation Results for {model.__class__.__name__}:')
+    print(f'{cv_results}\n')
+    interval_conf(cv_results, model.__class__.__name__)
+
+# 3. Stratified K-Fold Cross-Validation
+def stratified_k_fold_cross_validation(model, x, y, n_splits=10):
+    skf = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=5)
+    cv_results = cross_val_score(model, x, y, cv=skf, scoring='f1')
+    print(f'=> Stratified K-Fold Cross-Validation Results for {model.__class__.__name__}:')
+    print(f'{cv_results}\n')
+    interval_conf(cv_results, model.__class__.__name__)
+
+# 4. Leave-One-Out Cross-Validation
+def leave_one_out_cross_validation(model, x, y):
+    loo = LeaveOneOut()
+    cv_results = cross_val_score(model, x, y, cv=loo)
+    print(f'=> Leave-One-Out Cross-Validation Results for {model.__class__.__name__}:')
+    print(f'{cv_results}\n')
+    print(f'=> Average Accuracy: {cv_results.mean():.2%}')
+
+k_fold_cross_validation(DecisionTreeClassifier(max_depth=10), x, y)
+stratified_k_fold_cross_validation(DecisionTreeClassifier(max_depth=10), x, y)
+leave_one_out_cross_validation(DecisionTreeClassifier(max_depth=10), x, y)
