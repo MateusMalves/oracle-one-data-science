@@ -16,8 +16,20 @@ import re
 import pandas as pd
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import (
+    confusion_matrix,
+    ConfusionMatrixDisplay,
+    accuracy_score,
+    precision_score,
+    recall_score,
+    f1_score,
+    RocCurveDisplay,
+    roc_auc_score,
+    PrecisionRecallDisplay,
+    average_precision_score,
+    classification_report
+)
 
 
 cwd = os.getcwd()
@@ -101,6 +113,51 @@ view_rf.plot()
 # # # Section of the course:
 # 02. Métricas de avaliação
 # # #
+
+# Measuring accuracy
+# 
+# Formula:
+# Accuracy = (True Positives + True Negatives) / Total Samples
+# 
+accuracy = accuracy_score(y_val, y_predicted) # Formula: (8824 + 32) / (8824 + 32 + 82 + 820)
+print(f'Accuracy: {accuracy:.2%}')
+
+# Measuring precision and recall
+# 
+# Formulas:
+# Precision = True Positives / (True Positives + False Positives)
+# Recall = True Positives / (True Positives + False Negatives)
+# 
+precision = precision_score(y_val, y_predicted) # Formula: 32 / (32 + 82)
+recall = recall_score(y_val, y_predicted) # Formula: 32 / (32 + 820)
+print(f'Precision: {precision:.2%}')
+print(f'Recall: {recall:.2%}')
+
+# Measuring F1 Score
+# 
+# Formula:
+# F1 Score = 2 * (Precision * Recall) / (Precision + Recall)
+f1_score_value = f1_score(y_val, y_predicted) # Formula (approx.): 2 * (0.2807 * 0.0375) / (0.2807 + 0.0375)
+print(f'F1 Score: {f1_score_value:.2%}')
+
+# ROC curve: Receiver Operating Characteristic curve
+# 
+# ROC Curve: Plot of True Positive Rate (TPR) vs False Positive Rate (FPR)
+# Formula:
+# TPR (Recall) =  True Positives / (True Positives + False Negatives)
+# FPR = False Positives / (False Positives + True Negatives)
+RocCurveDisplay.from_predictions(y_val, y_predicted, name='Decision Tree Classifier') # AUC 0.51
+auc = roc_auc_score(y_val, y_predicted) # Area Under the ROC Curve
+print(f'AUC: {auc:.2f}')
+
+# Precision-Recall curve
+# 
+PrecisionRecallDisplay.from_predictions(y_val, y_predicted, name='Decision Tree Classifier') # AP 0.10
+ap = average_precision_score(y_val, y_predicted) # Average Precision
+print(f'Average Precision: {ap:.2f}')
+
+# Metrics Relatory
+print(classification_report(y_val, y_predicted))
 
 
 # # # Section of the course:

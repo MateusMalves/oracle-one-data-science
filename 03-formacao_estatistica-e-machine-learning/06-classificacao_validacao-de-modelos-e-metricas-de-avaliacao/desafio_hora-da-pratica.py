@@ -25,10 +25,23 @@
 import os
 import sys
 import re
+import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
+from sklearn.metrics import (
+    confusion_matrix,
+    ConfusionMatrixDisplay,
+    accuracy_score,
+    precision_score,
+    recall_score,
+    f1_score,
+    RocCurveDisplay,
+    roc_auc_score,
+    PrecisionRecallDisplay,
+    average_precision_score,
+    classification_report
+)
 
 
 cwd = os.getcwd()
@@ -70,3 +83,73 @@ def evaluate_model(model, x_val, y_val):
 
 evaluate_model(model_tree, x_val, y_val)
 evaluate_model(model_rf, x_val, y_val)
+
+
+# Case aula 2
+# Enunciado do desafio
+'''
+1 - Para uma avaliação completa de um modelo de classificação, podemos explorar métricas que avaliam a taxa de acerto geral e também para cada classe da variável alvo de forma individual. Extraia as métricas acurácia, recall, precisão e F1-Score dos modelos de classificação gerados no desafio da aula 1. A biblioteca Scikit-Learn possui funções para calcular cada uma das métricas, bastando fazer a importação e utilizar como parâmetros os valores reais e previstos pelo modelo.
+
+2 - Além de métricas numéricas, gráficos podem ser explorados para avaliar o desempenho de um modelo e compreender se ele consegue diferenciar bem uma classe da outra. Obtenha a curva ROC e a métrica AUC dos modelos de classificação gerados no desafio da aula 1, comparando as curvas no mesmo gráfico. A curva ROC pode ser gerada usando o método RocCurveDisplay.from_predictions.
+
+3 - Além da curva ROC, a curva de precisão x recall pode ser usada para avaliar o desempenho de modelos, sendo mais interessante para dados desbalanceados. Obtenha a curva precisão x recall e a métrica AP dos modelos de classificação gerados no desafio da aula 1, comparando as curvas no mesmo gráfico. A curva precisão x recall pode ser gerada usando o método PrecisionRecallDisplay.from_predictions.
+
+4 - Um resumo das principais métricas de classificação pode ser muito útil para sumarizar as informações e gerar insights de forma rápida. Gere os relatórios de métricas dos modelos de classificação construídos no desafio da aula 1. O relatório de métricas pode ser gerado a partir da função classification_report da biblioteca Scikit-Learn.
+'''
+
+# 1. Get accuracy, recall, precision and F1-Score
+def get_metrics(model, x_val, y_val) -> None:
+    y_predicted = model.predict(x_val)
+    
+    accuracy = accuracy_score(y_val, y_predicted)
+    precision = precision_score(y_val, y_predicted)
+    recall = recall_score(y_val, y_predicted)
+    f1 = f1_score(y_val, y_predicted)
+
+    print(f'Accuracy: {accuracy:.2%}')
+    print(f'Precision: {precision:.2%}')
+    print(f'Recall: {recall:.2%}')
+    print(f'F1 Score: {f1:.2%}')
+
+# 2. ROC Curve and AUC
+def get_roc_curve(model, x_val, y_val) -> None:
+    y_predicted = model.predict(x_val)
+    auc = roc_auc_score(y_val, y_predicted)
+    print(f'AUC: {auc:.2f}')
+
+    RocCurveDisplay.from_predictions(y_val, y_predicted, name=model.__class__.__name__)
+    plt.title('ROC Curve')
+    plt.show()
+    plt.close()
+
+# 3. Precision-Recall Curve and Average Precision
+def get_precision_recall_curve(model, x_val, y_val) -> None:
+    y_predicted = model.predict(x_val)
+    ap = average_precision_score(y_val, y_predicted)
+    print(f'Average Precision: {ap:.2f}')
+
+    PrecisionRecallDisplay.from_predictions(y_val, y_predicted, name=model.__class__.__name__)
+    plt.title('Precision-Recall Curve')
+    plt.show()
+    plt.close()
+
+# 4. Classification Report
+def get_classification_report(model, x_val, y_val) -> None:
+    y_predicted = model.predict(x_val)
+    report = classification_report(y_val, y_predicted)
+    print(report)
+
+# Evaluate models
+models_to_evaluate = [model_tree, model_rf]
+model_evaluation_functions = [
+    get_metrics,
+    get_roc_curve,
+    get_precision_recall_curve,
+    get_classification_report
+]
+
+for model in models_to_evaluate:
+    print(f'\nEvaluating {model.__class__.__name__}:\n')
+    for func in model_evaluation_functions:
+        func(model, x_val, y_val)
+        print('-' * 40)
