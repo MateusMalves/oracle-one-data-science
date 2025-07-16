@@ -26,8 +26,12 @@ import os
 import sys
 import re
 import matplotlib.pyplot as plt
+import seaborn as sns
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
+from imblearn.over_sampling import SMOTE
+from imblearn.under_sampling import NearMiss
+from imblearn.pipeline import Pipeline as ImbPipeline
 from sklearn.model_selection import (
     train_test_split,
     KFold,
@@ -211,3 +215,45 @@ def leave_one_out_cross_validation(model, x, y):
 k_fold_cross_validation(DecisionTreeClassifier(max_depth=10), x, y)
 stratified_k_fold_cross_validation(DecisionTreeClassifier(max_depth=10), x, y)
 leave_one_out_cross_validation(DecisionTreeClassifier(max_depth=10), x, y)
+
+
+# Case Aula 4
+# Enunciado do desafio
+'''
+1 - O desbalanceamento dos dados da variável alvo pode fazer com que o modelo fique tendencioso a acertar os padrões de apenas da categoria que tem maior quantidade, tornando necessário em alguns casos um tratamento específico de balanceamento de dados. A etapa inicial é identificar se existe ou não o desbalanceamento de dados na variável alvo. Por conta disso, verifique a proporção de dados da variável alvo do conjunto de dados de diabetes. Essa análise pode ser feita a partir da porcentagem de dados, usando o método value_counts(normalize=True) ou com a utilização de um gráfico de contagem, usando o gráfico countplot da biblioteca seaborn para entender se há um desbalanceamento de dados.
+
+2 - Ao realizar o balanceamento de dados em uma validação cruzada, é necessário utilizar um pipeline, para que os dados de validação não sejam balanceados, se mantendo no padrão dos dados do mundo real. Utilize um pipeline contendo ajuste do modelo e o balanceamento dos dados usando o oversampling com SMOTE, obtendo a média do F1-Score de uma validação cruzada com StratifiedKFold.
+
+3 - Além do oversampling, é possível utilizar a estratégia de undersampling para fazer o balanceamento dos dados. Apesar de serem estratégias distintas, ambas necessitam de um pipeline por se tratar de balanceamento de dados em uma validação cruzada. Utilize um pipeline contendo ajuste do modelo e o balanceamento dos dados usando o undersampling com NearMiss na sua versão 3, obtendo a média do F1-Score de uma validação cruzada com StratifiedKFold.
+
+4 - Após realizar diversas análises e aprimorar o desempenho dos modelos, chega a etapa final, que consiste em selecionar o modelo com melhor desempenho e fazer a avaliação final em um conjunto de dados de teste, que não foi visto durante o processo de treinamento e validação. Escolha o modelo que obteve o melhor desempenho ao comparar as estratégias de oversampling e undersampling e treine um modelo usando todos os dados com a melhor estratégia. Realize a avaliação do modelo usando os dados de teste que foram separados no início dos desafios, obtendo o relatório de métricas e matriz de confusão.
+'''
+
+data['diabetes'].value_counts(normalize=True)
+sns.countplot(data=data, x='diabetes')
+
+def balancing(model, x, y, sampling_method, n_splits=10) -> None:
+    print(f'Using {sampling_method.__class__.__name__}...\n')
+    skf = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=5)
+    pipeline = ImbPipeline([('smote', sampling_method), ('model', model)])
+    cv_results = cross_val_score(pipeline, x, y, cv=skf, scoring='f1')
+    print(f'=> Stratified K-Fold Cross-Validation Results for {model.__class__.__name__}:')
+    print(f'{cv_results}')
+    print(f'Length: {len(cv_results)}\n')
+    interval_conf(cv_results, model.__class__.__name__)
+
+model_tree = DecisionTreeClassifier(max_depth=10)
+balancing(model_tree, x, y, SMOTE())
+balancing(model_tree, x, y, NearMiss())
+
+# SMOTE performed better
+# Testing
+def test_model(model, x, y, x_test, y_test, sampling_method) -> None:
+    x_balanced, y_balanced = sampling_method.fit_resample(x, y) # type: ignore
+    model.fit(x_balanced, y_balanced)
+    y_predict = model.predict(x_test)
+
+    print(classification_report(y_test, y_predict))
+    ConfusionMatrixDisplay.from_predictions(y_test, y_predict)
+
+test_model(model_tree, x, y, x_test, y_test, SMOTE())

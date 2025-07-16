@@ -17,6 +17,10 @@ import pandas as pd
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import train_test_split, cross_validate, KFold, StratifiedKFold
 from sklearn.ensemble import RandomForestClassifier
+from imblearn.over_sampling import SMOTE
+from imblearn.under_sampling import NearMiss
+from imblearn.combine import SMOTEENN
+from imblearn.pipeline import Pipeline as ImbPipeline
 from sklearn.metrics import (
     confusion_matrix,
     ConfusionMatrixDisplay,
@@ -220,3 +224,73 @@ interval_conf(cv_results)
 # # # Section of the course:
 # 04. Balanceamento de dados
 # # #
+
+# Oversampling using SMOTE
+oversample = SMOTE()
+x_balanced, y_balanced = oversample.fit_resample(x, y) # type: ignore
+y_balanced.value_counts(normalize=True)
+
+# Creating new model with balanced data
+model = DecisionTreeClassifier(max_depth=10)
+skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=5)
+
+# Evaluating in balanced data (wrong approach)
+cv_results = cross_validate(model, x_balanced, y_balanced, cv=skf, scoring='recall') # type: ignore
+interval_conf(cv_results)
+
+# Using a data pipeline (correct approach)
+model = DecisionTreeClassifier(max_depth=10)
+pipeline = ImbPipeline([
+    ('oversample', SMOTE()),
+    ('tree', model)
+])
+
+skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=5)
+cv_results = cross_validate(pipeline, x, y, cv=skf, scoring='recall') # type: ignore
+interval_conf(cv_results)
+
+# Undersampling using NearMiss
+model = DecisionTreeClassifier(max_depth=10)
+pipeline = ImbPipeline([
+    ('undersample', NearMiss(version=3)), # version=3 is the less sensitive to noise
+    ('tree', model)
+])
+
+skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=5)
+cv_results = cross_validate(pipeline, x, y, cv=skf, scoring='recall') # type: ignore
+interval_conf(cv_results)
+
+# Testing the model
+undersample = NearMiss(version=3)
+x_balanced, y_balanced = undersample.fit_resample(x, y) # type: ignore
+
+model = DecisionTreeClassifier(max_depth=10)
+model.fit(x_balanced, y_balanced)
+y_predict = model.predict(x_test)
+
+print(classification_report(y_test, y_predict))
+ConfusionMatrixDisplay.from_predictions(y_test, y_predict)
+
+# Challenge: Using SMOTEENN
+# SMOTEENN combines SMOTE oversampling with Edited Nearest Neighbors (ENN) undersampling
+# Verify the results obtained by the model using pipline and cross-validation
+model = DecisionTreeClassifier(max_depth=10)
+pipeline = ImbPipeline([
+    ('smoteenn', SMOTEENN()),
+    ('tree', model)
+])
+
+skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=5)
+cv_results = cross_validate(pipeline, x, y, cv=skf, scoring='recall') # type: ignore
+interval_conf(cv_results)
+
+# Testing
+smoteen = SMOTEENN()
+x_balanced, y_balanced = smoteen.fit_resample(x, y) # type: ignore
+
+model = DecisionTreeClassifier(max_depth=10)
+model.fit(x_balanced, y_balanced)
+y_predict = model.predict(x_test)
+
+print(classification_report(y_test, y_predict))
+ConfusionMatrixDisplay.from_predictions(y_test, y_predict)
