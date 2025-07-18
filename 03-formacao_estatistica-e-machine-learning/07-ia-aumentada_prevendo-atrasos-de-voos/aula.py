@@ -14,8 +14,12 @@ import os
 import sys
 import re
 import numpy as np
-import matplotlib.pyplot as plt
+import pandas as pd
 import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.compose import make_column_transformer
+from sklearn.preprocessing import OneHotEncoder
+
 
 cwd = os.getcwd()
 while bool(re.search(r'\d-', cwd)):
@@ -136,6 +140,57 @@ plt.close()
 # # # Section of the course:
 # 02. Feature engeneering
 # # #
+
+# Creating new columns
+data['date'] = pd.to_datetime(data['year'].astype(str) + '-' + (data['day'] + 1).astype(str), format='%Y-%j')
+data['is_weekend'] = data['date'].dt.weekday.isin([5, 6])
+data['day_name'] = data['date'].dt.day_name()
+data.head()
+
+# Feature encoding
+# 
+data.nunique()
+
+# Working with binary columns
+binary_columns = ['schengen', 'is_holiday', 'is_weekend']
+for col in binary_columns:
+    print(data[col].unique())
+
+# Transforming
+data['schengen'] = data['schengen'].replace({'non-schengen': 0, 'schengen': 1})
+for col in binary_columns[1:]:
+    print('opa')
+    data[col] = data[col].replace({False: 0, True: 1})
+
+# Working with categorical columns > binary
+categorical_variables = ['airline', 'aircraft_type', 'origin', 'day_name']
+
+# Using get dummies
+df_encoded = pd.get_dummies(data=data, columns=categorical_variables, dtype=int)
+df_encoded.head()
+
+# Cleaning data
+#
+# Checking correlation between arrival and departure time
+data[['arrival_time', 'departure_time']].corr()
+
+# What to remove?
+# 'departure_time' due to the strong correlation with 'arrival_time'.
+# flight_id, as it is unnecessary
+# 'day', 'year' and 'data', for our model is not aimed at timestamp predictions
+df_clean = df_encoded.drop(columns=['departure_time', 'flight_id', 'day', 'year', 'date'])
+df_clean.head()
+df_clean.columns
+
+# Challenge: Mão na massa
+# Using OneHotEncoder instead of get_dummies
+one_hot = make_column_transformer((
+    OneHotEncoder(drop='if_binary'),
+    categorical_variables
+), remainder='passthrough', sparse_threshold=0)
+
+df_encoded = one_hot.fit_transform(data)
+df_encoded = pd.DataFrame(df_encoded, columns=one_hot.get_feature_names_out()) # type: ignore
 
 
 # # # Section of the course:
