@@ -17,8 +17,18 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
-from sklearn.compose import make_column_transformer
+from typing import Literal, Optional, Any
+from sklearn.dummy import DummyRegressor
 from sklearn.preprocessing import OneHotEncoder
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.compose import make_column_transformer
+from sklearn.model_selection import train_test_split, KFold, cross_validate
+from sklearn.metrics import (
+    root_mean_squared_error,
+    mean_absolute_error,
+    r2_score
+)
+from yellowbrick.regressor import prediction_error, residuals_plot
 
 
 cwd = os.getcwd()
@@ -196,6 +206,158 @@ df_encoded = pd.DataFrame(df_encoded, columns=one_hot.get_feature_names_out()) #
 # # # Section of the course:
 # 03. Seleção e validação do modelo
 # # #
+
+# Treinamento do DummyRegressor
+X = df_clean.drop(['delay'], axis=1)
+y = df_clean['delay']
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)
+model_dummy = DummyRegressor()
+model_dummy.fit(X_train, y_train)
+
+y_predict_dummy = model_dummy.predict(X_test)
+
+def calculate_regression_metrics(y_test: pd.Series | list | np.ndarray,
+                                 y_pred: pd.Series | list | np.ndarray
+                                 ) -> dict:
+    """
+    Calculate metrics for regression models.
+
+    Parameters
+    ----------
+    y_test : pd.Series, list or np.ndarray
+        Target variable of test data.
+    y_pred : pd.Series, list or np.ndarray
+        Predicted values of test data.
+
+    Returns
+    -------
+    dict
+        A dictionary containing the metrics for the regression model, including
+        Root Mean Squared Error (RMSE), Mean Absolute Error (MAE) and R2 Score.
+    """
+    rmse = root_mean_squared_error(y_test, y_pred)
+    mae = mean_absolute_error(y_test, y_pred)
+    r2 = r2_score(y_test, y_pred)
+
+    metrics = {
+        'Root Mean Squared Error': round(rmse, 4),
+        'Mean Absolute Error': round(mae, 4),
+        'R2 Score': round(r2, 4)
+    }
+
+    return metrics
+
+calculate_regression_metrics(y_test, y_predict_dummy) # type: ignore
+
+# Challenge: Mão na massa
+# Using diverse strategies for DummyRegressor
+def test_strategy(X_train: pd.DataFrame,
+                  X_test: pd.DataFrame,
+                  y_train: pd.Series | list | np.ndarray,
+                  strategy: Literal['mean', 'median', 'quantile', 'constant'] = 'mean',
+                  constant_value: Optional[int | float | list] = None, quantile: Optional[float] = None
+                  ) -> dict:
+    """
+    Test diverse strategies for DummyRegressor.
+
+    Parameters
+    ----------
+    X_train : pd.DataFrame
+        DataFrame with features of training data.
+    X_test : pd.DataFrame
+        DataFrame with features of testing data.
+    y_train : pd.Series, list or np.ndarray
+        Series with target variable of training data.
+    strategy : {'mean', 'median', 'quantile', 'constant'}, optional
+        Strategy to use for DummyRegressor. Default is 'mean'.
+    constant_value : int, float, list, optional
+        Value to use for 'constant' strategy. Default is None.
+    quantile : float, optional
+        Quantile value to use for 'quantile' strategy. Default is None.
+
+    Returns
+    -------
+    dict
+        Dictionary with regression metrics calculated for given strategy.
+    """
+
+    if strategy == 'quantile':
+        model_dummy = DummyRegressor(strategy=strategy, quantile=quantile)
+    elif strategy == 'constant':
+        model_dummy = DummyRegressor(strategy=strategy, constant=constant_value)
+    else:
+        model_dummy = DummyRegressor(strategy=strategy)
+        
+    model_dummy.fit(X_train, y_train)
+    y_predict_dummy = model_dummy.predict(X_test)
+
+    return calculate_regression_metrics(y_test, y_predict_dummy) # type: ignore
+
+test_strategy(X_train, X_test, y_train, strategy='mean')
+test_strategy(X_train, X_test, y_train, strategy='quantile', quantile=0.25) # 1st quartile
+test_strategy(X_train, X_test, y_train, strategy='median')
+test_strategy(X_train, X_test, y_train, strategy='quantile', quantile=0.75) # 3rd quartile
+test_strategy(X_train, X_test, y_train, strategy='constant', constant_value=0)
+
+# Training and evaluation with RandomForestRegressor
+def train_model(X_train: pd.DataFrame,
+                y_train: pd.Series | list | np.ndarray,
+                model: Any=RandomForestRegressor,
+                max_depth: Optional[int] = 5,
+                random_state: Optional[int] = 42
+                ) -> Any:
+    """
+    Train a model.
+
+    Parameters
+    ----------
+    model : Any
+        Model to be trained. Default is RandomForestRegressor.
+    X_train : pd.DataFrame
+        DataFrame with features of training data.
+    y_train : pd.Series, list or np.ndarray
+        Series with target variable of training data.
+    max_depth : int, optional
+        Maximum depth of the tree. Default is None.
+
+    Returns
+    -------
+    Any
+        Trained model.
+    """
+    model_instance = model(max_depth=max_depth, random_state=random_state)
+    model_instance.fit(X_train, y_train)
+    return model_instance
+
+model_rf = train_model(X_train, y_train)
+y_pred_rf = model_rf.predict(X_test)
+calculate_regression_metrics(y_test, y_pred_rf)
+
+# Interpreting graphically
+visualizer = prediction_error(model_rf, X_train, y_train, X_test, y_test)
+viz = residuals_plot(model_rf, X_train, y_train, X_test, y_test)
+
+# Cross validating
+scoring = {
+    'mae': 'neg_mean_absolute_error',
+    'rmse': 'neg_root_mean_squared_error',
+    'r2': 'r2'
+}
+
+cv = KFold(n_splits=5, shuffle=True, random_state=42)
+cv_results = cross_validate(model_rf, X_train, y_train, cv=cv, scoring=scoring)
+print(cv_results)
+
+for metric in scoring.keys():
+    scores = cv_results[f'test_{metric}']
+    mean_score = np.mean(scores)
+    std_score = np.std(scores)
+
+    print(f'=> {metric.upper()}:')
+    print(f'Scores: {scores}')
+    print(f'Average: {mean_score:.4f} | Std: (+/- {std_score:.4f})')
+    print('-' * 30)
 
 
 # # # Section of the course:
