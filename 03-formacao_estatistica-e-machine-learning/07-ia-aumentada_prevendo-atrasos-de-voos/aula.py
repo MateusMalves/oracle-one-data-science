@@ -13,6 +13,7 @@
 import os
 import sys
 import re
+import pickle
 import numpy as np
 import pandas as pd
 import seaborn as sns
@@ -22,13 +23,14 @@ from sklearn.dummy import DummyRegressor
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.compose import make_column_transformer
-from sklearn.model_selection import train_test_split, KFold, cross_validate
+from sklearn.model_selection import train_test_split, KFold, cross_validate, GridSearchCV
 from sklearn.metrics import (
     root_mean_squared_error,
     mean_absolute_error,
     r2_score
 )
 from yellowbrick.regressor import prediction_error, residuals_plot
+from yellowbrick.model_selection import FeatureImportances
 
 
 cwd = os.getcwd()
@@ -363,3 +365,146 @@ for metric in scoring.keys():
 # # # Section of the course:
 # 04. Otimização de hiperparâmetros
 # # #
+
+# Resources selection
+# 
+# Feature importances
+# Yellowbrick
+viz = FeatureImportances(model_rf, relative=False, topn=10)
+viz.fit(X_train, y_train)
+viz.show()
+
+# Feature importances via model metrics
+importances = model_rf.feature_importances_
+feature_importances = pd.DataFrame({'Feature': X.columns, 'Importances': importances})
+feature_importances.sort_values(by='Importances', ascending=False, inplace=True)
+feature_importances.head(30)
+
+# Selecting best feature usage strategy
+def test_best_feature_strategy(counts: list[int]):
+    results_df = pd.DataFrame(index=['RMSE', 'MAE', 'R2'])
+
+    model_selected_features = RandomForestRegressor(random_state=42, max_depth=5)
+
+    for count in counts:
+        selected_features = feature_importances['Feature'].values[:count]
+
+        X_train_selected = X_train[selected_features]
+        X_test_selected = X_test[selected_features]
+
+        model_selected_features.fit(X_train_selected, y_train)
+        y_pred = model_selected_features.predict(X_test_selected)
+
+        metrics = calculate_regression_metrics(y_test, y_pred)
+        results_df[count] = list(metrics.values())
+
+    return results_df
+
+test_best_feature_strategy([1, 5, 10, 15, 20, 25, 30]).head()
+test_best_feature_strategy(list(range(10, 16))).head()
+
+# Retraining model in the new strategy for best performance
+selected_features = feature_importances['Feature'].values[:13]
+X_selected_features = X[selected_features]
+
+X_train, X_test, y_train, y_test = train_test_split(X_selected_features, y, random_state=42)
+
+# Optimizing hyperparameters with GreadSearchCV
+param_grid = {
+    'max_depth': [5, 10, 15],
+    'min_samples_leaf': [1, 2, 3],
+    'min_samples_split': [2, 4, 6],
+    'n_estimators': [100, 150, 200]
+}
+
+cv = KFold(n_splits=5, shuffle=True, random_state=42)
+model_grid = GridSearchCV(RandomForestRegressor(random_state=42), param_grid=param_grid, scoring='r2', n_jobs=None, cv=cv)
+model_grid.fit(X_train, y_train)
+
+# Checking model performance
+model_grid.best_params_
+y_pred_model_grid = model_grid.predict(X_test)
+metrics_model_grid = calculate_regression_metrics(y_test, y_pred_model_grid)
+print(metrics_model_grid)
+
+results_df = pd.DataFrame(index=['RMSE', 'MAE', 'R2'], data=list(metrics_model_grid.values()), columns=['Metrics'])
+results_df.head()
+
+visualizer = prediction_error(model_grid, X_train, y_train, X_test, y_test)
+viz = residuals_plot(model_grid, X_train, y_train, X_test, y_test)
+
+# Saving the model
+try:
+    with open(f'{outputs_folder}model_production.pkl', 'wb') as file:
+        pickle.dump(model_grid.best_estimator_, file)
+except Exception as e:
+    print('Error saving the model', e)
+else:
+    print('Model saved successfully')
+
+
+# Challenge: Mão na massa
+# 
+# Concluímos o processo de desenvolvimento, otimização e salvamento do modelo. No entanto, surge a questão de como utilizar efetivamente esse modelo em situações práticas. Como podemos aproveitar o modelo que foi salvo para realizar previsões atualizadas?
+
+# Diante disso, construa um código que carregue o modelo salvo e realize a previsão para a seguinte amostra:
+
+# new_sample = [0.0, 10.8941, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+# Onde os valores são correspondentes a:
+# schengen: 0
+# arrival_time: 10.8941
+# is_holiday: 0
+# is_weekend: 0
+# airline_BZ: 0
+# airline_MM: 0
+# airline_YE: 1
+# aircraft_type_Airbus A320: 1
+# aircraft_type_Airbus A330: 0
+# aircraft_type_Boeing 737: 0
+# aircraft_type_Boeing 777: 0
+# aircraft_type_Boeing 787: 0
+# aircraft_type_Embraer E175: 0
+
+values = {
+    'airline_BZ': 0,                       # 0 or 1
+    'is_holiday': 0,                       # 0 or 1
+    'aircraft_type_Airbus A320': 1,        # 0 or 1
+    'aircraft_type_Airbus A330': 0,        # 0 or 1
+    'aircraft_type_Embraer E175': 0,       # 0 or 1
+    'arrival_time': 10.8941,               # continuous
+    'aircraft_type_Boeing 787': 0,         # 0 or 1
+    'origin_TCY': 0,                       # 0 or 1
+    'origin_CSF': 0,                       # 0 or 1
+    'origin_PUA': 1,                       # 0 or 1
+    'origin_TZF': 0,                       # 0 or 1
+    'day_name_Friday': 1,                  # 0 or 1
+    'origin_MWL': 0                        # 0 or 1
+}
+
+# # # NOTE: I had to change the values as the original problem was not fit for the model's features
+
+
+# Loading the model
+model_production = None
+try:
+    with open(f'{outputs_folder}model_production.pkl', 'rb') as file:
+        model_production = pickle.load(file)
+except Exception as e:
+    print('Error loading the model', e)
+else:
+    print('Model loaded successfully')
+
+# Transforming the new sample into a dataframe
+new_sample_df = pd.DataFrame([values.values()], columns=list(values.keys()))
+new_sample_df.head()
+
+# Splitting train and test
+X = df_clean.drop(['delay'], axis=1)
+y = df_clean['delay']
+X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)
+
+# Predicting
+if model_production:
+    y_pred_new_sample = model_production.predict(new_sample_df)
+    print(y_pred_new_sample[0])
