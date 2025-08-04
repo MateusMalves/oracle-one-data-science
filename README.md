@@ -63,7 +63,6 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ## 🎓 Credits
 Developed by [**Daniel Crema**](https://github.com/DanielCrema) for educational and analytical purposes as part of the **ONE - Oracle Next Education** program.
-Special thanks to Oracle and Alura, as well as all contributors, mentors, and the amazing Python open-source community!
 
 *Special thanks* to:  
 🕋🤲 **Almighty God** (ﷻ), for having given me intelligence and persistence to persevere.
