@@ -20,6 +20,12 @@ The [**certificates**](./certificates/) folder contains all the certificates I h
 
 [Streamlit](https://streamlit.io) – Web application framework.
 
+[Sci-Kit Learn](https://scikit-learn.org/stable/) – Machine Learning library.
+
+[Imblearn](https://imbalanced-learn.org/stable/) – Imbalanced Learn, sklearn toolkit to deal with data imbalance.
+
+[Yellowbrick](https://www.scikit-yb.org/) – Machine Learning data visualization
+
 ## 🗂️ Project Structure
 ```bash
 .
