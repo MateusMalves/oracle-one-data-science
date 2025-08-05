@@ -1,7 +1,9 @@
 # One - Oracle Next Education 1️⃣
 This repository contains my whole pathway through the **Oracle Next Education** specialization in *data science*.  
 
-It is meant to be a register of all my projects and exercises, as well as a showcase of my skills and progress. The projects are organized in the same structure as the course setup and the commit history reflects the progression of my learning journey.
+It is meant to be a register of all my projects and exercises, as well as a showcase of my skills and progress. The projects are organized in the same structure as the course setup and the commit history reflects the progression of my learning journey.  
+
+The [**certificates**](./certificates/) folder contains all the certificates I have earned through this specialization program.
 
 ## 🛠️ Stack
 [Python 3](https://www.python.org)
@@ -17,7 +19,6 @@ It is meant to be a register of all my projects and exercises, as well as a show
 [Plotly Express](https://plotly.com) – Interactive chart generation.
 
 [Streamlit](https://streamlit.io) – Web application framework.
-
 
 ## 🗂️ Project Structure
 ```bash
@@ -54,9 +55,42 @@ It is meant to be a register of all my projects and exercises, as well as a show
 │
 ├── ui_desafios.py # Module with a function to setup a CLI interface
 │
-└── .gitignore # Not ignored for educational purposes
+├──.gitignore # Not ignored for educational purposes
+│
+│
+└── certificates/
+        # All certificates I have earned through the program ONE - Oracle Next Education
 
 ```
+
+## Certificates 🎓
+
+### 🌍🌎🌏 Multi-Language for your convenience
+
+<br/>
+
+<img src="./certificates/assets/icon-flag-br.svg" width="35"/>
+
+A pasta [**certificates**](./certificates/) contém certificados oficiais expedidos pela [**Alura**](https://www.alura.com.br) referentes ao programa `ONE - Oracle Next Education`.
+
+O `certificado ONE` completo se encontra em:
+
+#### 🔗 [**Certificado: ONE - Oracle Next Education**](./Daniel%20Borges%20Crema%20-%20Programa%20ONE%20Certificado.pdf)
+<br/>
+<img src="./certificates//assets/icon-flag-en.svg" width="35"/>
+
+The [**certificates**](./certificates/) folder contains official certificates issued by [**Alura**](https://www.alura.com.br) related to the `ONE - Oracle Next Education` program.
+
+The full `ONE certificate` can be found at:
+#### 🔗 [**Certificate: ONE - Oracle Next Education**](./Daniel%20Borges%20Crema%20-%20Program%20ONE%20Certificate.pdf)
+<br/>
+<img src="./certificates//assets/icon-flag-es.svg" width="35"/>
+
+La carpeta [**certificates**](./certificates/) contiene certificados oficiales emitidos por [**Alura**](https://www.alura.com.br) correspondientes al programa `ONE - Oracle Next Education`.
+
+El `certificado ONE` completo se encuentra en:
+#### 🔗 [**Certificate: ONE - Oracle Next Education**](./Daniel%20Borges%20Crema%20-%20Programa%20ONE%20Certificado%20-%20Es.pdf)
+<br/>
 
 ## 📝 License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
