@@ -9,6 +9,8 @@
 Esta pasta contém certificados oficiais expedidos pela [**Alura**](https://www.alura.com.br) referentes ao programa `ONE - Oracle Next Education`.  
 Para acessar os `códigos` desenvolvidos ao longo do curso, visite a [**📂 pasta principal**](../) deste repositório.
 
+<br/>
+
 O `certificado ONE` completo se encontra em:  
 
 #### 🔗 [**Certificado: ONE - Oracle Next Education**](./Daniel%20Borges%20Crema%20-%20Programa%20ONE%20Certificado.pdf)
@@ -22,7 +24,10 @@ O `certificado ONE` completo se encontra em:
 This folder contains official certificates issued by [**Alura**](https://www.alura.com.br) related to the `ONE - Oracle Next Education` program.  
 To access the code developed throughout the course, visit the [📂 **main folder**](../) of this repository.
 
-The full `ONE certificate` can be found at:
+<br/>
+
+The full `ONE certificate` can be found at:  
+
 #### 🔗 [**Certificate: ONE - Oracle Next Education**](./Daniel%20Borges%20Crema%20-%20Program%20ONE%20Certificate.pdf)
 <br/>
 
@@ -34,7 +39,10 @@ The full `ONE certificate` can be found at:
 Esta carpeta contiene certificados oficiales emitidos por [**Alura**](https://www.alura.com.br) correspondientes al programa `ONE - Oracle Next Education`.  
 Para acceder al código desarrollado durante el curso, visita la [📂 **carpeta principal**](../) de este repositorio.
 
-El `certificado ONE` completo se encuentra en:
+<br/>
+
+El `certificado ONE` completo se encuentra en:  
+
 #### 🔗 [**Certificate: ONE - Oracle Next Education**](./Daniel%20Borges%20Crema%20-%20Programa%20ONE%20Certificado%20-%20Es.pdf)
 <br/>
 
