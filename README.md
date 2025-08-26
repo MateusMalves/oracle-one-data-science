@@ -1,6 +1,6 @@
 # 🚀 Oracle ONE - Data Science Journey
 
-> **Minha jornada completa através d---
+> **Minha jornada completa através da formação Oracle One de Data Science
 
 ## 🚀 **Setup Rápido**
 
