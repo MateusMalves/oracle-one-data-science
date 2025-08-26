@@ -1,15 +1,3 @@
-# # #
-# بِسْمِ ٱللّٰهِ ٱلرَّحْمٰنِ ٱلرَّحِيمِ
-# Bismillāh ir-raḥmān ir-raḥīm
-# 
-# In the name of God, the Most Gracious, the Most Merciful
-# Em nome de Deus, o Clemente, o Misericordioso
-# # #
-# # #
-
-
-# #
-# Imports
 import os
 import sys
 import re
@@ -35,7 +23,6 @@ from sklearn.metrics import (
     classification_report
 )
 
-
 cwd = os.getcwd()
 while bool(re.search(r'\d-', cwd)):
     cwd = os.path.dirname(cwd)
@@ -47,10 +34,8 @@ from load_data import load_data
 data_folder = cwd + '/data/03-formacao_estatistica-e-machine-learning/06-classificacao_validacao-de-modelos-e-metricas-de-avaliacao/'
 outputs_folder = data_folder + 'outputs/'
 
-
 # # # Section of the course:
 # 01. Classificando dados
-# # #
 data = load_data(f'{data_folder}emp_automovel.csv', is_pandas=True)
 data.head()
 data.info()
@@ -113,10 +98,8 @@ print(confusion_matrix_rf)
 view_rf = ConfusionMatrixDisplay(confusion_matrix=confusion_matrix_rf, display_labels=['Adimplente', 'Inadimplente'])
 view_rf.plot()
 
-
 # # # Section of the course:
 # 02. Métricas de avaliação
-# # #
 
 # Measuring accuracy
 # 
@@ -163,10 +146,8 @@ print(f'Average Precision: {ap:.2f}')
 # Metrics Relatory
 print(classification_report(y_val, y_predicted))
 
-
 # # # Section of the course:
 # 03. Validação cruzada
-# # #
 
 # Using K-Fold Cross-Validation
 model = DecisionTreeClassifier(max_depth=10)
@@ -220,10 +201,8 @@ skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=5)
 cv_results = cross_validate(model, x, y, cv=skf, scoring='recall')
 interval_conf(cv_results)
 
-
 # # # Section of the course:
 # 04. Balanceamento de dados
-# # #
 
 # Oversampling using SMOTE
 oversample = SMOTE()

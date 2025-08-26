@@ -100,18 +100,15 @@ temperaturas = [20, 25, 30, 35, 40]
 Dica: Você pode usar zip() para parear os dados da lista_1 com a lista_2. Crie uma estrutura try-except que caso uma das exceções sejam lançadas, podemos ver o tipo de erro na saída.
 '''
 
-
 # # # # #
 # # # Desafios resolvidos
 # # # # #
-
 
 # Importando bibliotecas
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../")))
 from ui_desafios import controlador, saudar
-
 
 # 
 # Aquecimento
@@ -263,14 +260,12 @@ def problema_4():
     
 problema_4()
 
-
 # 
 # Aplicando a projetos
 # 
 
 # # # UI - Controle de fluxo
 controlador(mensagem_problema_anterior=mensagem_problema_4, problema_anterior=problema_4, abrir_nova_sessão=True, saudacao='Aplicando a projetos')
-
 
 # 5. Como desafio, você recebeu a tarefa de desenvolver um código que contabiliza as pontuações de estudantes de uma instituição de ensino de acordo com suas respostas num teste. Este código deve ser testado para um exemplo de 3 estudantes com uma lista de listas em que cada lista possui as respostas de 5 questões objetivas de cada estudante. Cada questão vale um ponto e as alternativas possíveis são A, B, C ou D.
 # Caso alguma alternativa em um dos testes não esteja entre as alternativas possíveis, você deve lançar um ValueError com a mensagem "A alternativa [alternativa] não é uma opção de alternativa válida". O cálculo das 3 notas só será realizado mediante as entradas com as alternativas A, B, C ou D em todos os testes. Se não for lançada a exceção, será exibida uma lista com as notas em cada teste.

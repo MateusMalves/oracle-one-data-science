@@ -1,11 +1,3 @@
-# # #
-# بِسْمِ ٱللّٰهِ ٱلرَّحْمٰنِ ٱلرَّحِيمِ
-# Bismillāh ir-raḥmān ir-raḥīm
-# 
-# In the name of God, the Most Gracious, the Most Merciful
-# Em nome de Deus, o Clemente, o Misericordioso
-# # #
-# # #
 
 # # Imports
 #
@@ -27,7 +19,6 @@ outputs_folder = data_folder + 'outputs/'
 
 # # # Section of the course:
 # 01. Entendendo o problema
-# # #
 
 data = pd.read_json(data_folder + 'dados_hospedagem.json')
 data = pd.json_normalize(data['info_moveis'].tolist())
@@ -35,7 +26,6 @@ data.head()
 
 # # # Section of the course:
 # 02. Dados numéricos
-# # #
 
 # Extracting from the lists
 columns = list(data.columns)
@@ -69,7 +59,6 @@ data['modelo_cama'] = data['modelo_cama'].astype('category')
 
 # # # Section of the course:
 # 03. Dados textuais
-# # #
 
 data['descricao_local'] = data['descricao_local'].str.lower()
 data.head()
@@ -106,7 +95,6 @@ data.head()
 
 # # # Section of the course:
 # 04. Dados de tempo
-# # #
 
 # Transforming date data
 data_furniture = pd.read_json(data_folder + 'moveis_disponiveis.json')

@@ -7,7 +7,7 @@ Este é um projeto educacional pessoal, mas contribuições são sempre bem-vind
 ## 🎯 **Tipos de Contribuições**
 
 ### 🐛 **Reportar Bugs**
-- Abra uma [issue](https://github.com/mateusmalves/oracle_one-data-science-course/issues)
+- Abra uma [issue](https://github.com/MateusMalves/oracle-one-data-science/issues)
 - Descreva o problema detalhadamente
 - Inclua código de exemplo quando possível
 
@@ -67,7 +67,7 @@ Use [Conventional Commits](https://conventionalcommits.org/):
 ```bash
 # Setup inicial
 git clone your-fork-url
-cd oracle_one-data-science-course
+cd oracle-one-data-science
 python -m venv .venv
 source .venv/bin/activate  # ou .venv\Scripts\activate no Windows
 pip install -r requirements.txt

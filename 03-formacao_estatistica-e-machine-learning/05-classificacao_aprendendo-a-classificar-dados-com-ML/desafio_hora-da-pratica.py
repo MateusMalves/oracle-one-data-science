@@ -1,15 +1,3 @@
-# # #
-# بِسْمِ ٱللّٰهِ ٱلرَّحْمٰنِ ٱلرَّحِيمِ
-# Bismillāh ir-raḥmān ir-raḥīm
-# 
-# In the name of God, the Most Gracious, the Most Merciful
-# Em nome de Deus, o Clemente, o Misericordioso
-# # #
-# # #
-
-
-# Case aula 1
-# Enunciado do desafio
 '''
 1 - A primeira etapa em um projeto de Machine Learning é a obtenção de dados. A partir dessa obtenção, podemos fazer a leitura dos dados para se construir um modelo. Como tarefa inicial, faça a leitura da base de dados e verifique a presença de dados nulos. Além disso, remova a coluna 'id_cliente', uma vez que esse tipo de informação única para cada linha não é útil para uso em modelos de machine learning.
 
@@ -18,8 +6,6 @@
 3 - Depois de explorar as variáveis categóricas, chegou a vez das variáveis numéricas. Construa gráficos de distribuição como boxplots ou histogramas para analisar o comportamento dos valores numéricos e checar se existem valores inconsistentes.
 '''
 
-# #
-# Imports
 import os
 import sys
 import re
@@ -113,7 +99,6 @@ pd.DataFrame(x, columns=one_hot.get_feature_names_out()) # type: ignore
 label_encoder = LabelEncoder()
 y = label_encoder.fit_transform(y)
 
-
 # Case aula 3
 # Enunciado do desafio
 '''
@@ -142,7 +127,6 @@ column_names = ['Alemanha', 'Espanha', 'França', 'Mulher', 'Tem Cartão', 'Memb
 
 plt.figure(figsize=(15, 6))
 plot_tree(tree, filled=True, feature_names=column_names, fontsize=7, class_names=['Não', 'Sim'])
-
 
 # Case aula 4
 # Enunciado do desafio

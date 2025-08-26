@@ -22,7 +22,6 @@ import sys
 import subprocess
 from pathlib import Path
 
-
 def count_project_files():
     """Count various file types in the project."""
     project_root = Path(__file__).parent
@@ -56,7 +55,6 @@ def count_project_files():
         courses = list(formation.glob("*-*"))
         print(f"  {formation.name}: {len(courses)} courses")
 
-
 def setup_environment():
     """Setup development environment."""
     print("🚀 Setting up development environment...")
@@ -83,7 +81,6 @@ def setup_environment():
     print(f"Activate with: source {activate_script}" if not sys.platform.startswith("win") 
           else f"Activate with: {activate_script}")
 
-
 def check_code_quality():
     """Run basic code quality checks."""
     print("🔍 Running code quality checks...")
@@ -105,7 +102,6 @@ def check_code_quality():
         print("✅ No syntax errors found!")
     else:
         print(f"❌ Found {syntax_errors} syntax errors")
-
 
 def list_courses():
     """List all available courses."""
@@ -140,7 +136,6 @@ def list_courses():
     
     print("\n" + "=" * 50)
     print("Legenda: ✅ Concluído | 🔄 Em andamento | ⏳ Não iniciado")
-
 
 def main():
     """Main CLI interface."""
@@ -184,7 +179,6 @@ def main():
         list_courses()
     else:
         parser.print_help()
-
 
 if __name__ == "__main__":
     main()

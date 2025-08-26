@@ -1,15 +1,3 @@
-# # #
-# بِسْمِ ٱللّٰهِ ٱلرَّحْمٰنِ ٱلرَّحِيمِ
-# Bismillāh ir-raḥmān ir-raḥīm
-# 
-# In the name of God, the Most Gracious, the Most Merciful
-# Em nome de Deus, o Clemente, o Misericordioso
-# # #
-# # #
-
-
-# #
-# Imports
 import os
 import sys
 import re
@@ -34,10 +22,8 @@ from plot_utils import label_plot, plot_central_tendency
 data_folder = cwd + '/data/03-formacao_estatistica-e-machine-learning/04-regressao-linear_tecnicas-avancadas-de-modelagem/'
 outputs_folder = data_folder + 'outputs/'
 
-
 # # # Section of the course:
 # 01. Análises Preliminares
-# # #
 data = load_data(f'{data_folder}dataset.csv', is_pandas=True, delimiter=';')
 data.head()
 
@@ -53,10 +39,8 @@ mask[np.triu_indices_from(mask)] = True
 fig, ax = plt.subplots(figsize=(10, 8))
 sns.heatmap(corr, mask=mask, annot=True, cmap='coolwarm', vmin=-1, vmax=1, ax=ax)
 
-
 # # # Section of the course:
 # 02. Análises gráficas
-# # #
 
 # Behaviour of the Dependent Variable (Y)
 sns.set_palette('Accent')
@@ -77,10 +61,8 @@ plot_central_tendency(column=data['Valor'])
 plt.suptitle('Dispersão entre variáveis', fontsize=20, y=1.05)
 sns.pairplot(data=data, y_vars='Valor', x_vars=['Area', 'Dist_Praia', 'Dist_Farmacia'], height=5, kind='reg')
 
-
 # # # Section of the course:
 # 03. Transformação de variáveis
-# # #
 
 np.log(1) # Returns 0
 np.log(0) # Returns -inf
@@ -101,14 +83,11 @@ sns.histplot(list(data['log_Valor']), kde=True, color='green')
 label_plot(title='Distribuição de Frequências', xlabel='log do Preço dos Imóveis', fontsizes='large')
 plot_central_tendency(column=data['log_Valor'])
 
-
 # Verifying linear relation
 sns.pairplot(data=data, y_vars='log_Valor', x_vars=['log_Area', 'log_Dist_Praia', 'log_Dist_Farmacia'], height=5, kind='reg')
 
-
 # # # Section of the course:
 # 04. Regressão linear com Statsmodels
-# # #
 y = data['log_Valor']
 X = data[['log_Area', 'log_Dist_Praia', 'log_Dist_Farmacia']]
 
@@ -129,10 +108,8 @@ new_model_statsmodels = sm.OLS(y_train, X_train_with_constant, hasconst=True).fi
 
 print(new_model_statsmodels.summary())
 
-
 # # # Section of the course:
 # 05. Regressão linear com Scikit-learn
-# # #
 
 # Estimating the model with training data
 model = LinearRegression()

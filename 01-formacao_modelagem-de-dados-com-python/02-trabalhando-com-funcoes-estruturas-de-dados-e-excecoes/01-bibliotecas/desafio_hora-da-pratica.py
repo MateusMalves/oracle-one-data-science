@@ -56,7 +56,6 @@ Copiar código
 10. Faça um programa para uma loja que vende grama para jardins. Essa loja trabalha com jardins circulares e o preço do metro quadrado da grama é de R$ 25,00. Peça ao usuário o raio da área circular e devolva o valor em reais do quanto precisará pagar.
 '''
 
-
 # # # # #
 # # # Desafios resolvidos
 # # # # #
@@ -137,7 +136,6 @@ controlador(mensagem_problema_anterior=mensagem_problema_5, problema_anterior=pr
 # 
 # Aplicando a projetos
 # 
-
 
 # 6. Um programa deve ser escrito para sortear um seguidor de uma rede social para ganhar um prêmio. A lista de participantes é numerada e devemos escolher aleatoriamente um número de acordo com a quantidade de participantes. Peça ao usuário para fornecer o número de participantes do sorteio e devolva para ela o número sorteado.
 mensagem_problema_6 = '# 6 => Vamos sortear um número de participante para o nosso sorteio.'

@@ -59,7 +59,6 @@ Design 3 - 1751 votos
 Design 4 - 210 votos
 Design 5 - 1811 votos
 
-
 Adapte os dados fornecidos para uma estrutura de dicionário. A partir dele, informe o design vencedor e a porcentagem de votos recebidos.
 
 13) Os funcionários de um setor da empresa que você trabalha vão receber um abono correspondente a 10% do salário devido ao ótimo desempenho do time. O setor financeiro solicitou sua ajuda para a verificação das consequências financeiras que esse abono irá gerar nos recursos. Assim, foi encaminhada para você uma lista com os salários que receberão o abono: [1172, 1644, 2617, 5130, 5532, 6341, 6650, 7238, 7685, 7782, 7903]. O abono de cada colaborador(a) não pode ser inferior a 200. Em código, transforme cada um dos salários em chaves de um dicionário e o abono de cada salário no elemento. Depois, informe o total de gastos com o abono, quantos(as) funcionários(as) receberam o abono mínimo e qual o maior valor de abono fornecido.
@@ -166,7 +165,6 @@ for i in range(1, int(numero) + 1):
 
 print(f'\nA lista de números primos entre 1 e {numero} é:\n{numeros_primos}')
 
-
 # 6. Escreva um programa que peça uma data informando o dia, mês e ano e determine se ela é válida para uma análise.
 print('\n\n# 6 => Vamos validar uma data informando o dia, mês e ano')
 def parsear_data(data):
@@ -198,8 +196,6 @@ def validar_data(data):
 data = input('\nDigite a data (DD-MM-AAAA): ')
 validar_data(data)
 
-
-
 # # # UI - Controle de fluxo
 print('\n\nAgora vamos ver algumas coisas mais emocionantes?')
 
@@ -216,7 +212,6 @@ def controladorConfirmacao() :
         print('\n')
 
 controladorConfirmacao()
-
 
 # 
 # Momento dos projetos
@@ -319,7 +314,6 @@ for i, (gabarito_questao, resposta_aluno) in enumerate(zip(gabarito.values(), re
     else:
         erros += 1
         print('Resposta incorreta!')
-
 
 print('\n=> Resultado final:')
 print(f'Total de acertos: {acertos}')

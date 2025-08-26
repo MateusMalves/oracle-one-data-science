@@ -1,15 +1,4 @@
-# # #
-# بِسْمِ ٱللّٰهِ ٱلرَّحْمٰنِ ٱلرَّحِيمِ
-# Bismillāh ir-raḥmān ir-raḥīm
-# 
-# In the name of God, the Most Gracious, the Most Merciful
-# Em nome de Deus, o Clemente, o Misericordioso
-# # #
-# # #
 
-
-# Case 03: Precificação de quartos de hotéis
-# Enunciado do desafio
 '''
 Como um Cientista de Dados, você está encarregado da análise do problema de precificação de quartos de hotéis, fazendo uso do conjunto de dados fornecidos.
 
@@ -20,8 +9,6 @@ Nesta atividade, sua tarefa envolve conduzir as seguintes etapas:
 3. Realizar a comparação desses modelos.
 '''
 
-# #
-# Imports
 import os
 import sys
 import re
@@ -36,7 +23,6 @@ from sklearn.metrics import r2_score
 from statsmodels.formula.api import ols
 import statsmodels.api as sm
 from statsmodels.stats.outliers_influence import variance_inflation_factor
-
 
 cwd = os.getcwd()
 while bool(re.search(r'\d-', cwd)):
@@ -136,7 +122,6 @@ print("Model 5:", len(model_5.params))
 print("=> Best model params")
 print("Modelo 3:\n", model_3.params)
 
-
 # Case 04: Precificação de uma casa
 # Enunciado do desafio
 '''
@@ -181,7 +166,6 @@ house = pd.DataFrame({
 
 house_predict = model.predict(house)
 print(f'House predict: {house_predict[0]:,.2f}')
-
 
 # Case 05: Usina de energia
 # Enunciado do desafio

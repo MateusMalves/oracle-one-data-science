@@ -185,7 +185,6 @@ def controlador(
     elif resposta == 'R':
         repetir_exercicio()
 
-
 def saudar(mensagem: str=None, espacos_inicio: int=2, espacos_final: int=2) -> None:
     '''
     Exibe uma saudação formatada com cabeçalho e rodapé decorativos.

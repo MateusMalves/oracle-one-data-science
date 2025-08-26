@@ -1,15 +1,3 @@
-# # #
-# بِسْمِ ٱللّٰهِ ٱلرَّحْمٰنِ ٱلرَّحِيمِ
-# Bismillāh ir-raḥmān ir-raḥīm
-# 
-# In the name of God, the Most Gracious, the Most Merciful
-# Em nome de Deus, o Clemente, o Misericordioso
-# # #
-# # #
-
-
-# #
-# Imports
 import os
 import sys
 import re
@@ -27,7 +15,6 @@ from sklearn.tree import plot_tree
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.neighbors import KNeighborsClassifier
 
-
 cwd = os.getcwd()
 while bool(re.search(r'\d-', cwd)):
     cwd = os.path.dirname(cwd)
@@ -39,10 +26,8 @@ from load_data import load_data
 data_folder = cwd + '/data/03-formacao_estatistica-e-machine-learning/05-classificacao_aprendendo-a-classificar-dados-com-ML/'
 outputs_folder = data_folder + 'outputs/'
 
-
 # # # Section of the course:
 # 01. Análise exploratória
-# # #
 data = load_data(f'{data_folder}marketing_investimento.csv', is_pandas=True)
 data.info()
 
@@ -82,10 +67,8 @@ plot_boxplot(data, 'numero_contatos', 'Distribuição do Número de Contatos', c
 
 # # No inconsistencies found in the data
 
-
 # # # Section of the course:
 # 02. Transformação de dados
-# # #
 
 # Variables separation
 x = data.drop(columns=['aderencia_investimento'], axis=1)
@@ -107,10 +90,8 @@ pd.DataFrame(x, columns=one_hot.get_feature_names_out(columns)) # type: ignore
 label_encoder = LabelEncoder()
 y = label_encoder.fit_transform(y)
 
-
 # # # Section of the course:
 # 03. Ajustando modelos
-# # #
 
 # Splitting data
 x_train, x_test, y_train, y_test = train_test_split(x, y, stratify=y, random_state=5)
@@ -151,7 +132,6 @@ plot_tree(tree, filled=True, class_names=['Não', 'Sim'], fontsize=7, feature_na
 
 # # # Section of the course:
 # 04. Seleção de modelos
-# # #
 
 # Scaling data
 normalization = MinMaxScaler()

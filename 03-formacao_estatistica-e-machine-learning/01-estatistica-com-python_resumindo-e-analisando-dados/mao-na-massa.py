@@ -1,15 +1,4 @@
-# # #
-# بِسْمِ ٱللّٰهِ ٱلرَّحْمٰنِ ٱلرَّحِيمِ
-# Bismillāh ir-raḥmān ir-raḥīm
-# 
-# In the name of God, the Most Gracious, the Most Merciful
-# Em nome de Deus, o Clemente, o Misericordioso
-# # #
-# # #
 
-
-# Case aula 1
-# Enunciado do desafio
 '''
 Vamos aproveitar esse espaço para praticar tudo o que aprendemos durante a aula. Para isso, serão apresentados alguns problemas para que você possa aplicar os seus conhecimentos e explorar as suas habilidades. Para você responder a este e os próximos cases ao longo do curso, disponibilizamos o notebook Desafios.ipynb com os textos e orientações de cada problema.
 
@@ -32,8 +21,6 @@ Transforme as variáveis Sexo, Cor e Anos.de.Estudo em categorical e observe o r
 Apresente em texto a menor e maior Renda da base de dados: Utilize a função print juntamente a formatação de dados f-string como explicada no documento para exibir estes dados.
 '''
 
-# #
-# Imports
 import os
 import sys
 import re
@@ -88,7 +75,6 @@ for column in categorical_columns:
 # Printing min and max for 'Renda' in the database
 print(f'The minimum value for "Renda" is {data["Renda"].min()} and the maximum value for "Renda" is {data["Renda"].max()}.')
 data['Renda'].sort_values()
-
 
 # Case aula 2
 # Enunciado do desafio
@@ -205,7 +191,6 @@ tendecies_age = {
 
 plot_histogram('Altura', 'Height Distribution', 'Height', tendencies_height)
 plot_histogram('Idade', 'Age Distribution', 'Age', tendecies_age)
-
 
 # Case Aula 4
 # Enunciado do desafio

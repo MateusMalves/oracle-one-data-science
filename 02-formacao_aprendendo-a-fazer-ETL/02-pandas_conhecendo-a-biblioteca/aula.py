@@ -1,11 +1,3 @@
-# # #
-# بِسْمِ ٱللّٰهِ ٱلرَّحْمٰنِ ٱلرَّحِيمِ
-# Bismillāh ir-raḥmān ir-raḥīm
-# 
-# In the name of God, the Most Gracious, the Most Merciful
-# Em nome de Deus, o Clemente, o Misericordioso
-# # #
-# # #
 
 # # Imports
 #
@@ -28,7 +20,6 @@ outputs_folder = data_folder + 'outputs/'
 
 # # # Section of the course:
 # 01. Conhecendo a base de dados
-# # #
 
 # Importing data
 data = load_data(data_folder + 'aluguel.csv', delimiter=';', is_pandas=True)
@@ -48,7 +39,6 @@ data[['Quartos', 'Valor']]
 
 # # # Section of the course:
 # 02. Análise exploratória de dados
-# # #
 
 # General mean
 data['Valor'].mean()
@@ -94,7 +84,6 @@ df
 
 # # # Section of the course:
 # 03. Tratando e filtrando os dados
-# # #
 
 # Treating NaNs
 df.isnull()
@@ -147,7 +136,6 @@ pd.read_csv(outputs_folder + 'data_apartments_filtered_2.csv', sep=';')
 
 # # # Section of the course:
 # 04. Manipulando os dados
-# # #
 
 # Creating numerical columns
 data2 = load_data(data_folder + 'aluguel.csv', delimiter=';', is_pandas=True)

@@ -1,15 +1,3 @@
-# # #
-# بِسْمِ ٱللّٰهِ ٱلرَّحْمٰنِ ٱلرَّحِيمِ
-# Bismillāh ir-raḥmān ir-raḥīm
-# 
-# In the name of God, the Most Gracious, the Most Merciful
-# Em nome de Deus, o Clemente, o Misericordioso
-# # #
-# # #
-
-
-# #
-# Imports
 import os
 import sys
 import re
@@ -39,7 +27,6 @@ outputs_folder = data_folder + 'outputs/'
 
 # # # Section of the course:
 # 01. Ajustando uma reta
-# # #
 
 data = load_data(f'{data_folder}Preços_de_casas.csv', is_pandas=True)
 data.drop(columns = "Id", inplace=True)
@@ -75,7 +62,6 @@ px.scatter(data, x='area_primeiro_andar', y='preco_de_venda', trendline_color_ov
 
 # # # Section of the course:
 # 02. Explicando a reta
-# # #
 
 mean = data['preco_de_venda'].mean()
 median = data['preco_de_venda'].median()
@@ -138,10 +124,8 @@ sns.histplot(y_predict, kde=True, kde_kws={'bw_adjust':2}, color='green')
 plot_central_tendency(y_predict)
 label_plot(title='Residuals Distribution', xlabel='Residuals', ylabel='Frequency')
 
-
 # # # Section of the course:
 # 03. Adicionando outros fatores
-# # #
 
 # Other factors that may explain the prices
 sns.pairplot(data)
@@ -184,10 +168,8 @@ print("Model 3:", len(model_3.params))
 # Analyzing the effect
 model_3.params
 
-
 # # # Section of the course:
 # 04. Precificando as casas
-# # #
 
 # Obtaining R² of the prediction
 x_test.columns
@@ -239,10 +221,8 @@ with open(f'{outputs_folder}{file_name}', 'wb') as file:
 with open(f'{outputs_folder}{file_name}', 'rb') as file:
     model_3_loaded = pickle.load(file)
 
-
 # # # Section of the course:
 # 05. Investigando nosso modelo
-# # #
 
 explanatory_variables_1 = ['const', 'area_primeiro_andar', 'existe_segundo_andar', 'area_segundo_andar', 'quantidade_banheiros', 'capacidade_carros_garagem', 'qualidade_da_cozinha_Excelente']
 

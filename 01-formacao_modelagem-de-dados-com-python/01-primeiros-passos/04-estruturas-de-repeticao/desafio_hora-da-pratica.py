@@ -44,7 +44,6 @@ Ao final da votação, o programa deve exibir o número total de votos para cada
 # # # Desafios resolvidos
 # # # # #
 
-
 import re
 numberRegex = r'^[-+]?(\d+(\.\d*)?|\.\d+)([eE][-+]?\d+)?$'
 
@@ -193,7 +192,6 @@ numero = input('Insira um número inteiro positivo: ').replace(',', '.')
 numero, fatorial = calcular_fatorial(numero)
 print(f'\n=> O fatorial de {numero} é: {fatorial}')
 
-
 # # # UI - Controle de fluxo
 print('\n\nAgora vamos ver algumas coisas mais emocionantes?')
 
@@ -210,7 +208,6 @@ def controladorConfirmacao() :
         print('\n')
 
 controladorConfirmacao()
-
 
 # 
 # Momento dos projetos
@@ -243,7 +240,6 @@ def gerar_tabuada(numero):
 numero = input('Insira um número inteiro: ').replace(',', '.')
 numero = gerar_tabuada(numero)
 
-
 # 7. Os números primos possuem várias aplicações dentro da Ciência de Dados em criptografia e segurança, por exemplo. Um número primo é aquele que é divisível apenas por um e por ele mesmo. Assim, faça um programa que peça um número inteiro e determine se ele é ou não um número primo.
 print('\n\n# 7 => Vamos verificar se um número é primo.\n')
 def verificar_numero_primo(numero):
@@ -266,7 +262,6 @@ if isPrimo:
     print(f'=> O número {numero} é primo.')
 else:
     print(f'=> O número {numero} não é primo.')
-
 
 # 8. Vamos entender a distribuição de idades de pensionistas de uma empresa de previdência. Escreva um programa que leia as idades de uma quantidade não informada de clientes e mostre a distribuição em intervalos de [0-25], [26-50], [51-75] e [76-100]. Encerre a entrada de dados com um número negativo.
 print('\n\n# 8 => Vamos entender a distribuição de idades de pensionistas de uma empresa de previdência.\n')

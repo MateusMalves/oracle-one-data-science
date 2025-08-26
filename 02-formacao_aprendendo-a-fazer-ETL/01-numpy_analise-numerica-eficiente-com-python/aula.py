@@ -41,7 +41,6 @@ outputs_folder = data_folder + 'outputs/'
 # ==============================================
 # Section 01: Conhecendo a biblioteca e nossos dados
 # ==============================================
-# # #
 try:
     data = load_data(data_folder + 'apples_ts.csv', usecols=(1, 88))
 except ValueError as e:
@@ -56,10 +55,8 @@ data.shape
 transposed_data = data.T
 transposed_data
 
-
 # # # Section of the course:
 # 02. Exploração dos dados
-# # #
 
 # Indexing
 dates = transposed_data[:, 0]
@@ -175,10 +172,8 @@ plt.plot(dates, Kaliningrad) # Now it works correctly
 np.mean(Moscow)
 np.mean(Kaliningrad) # Moscow is more expensive
 
-
 # # # Section of the course:
 # 03. Operações entre arrays
-# # #
 
 # Linear regression
 # 
@@ -219,9 +214,7 @@ plt.plot(41.5, 41.5*a+b, '*r')
 # Estimating the future price
 plt.plot(100, 100*a+b, '*r')
 
-# # #
 # 04. Números aleatórios
-# # #
 
 # Learning about random numbers
 np.random.randint(low=40, high=100, size=100)

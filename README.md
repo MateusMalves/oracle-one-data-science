@@ -1,6 +1,6 @@
 # 🚀 Oracle ONE - Data Science Journey
 
-> **Minha jornada completa através d---
+> **Minha jornada completa através da formação Oracle One de Data Science
 
 ## 🚀 **Setup Rápido**
 
@@ -9,7 +9,7 @@
 git clone https://github.com/mateusmalves/oracle-one-data-science.git
 
 # 2. Entre no diretório
-cd oracle_one-data-science-course
+cd oracle-one-data-science
 
 # 3. Crie um ambiente virtual
 python -m venv .venv
@@ -79,7 +79,7 @@ Este repositório documenta todo o meu percurso de aprendizado no programa **Ora
 ## � **Estrutura do Projeto**
 
 ```
-oracle_one-data-science-course/
+oracle-one-data-science/
 │
 ├── 📁 01-formacao_modelagem-de-dados-com-python/
 │   ├── 🐣 01-primeiros-passos/

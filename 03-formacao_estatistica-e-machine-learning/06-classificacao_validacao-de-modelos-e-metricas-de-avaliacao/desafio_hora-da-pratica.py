@@ -1,15 +1,4 @@
-# # #
-# بِسْمِ ٱللّٰهِ ٱلرَّحْمٰنِ ٱلرَّحِيمِ
-# Bismillāh ir-raḥmān ir-raḥīm
-# 
-# In the name of God, the Most Gracious, the Most Merciful
-# Em nome de Deus, o Clemente, o Misericordioso
-# # #
-# # #
 
-
-# Case aula 1
-# Enunciado do desafio
 '''
 1 - Para a construção de um modelo de machine learning são necessários dados. Como tarefa inicial, faça a leitura da base de dados de diabetes e realize a divisão dos dados em variáveis explicativas e variável alvo (x e y). A variável alvo é a coluna que quer classificar, contendo a informação se o paciente possui ou não a diabetes. As variáveis explicativas são todas as colunas com exceção da diabetes. A separação dos dados pode ser feita com a seleção de colunas com pandas.
 
@@ -20,8 +9,7 @@
 4 - A taxa de acerto geralmente não fornece informações suficientes para entender o comportamento do modelo. A matriz de confusão é uma ferramenta mais completa, capaz de fornecer os acertos e erros do modelo para cada classe. Construa uma matriz de confusão para cada um dos modelos para avaliar o desempenho da previsão. Para construir a matriz, use o método predict para gerar as previsões dos valores e comparar com os valores reais da base de dados.
 '''
 
-# #
-# Imports
+
 import os
 import sys
 import re
@@ -53,7 +41,6 @@ from sklearn.metrics import (
     average_precision_score,
     classification_report
 )
-
 
 cwd = os.getcwd()
 while bool(re.search(r'\d-', cwd)):
@@ -94,7 +81,6 @@ def evaluate_model(model, x_val, y_val):
 
 evaluate_model(model_tree, x_val, y_val)
 evaluate_model(model_rf, x_val, y_val)
-
 
 # Case aula 2
 # Enunciado do desafio
@@ -165,7 +151,6 @@ for model in models_to_evaluate:
         func(model, x_val, y_val)
         print('-' * 40)
 
-
 # Case aula 3
 # Enunciado do desafio
 '''
@@ -215,7 +200,6 @@ def leave_one_out_cross_validation(model, x, y):
 k_fold_cross_validation(DecisionTreeClassifier(max_depth=10), x, y)
 stratified_k_fold_cross_validation(DecisionTreeClassifier(max_depth=10), x, y)
 leave_one_out_cross_validation(DecisionTreeClassifier(max_depth=10), x, y)
-
 
 # Case Aula 4
 # Enunciado do desafio

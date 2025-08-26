@@ -1,15 +1,3 @@
-# # #
-# بِسْمِ ٱللّٰهِ ٱلرَّحْمٰنِ ٱلرَّحِيمِ
-# Bismillāh ir-raḥmān ir-raḥīm
-# 
-# In the name of God, the Most Gracious, the Most Merciful
-# Em nome de Deus, o Clemente, o Misericordioso
-# # #
-# # #
-
-
-# #
-# Imports
 import os
 import sys
 import re
@@ -37,7 +25,6 @@ data = load_data(f'{data_folder}/dados.csv', is_pandas=True)
 
 # # # Section of the course:
 # 01. Distribuição binomial
-# # #
 
 # Combination 60 x 6 to 6, mega-sena
 combinations = comb(60, 6)
@@ -98,10 +85,8 @@ probability = binom.pmf(k, n_kids, p)
 n_families = 50
 expected_value = n_families * probability
 
-
 # # # Section of the course:
 # 02. Distribuição de Poisson
-# # #
 
 # Um restaurante recebe em média **20 pedidos por hora**. Qual a chance de que, em determinada hora escolhida ao acaso, o restaurante receba **15 pedidos**?
 mi = 20
@@ -118,10 +103,8 @@ print('%0.8f' % probability)
 # O número médio de clientes que entram em uma padaria por hora é igual a 20. Obtenha a probabilidade de, na próxima hora, entrarem exatamente 25 clientes.
 probability = poisson.pmf(25, 20)
 
-
 # # # Section of the course:
 # 03. Distribuição normal
-# # #
 
 # Z-score table
 tabela_normal_padronizada = pd.DataFrame(
@@ -186,14 +169,12 @@ probability = 1 - get_probability(z)
 probability = 1 - norm.cdf(z) # Built-in way using scipy
 probability = norm.cdf(-z) # Smarter way
 
-
 # Problema:
 # A aplicação de uma prova de estatística em um concurso apresentou um conjunto de notas normalmente distribuídas. Verificou-se que o conjunto de notas tinha média 70 e desvio padrão de 5 pontos.
 
 # Qual a probabilidade de um aluno, selecionado ao acaso, ter nota menor que 85?
 z = calculate_Z(85, 70, 5)
 probability = norm.cdf(z)
-
 
 # Problema
 # O faturamento diário de um motorista de aplicativo segue uma distribuição aproximadamente normal, com média R$ 300,00 e desvio padrão igual a R$ 50,00. Obtenha as probabilidades de que, em um dia aleatório, o motorista ganhe:
@@ -211,7 +192,6 @@ probability_1 = norm.cdf(z2) - norm.cdf(z1)
 z1 = calculate_Z(400, mean, std)
 z2 = calculate_Z(500, mean, std)
 probability_2 = norm.cdf(z2) - norm.cdf(z1)
-
 
 # Problema
 # O Inmetro verificou que as lâmpadas incandescentes da fabricante XPTO apresentam uma vida útil normalmente distribuída, com média igual a 720 dias e desvio padrão igual a 30 dias. Calcule a probabilidade de uma lâmpada, escolhida ao acaso, durar:
@@ -235,7 +215,6 @@ probability_3 = norm.cdf(z)
 
 print(probability_1, probability_2, probability_3)
 
-
 # Problema
 # Utilizando a tabela padronizada, ou o ferramental disponibilizado pelo Python, encontre a área sob a curva normal para os valores de Z abaixo:
 
@@ -255,10 +234,8 @@ probability_4 = norm.cdf(-0.59)
 
 print(probability_1, probability_2, probability_3, probability_4)
 
-
 # # # Section of the course:
 # 04. Técnicas de amostragem
-# # #
 
 # Amostragem aleatória simples
 income_mean = data['Renda'].mean()
@@ -269,10 +246,8 @@ sample['Renda'].mean()
 data['Sexo'].value_counts(normalize=True)
 sample['Sexo'].value_counts(normalize=True)
 
-
 # # # Section of the course:
 # 05. Nível de intervalo de confiança
-# # #
 
 n = 2000
 total_samples = 1500
@@ -328,7 +303,6 @@ def generate_sample_df(data, variable, n):
 
     samples = pd.concat(columns, axis=1)
     return samples
-
 
 def check_central_limit_theorem(data, variable, n):
     """
@@ -412,10 +386,8 @@ confidence_interval = (
 
 interval = norm.interval(confidence = 0.95, loc = mean_sample, scale = sigma) # Built-in way
 
-
 # # # Section of the course:
 # 06. Calculando o tamanho da amostra
-# # #
 
 # Infinite population
 
@@ -459,10 +431,8 @@ e = 0.3
 n = ((z**2) * (s**2) * N) / (((z**2) * (s**2)) + ((e**2) * (N-1)))
 print(int(np.round(n)))
 
-
 # # # Section of the course:
 # 07. Resumo e projeto final
-# # #
 
 # Estamos estudando o **rendimento mensal dos chefes de domicílios com renda até R$\$$ 5.000,00 no Brasil**. Nosso supervisor determinou que o **erro máximo em relação a média seja de R$\$$ 10,00**. Sabemos que o **desvio padrão populacional** deste grupo de trabalhadores é de **R$\$$ 1.082,79** e que a **média populacional** é de **R$\$$ 1.426,54**. Para um **nível de confiança de 95%**, qual deve ser o tamanho da amostra de nosso estudo? Qual o intervalo de confiança para a média considerando o tamanho de amostra obtido?
 
@@ -494,10 +464,8 @@ ax.hlines(y=mean, xmin=0, xmax=size_simulation, color='red', linestyle='--')
 ax.hlines(y=confidence_interval[0], xmin=0, xmax=size_simulation, color='green', linestyle='--')
 ax.hlines(y=confidence_interval[1], xmin=0, xmax=size_simulation, color='green', linestyle='--')
 
-
 # # # Appendix:
 # Estimatives Project
-# # #
 
 # Avaliando nosso dataset é possível verificar que a **proporção de homens** como chefes de domicílios é de quase **70%**. Precisamos **selecionar aleatoriamente grupos de 10 indivíduos** para verificar as diferenças entre os rendimentos em cada grupo. Qual a **probabilidade de selecionamos um grupo que apresente a mesma proporção da população**, ou seja, selecionarmos um grupo que seja **composto por 7 homens e 3 mulheres**?
 #### <font color='blue'>Como tarefa extra, verifique a real proporção de homens e mulheres em nosso dataset (vimos como fazer isso em nosso primeiro curso de estatística).</font>

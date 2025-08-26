@@ -1,11 +1,3 @@
-# # #
-# بِسْمِ ٱللّٰهِ ٱلرَّحْمٰنِ ٱلرَّحِيمِ
-# Bismillāh ir-raḥmān ir-raḥīm
-# 
-# In the name of God, the Most Gracious, the Most Merciful
-# Em nome de Deus, o Clemente, o Misericordioso
-# # #
-# # #
 
 # Encunciado do desafio
 '''
@@ -109,14 +101,12 @@ outputs_folder = data_folder + 'outputs/'
 # Etapa 1
 # # # 
 
-# # #
 # Projeto desafio 1: vendas online
 
 data_sales_customers = pd.read_json(data_folder + 'dados_vendas_clientes.json')
 data_sales_customers = pd.json_normalize(data_sales_customers['dados_vendas'].tolist())
 data_sales_customers.head()
 
-# # #
 # Projeto desafio 2: administração de condomínios
 
 data_condominium_lease = pd.read_json(data_folder + 'dados_locacao_imoveis.json')
@@ -127,7 +117,6 @@ data_condominium_lease.head()
 # Etapa 2
 # # # 
 
-# # #
 # Projeto desafio 1: vendas online
 
 data_sales_customers = data_sales_customers.explode(list(data_sales_customers.columns[1:]))
@@ -138,7 +127,6 @@ data_sales_customers.info()
 data_sales_customers['Valor da compra'] = data_sales_customers['Valor da compra'].apply(lambda x: x.replace(',', '.').replace('R$ ', '').strip()).astype(np.float64)
 data_sales_customers['Data de venda'] = data_sales_customers['Data de venda'].astype('datetime64[ns]')
 
-# # #
 # Projeto desafio 2: administração de condomínios
 
 data_condominium_lease = data_condominium_lease.explode(list(data_condominium_lease.columns[1:]))
@@ -152,9 +140,7 @@ data_condominium_lease.info()
 
 # # # 
 # Etapa 3
-# # #
 
-# # #
 # Projeto desafio 1: vendas online
 data_sales_customers.head()
 data_sales_customers.info()
@@ -164,7 +150,6 @@ data_sales_customers['Cliente'] = data_sales_customers['Cliente'].str.replace(r'
 data_sales_customers['Cliente'] = data_sales_customers['Cliente'].str.strip()
 data_sales_customers['Cliente']
 
-# # #
 # Projeto desafio 2: administração de condomínios
 data_condominium_lease.head()
 data_condominium_lease.info()
@@ -174,9 +159,7 @@ data_condominium_lease['apartamento']
 
 # # # 
 # Etapa 4
-# # #
 
-# # #
 # Projeto desafio 1: vendas online
 data_sales_customers.head()
 data_sales_customers.info()
@@ -184,8 +167,6 @@ months = data_sales_customers['Data de venda'].dt.strftime('%Y-%m')
 subset_sales_customers_date = data_sales_customers.groupby(['Data de venda', 'Cliente'])['Valor da compra'].sum()
 subset_sales_customers_date.head(12)
 
-
-# # #
 # Projeto desafio 2: administração de condomínios
 data_condominium_lease.head()
 data_condominium_lease.info()

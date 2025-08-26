@@ -23,11 +23,9 @@ Para executar: python3 desafio_hora-da-pratica.py
 
 '''
 
-
 # ==============================================
 # Desafios resolvidos
 # ==============================================
-
 
 # Standard library imports
 import sys
@@ -38,7 +36,6 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../.
 
 # Project imports
 from ui_desafios import controlador, saudar
-
 
 # 
 # Aquecimento
@@ -53,7 +50,6 @@ controlador(mensagem_problema_1, primeiro_exercicio=True)
 def problema_1():
     ...
 
-
 problema_1()
 
 # 2. 
@@ -63,7 +59,6 @@ controlador(mensagem_problema_2, mensagem_problema_anterior=mensagem_problema_1,
 def problema_2():
     ...
 
-
 problema_2()
 
 # 3. 
@@ -72,7 +67,6 @@ controlador(mensagem_problema_3, mensagem_problema_anterior=mensagem_problema_2,
 
 def problema_3():
     ...
-
 
 problema_3()
 
@@ -96,14 +90,12 @@ def problema_5():
 
 problema_5()
 
-
 # 
 # Aplicando a projetos
 # 
 
 # # # UI - Controle de fluxo
 controlador(mensagem_problema_anterior=mensagem_problema_5, problema_anterior=problema_5, abrir_nova_sessão=True, saudacao='Aplicando a projetos')
-
 
 # 6. 
 mensagem_problema_6 = '# 6 =>'

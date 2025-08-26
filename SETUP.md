@@ -26,8 +26,8 @@ conda --version
 
 ### 1️⃣ Clone o Repositório
 ```bash
-git clone https://github.com/mateusmalves/oracle_one-data-science-course.git
-cd oracle_one-data-science-course
+git clone https://github.com/MateusMalves/oracle-one-data-science.git
+cd oracle-one-data-science
 ```
 
 ### 2️⃣ Criar Ambiente Virtual
@@ -111,7 +111,7 @@ print(os.getcwd())
 
 ## 📞 Suporte
 
-- 📧 **Issues**: [GitHub Issues](https://github.com/mateusmalves/oracle_one-data-science-course/issues)
+- 📧 **Issues**: [GitHub Issues](https://github.com/MateusMalves/oracle-one-data-science/issues)
 - 💼 **LinkedIn**: [devmateusmalves](https://www.linkedin.com/in/devmateusmalves/)
 - 📝 **Documentação**: Consulte cada módulo individual
 

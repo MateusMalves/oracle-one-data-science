@@ -1,11 +1,3 @@
-# # #
-# بِسْمِ ٱللّٰهِ ٱلرَّحْمٰنِ ٱلرَّحِيمِ
-# Bismillāh ir-raḥmān ir-raḥīm
-# 
-# In the name of God, the Most Gracious, the Most Merciful
-# Em nome de Deus, o Clemente, o Misericordioso
-# # #
-# # #
 
 # # Imports
 #
@@ -34,7 +26,6 @@ outputs_folder = data_folder + 'outputs/'
 
 # # # Section of the course:
 # 01. Conhecendo a biblioteca Matplotlib
-# # #
 
 df = load_data(f'{data_folder}/imigrantes_canada.csv', is_pandas=True)
 df.info()
@@ -54,10 +45,8 @@ plt.title('Imigração de Brasileiros para o Canadá')
 plt.xlabel('Ano')
 plt.ylabel('Número de imigrantes')
 
-
 # # # Section of the course:
 # 02. Criando figuras com Matplotlib
-# # #
 
 fig, ax = plt.subplots(figsize=(8, 4))
 ax.plot(brazil.index, brazil['immigrants'])
@@ -113,10 +102,8 @@ for ax in axs.ravel():
 
 print(axs.flat)
 
-
 # # # Section of the course:
 # 03. Customizando com Matplotlib
-# # #
 
 def plotBrazil(color: str = ''):
     fig, ax = plt.subplots(figsize=(8, 4))
@@ -201,10 +188,8 @@ fig.savefig(f'{outputs_folder}/south_america_immigration.png', transparent=False
 brazil_immigration = plotBrazil(color='g')
 brazil_immigration.savefig(f'{outputs_folder}/brazil_immigration.png', transparent=False, dpi=300, bbox_inches='tight')
 
-
 # # # Section of the course:
 # 04. Conhecendo a biblioteca Seaborn
-# # #
 
 sns.set_theme()
 top_10 = df.sort_values(by='Total', ascending=False).head(10)
@@ -262,10 +247,8 @@ ax.set_ylabel('')
 sns.despine()
 plt.show()
 
-
 # # # Section of the course:
 # 05. Gráficos interativos com Plotly
-# # #
 
 fig = px.line(brazil, x=brazil.index, y='immigrants',
               title='Imigração de Brasileiros para o Canadá\n1980 - 2013')

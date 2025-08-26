@@ -66,18 +66,15 @@ funcionarios = [('SP', 16), ('ES', 8), ('MG', 9), ('MG', 6), ('SP', 10), ('MG', 
 A partir da lista de tuplas, crie um dicionário em que as chaves são os nomes dos Estados únicos e os valores são as listas com o número de funcionários referentes ao Estado. Crie também um dicionário em que as chaves são os nomes dos Estados e os valores são a soma de funcionários por Estado.
 '''
 
-
 # # # # #
 # # # Desafios resolvidos
 # # # # #
-
 
 # Importando bibliotecas
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../")))
 from ui_desafios import controlador, saudar
-
 
 # 
 # Aquecimento
@@ -161,14 +158,12 @@ def problema_5():
 
 problema_5()
 
-
 # 
 # Aplicando a projetos
 # 
 
 # # # UI - Controle de fluxo
 controlador(mensagem_problema_anterior=mensagem_problema_5, problema_anterior=problema_5, abrir_nova_sessão=True, saudacao='Aplicando a projetos')
-
 
 # 6. Uma loja possui um banco de dados com a informação de venda de cada representante e de cada ano e precisa filtrar somente os dados do ano 2022 com venda maior do que 6000. A loja forneceu uma amostra contendo apenas as colunas com os anos e os valores de venda para que você ajude a realizar a filtragem dos dados a partir de um código:
 # vendas = [('2023', 4093), ('2021', 4320), ('2021', 5959), ('2022', 8883), ('2023', 9859), ('2022', 5141), ('2022', 7688), ('2022', 9544), ('2023', 4794), ('2021', 7178), ('2022', 3030), ('2021', 7471), ('2022', 4226), ('2022', 8190), ('2021', 9680), ('2022', 5616)]

@@ -1,12 +1,3 @@
-# # #
-# بِسْمِ ٱللّٰهِ ٱلرَّحْمٰنِ ٱلرَّحِيمِ
-# Bismillāh ir-raḥmān ir-raḥīm
-# 
-# In the name of God, the Most Gracious, the Most Merciful
-# Em nome de Deus, o Clemente, o Misericordioso
-# # #
-# # #
-
 
 # #
 # Imports
@@ -43,7 +34,6 @@ data_sales.rename(columns={'preco_unitario': 'preco'}, inplace=True)
 data_sales['data'] = pd.to_datetime(data_sales['data'])
 data_sales['categoria'] = data_sales['categoria'].astype('category')
 data_sales['metodo_pagamento'] = data_sales['metodo_pagamento'].astype('category')
-
 
 # Use GPT to generate a explore the data (portuguese outputs)
 # 
@@ -88,7 +78,6 @@ data_customers.groupby('sexo')['avaliacao_compra'].mean()
 
 # Avaliação média por participação no cashback
 data_customers.groupby('cashback')['avaliacao_compra'].mean()
-
 
 # Expore data_sales DataFrame
 # 
@@ -161,7 +150,6 @@ colunas_ordenadas = [
 # Aplicar a nova ordem de colunas
 data_merged = data_merged[colunas_ordenadas]
 
-# # #
 # 02. Visualizando os dados
 
 # Definindo os visuais
@@ -258,7 +246,6 @@ plt.ylabel('Faturamento (R$)')
 plt.legend(title='Método de Pagamento')
 plt.tight_layout()
 
-# # #
 # 03. Gerando mais visuais
 
 # Composing static data
@@ -360,7 +347,6 @@ plt.xlabel('Sexo')
 plt.ylabel('Idade')
 plt.tight_layout()
 
-# # #
 # 04. Técnicas de storytelling
 
 # Adicionando as cores como variáveis do projeto
@@ -581,8 +567,6 @@ for i, point in enumerate([(4, vendas_mensais.iloc[4]), (7, vendas_mensais.iloc[
     plt.scatter(point[0], point[1], s=200, color='none', edgecolors=VERMELHO_1, alpha=0.7)
     plt.text(point[0] - 0.3, point[1] + 0.1, str(i), fontsize=12, color=VERMELHO_1)
 
-
-# # #
 # 05. Concluindo o projeto
 
 def metodos_pag():

@@ -1,15 +1,4 @@
-# # #
-# بِسْمِ ٱللّٰهِ ٱلرَّحْمٰنِ ٱلرَّحِيمِ
-# Bismillāh ir-raḥmān ir-raḥīm
-# 
-# In the name of God, the Most Gracious, the Most Merciful
-# Em nome de Deus, o Clemente, o Misericordioso
-# # #
-# # #
 
-
-# #
-# Imports
 import os
 import sys
 import re
@@ -32,7 +21,6 @@ outputs_folder = data_folder + 'outputs/'
 
 # # # Section of the course:
 # 01. Entendendo os dados 
-# # #
 
 # Importing the dataset
 data = load_data(data_folder + '/vendas_ecommerce.csv', is_pandas=True)
@@ -74,10 +62,8 @@ print(f'We have sold from {min(data["total_compra"]):,.2f} to {max(data["total_c
 
 data.sort_values(by='total_compra')
 
-
 # # # Section of the course:
 # 02. Identificando o perfil do público
-# # #
 
 data.head()
 # Absolute frequency
@@ -115,10 +101,8 @@ result_negative = table_negative_evaluations_filtered.sum()
 # Crossing customers data
 average_ticket_by_sex = round(pd.crosstab(data['sexo'], data['regiao_cliente'], data['total_compra'], aggfunc='mean'), 2)
 
-
 # # # Section of the course:
 # 03. Analisando a tendência dos dados
-# # #
 
 # Calculating the average of a variable
 average_delivery = data['tempo_entrega'].mean()
@@ -174,10 +158,8 @@ delivery_time_score_5_summary = {
     'mode': data_score_5['tempo_entrega'].mode()[0]
 }
 
-
 # # # Section of the course:
 # 04. Investigando os dados dos funcionários
-# # #
 
 workers = load_data(f'{data_folder}/dados_funcionarios.csv', is_pandas=True)
 workers.rename(columns={'sexo_biologico': 'sexo', 'nota_desempenho': 'desempenho'}, inplace=True)
@@ -272,7 +254,6 @@ stats_income = workers.groupby('sexo')['remuneracao'].agg(
 
 # # # Section of the course:
 # 05. Analisando as variações dos dados
-# # #
 
 # Calculating the mean absolute deviation
 commercial = workers[workers['cargo'].isin(['Inteligência comercial', 'Consultor(a) de vendas'])]

@@ -1,11 +1,3 @@
-# # #
-# بِسْمِ ٱللّٰهِ ٱلرَّحْمٰنِ ٱلرَّحِيمِ
-# Bismillāh ir-raḥmān ir-raḥīm
-# 
-# In the name of God, the Most Gracious, the Most Merciful
-# Em nome de Deus, o Clemente, o Misericordioso
-# # #
-# # #
 
 # # Imports
 #
@@ -31,8 +23,6 @@ outputs_folder = data_folder + 'outputs/'
 
 # # # Section of the course:
 # 01. Fazendo leitura de arquivos csv
-# # #
-
 
 # Reading
 data = load_data('03-pandas-io_trabalhando-com-diferentes-formatos-de-arquivos/superstore_data.csv', is_pandas=True)
@@ -61,7 +51,6 @@ customers_market
 
 # # # Section of the course:
 # 02. Utilizando planilhas
-# # #
 
 # Reading
 pd.ExcelFile(data_folder + 'emissoes_CO2.xlsx').sheet_names
@@ -115,7 +104,6 @@ fonts_sheets.head()
 
 # # # Section of the course:
 # 03. Manipulando arquivos JSON
-# # #
 data_patients = pd.read_json(data_folder + 'pacientes.json')
 data_patients
 
@@ -133,7 +121,6 @@ pd.read_json(outputs_folder + 'historico_pacientes_normalizado.json')
 
 # # # Section of the course:
 # 04. Lendo dados em HTML e XML
-# # #
 
 # HTML
 data_html = pd.read_html('https://en.wikipedia.org/wiki/AFI%27s_100_Years...100_Movies')
@@ -155,7 +142,6 @@ data_xml.to_xml(outputs_folder + 'movies_imdb.xml')
 
 # # # Section of the course:
 # 05. Trabalhando com banco de dados
-# # #
 
 # Creating engine and loading data
 engine = create_engine('sqlite:///:memory:')

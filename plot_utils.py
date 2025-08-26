@@ -86,7 +86,6 @@ def label_plot(title: str = '', xlabel: str = '', ylabel: str = '', footer: str 
         else:
             plt.tight_layout()
 
-
 def plot_central_tendency(
         column: pd.Series,
         axis: int = 0,
@@ -135,7 +134,6 @@ def plot_central_tendency(
         colors = list(colors)
     if not isinstance(colors, list) or len(colors) != 3 or not all(isinstance(c, str) for c in colors):
         colors = ['red', 'yellow', 'blue']
-
 
     # Calculate the mean, median, and mode
     mean = column.mean()

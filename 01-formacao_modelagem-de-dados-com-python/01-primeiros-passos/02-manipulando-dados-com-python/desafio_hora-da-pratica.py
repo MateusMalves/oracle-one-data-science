@@ -7,7 +7,6 @@
 '''
 Vamos praticar o uso de vários tipos de variáveis e da função input a partir de algumas atividades. Solucione os problemas propostos em código.
 
-
 Coleta e amostragem de dados
 1. Crie um programa que solicite ao usuário digitar seu nome, e imprima “Olá, [nome]!”.
 2. Crie um programa que solicite ao usuário digitar seu nome e idade, e imprima “Olá, [nome], você tem [idade] anos.”.
@@ -38,11 +37,9 @@ Editando textos
 10. Crie um código que solicite uma frase ao usuário e imprima a mesma frase com todas as consoantes “s” trocadas pelo caractere “$”.
 '''
 
-
 # # # # #
 # # # Desafios resolvidos
 # # # # #
-
 
 # 
 # Coleta e amostragem de dados
@@ -72,7 +69,6 @@ idade = int(input("Digite sua idade: ")) # já foi definido acima
 altura = float(input("Digite sua altura em metros: ").replace(',', '.'))
 print(f'Olá {nome}, você tem {idade} anos e mede {altura} metros!\n')
 
-
 # # # UI - Controle de fluxo
 print('\nAgora vamos fazer algumas contas?')
 
@@ -89,7 +85,6 @@ def controladorConfirmacao() :
         print('\n')
 
 controladorConfirmacao()
-
 
 # 
 # Calculadora com operadores
@@ -191,7 +186,6 @@ print(f'A média ponderada é: {media_ponderada}\n')
 print('\nAgora vamos estudar manipulação de strings em Python?')
 
 controladorConfirmacao()
-
 
 # 
 # Editando textos

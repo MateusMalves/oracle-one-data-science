@@ -97,18 +97,15 @@ Dica: utilize as funções lambda e filter() para filtrar essas palavras. Lembra
 Use a frase "Aprender Python aqui na Alura é muito bom" para testar o código.
 '''
 
-
 # # # # #
 # # # Desafios resolvidos
 # # # # #
-
 
 # Importando bibliotecas
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../")))
 from ui_desafios import controlador, saudar
-
 
 # 
 # Aquecimento
@@ -195,14 +192,12 @@ def problema_4():
     
 problema_4()
 
-
 # 
 # Aplicando a projetos
 # 
 
 # # # UI - Controle de fluxo
 controlador(mensagem_problema_anterior=mensagem_problema_4, problema_anterior=problema_4, abrir_nova_sessão=True, saudacao='Aplicando a projetos')
-
 
 # 5. Você foi contratado(a) como cientista de dados de uma associação de skate. Para analisar as notas recebidas de skatistas em algumas competições ao longo do ano, você precisa criar um código que calcula a pontuação dos(as) atletas. Para isso, o seu código deve receber 5 notas digitadas pelos jurados.
 
@@ -386,7 +381,6 @@ def problema_10():
     palavras_filtradas = list(filter(lambda palavra: len(palavra) >= 5, palavras))
     print(f'=> A quantidade de palavras com tamanho maior ou igual a 5 é: {len(palavras_filtradas)}\n')
     print(f'=> As palavras filtradas são:\n{palavras_filtradas}')
-
 
 problema_10()
 

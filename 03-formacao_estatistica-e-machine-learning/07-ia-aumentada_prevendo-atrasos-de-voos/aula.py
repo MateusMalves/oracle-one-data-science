@@ -1,15 +1,3 @@
-# # #
-# بِسْمِ ٱللّٰهِ ٱلرَّحْمٰنِ ٱلرَّحِيمِ
-# Bismillāh ir-raḥmān ir-raḥīm
-# 
-# In the name of God, the Most Gracious, the Most Merciful
-# Em nome de Deus, o Clemente, o Misericordioso
-# # #
-# # #
-
-
-# #
-# Imports
 import os
 import sys
 import re
@@ -32,7 +20,6 @@ from sklearn.metrics import (
 from yellowbrick.regressor import prediction_error, residuals_plot
 from yellowbrick.model_selection import FeatureImportances
 
-
 cwd = os.getcwd()
 while bool(re.search(r'\d-', cwd)):
     cwd = os.path.dirname(cwd)
@@ -42,14 +29,11 @@ if load_data_path not in sys.path:
 from load_data import load_data
 from plot_utils import label_plot, plot_central_tendency
 
-
 data_folder = cwd + '/data/03-formacao_estatistica-e-machine-learning/07-ia-aumentada_prevendo-atrasos-de-voos/'
 outputs_folder = data_folder + 'outputs/'
 
-
 # # # Section of the course:
 # 01. Explorando os dados
-# # #
 
 # Understanding the dataset
 data = load_data(f'{data_folder}flights.csv', is_pandas=True)
@@ -103,7 +87,6 @@ plot_analysis(x='is_holiday', y='delay', data=data)
 # Checking dealy by aircraft type
 plot_analysis(x='aircraft_type', y='delay', data=data)
 
-
 # Analysing data distribution
 # 
 def calculate_bin_width(df, column):
@@ -148,10 +131,8 @@ plt.tight_layout()
 plt.show()
 plt.close()
 
-
 # # # Section of the course:
 # 02. Feature engeneering
-# # #
 
 # Creating new columns
 data['date'] = pd.to_datetime(data['year'].astype(str) + '-' + (data['day'] + 1).astype(str), format='%Y-%j')
@@ -204,10 +185,8 @@ one_hot = make_column_transformer((
 df_encoded = one_hot.fit_transform(data)
 df_encoded = pd.DataFrame(df_encoded, columns=one_hot.get_feature_names_out()) # type: ignore
 
-
 # # # Section of the course:
 # 03. Seleção e validação do modelo
-# # #
 
 # Treinamento do DummyRegressor
 X = df_clean.drop(['delay'], axis=1)
@@ -361,10 +340,8 @@ for metric in scoring.keys():
     print(f'Average: {mean_score:.4f} | Std: (+/- {std_score:.4f})')
     print('-' * 30)
 
-
 # # # Section of the course:
 # 04. Otimização de hiperparâmetros
-# # #
 
 # Resources selection
 # 
@@ -442,7 +419,6 @@ except Exception as e:
 else:
     print('Model saved successfully')
 
-
 # Challenge: Mão na massa
 # 
 # Concluímos o processo de desenvolvimento, otimização e salvamento do modelo. No entanto, surge a questão de como utilizar efetivamente esse modelo em situações práticas. Como podemos aproveitar o modelo que foi salvo para realizar previsões atualizadas?
@@ -483,7 +459,6 @@ values = {
 }
 
 # # # NOTE: I had to change the values as the original problem was not fit for the model's features
-
 
 # Loading the model
 model_production = None
