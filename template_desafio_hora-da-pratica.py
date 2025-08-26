@@ -1,13 +1,19 @@
-# # #
-# بِسْمِ ٱللّٰهِ ٱلرَّحْمٰنِ ٱلرَّحِيمِ
-# Bismillāh ir-raḥmān ir-raḥīm
-# 
-# In the name of God, the Most Gracious, the Most Merciful
-# Em nome de Deus, o Clemente, o Misericordioso
-# # #
-# # #
+"""
+==============================================
+Oracle ONE - Data Science Course
+==============================================
 
-# Para rodar o código, basta executar o comando 'python3 desafio_hora-da-pratica.py'
+File: template_desafio_hora-da-pratica.py
+Author: Mateus Alves de Mendonça
+Description: Template for course challenges and exercises
+Created: Oracle ONE Data Science Program
+License: MIT
+
+Este template serve como base para resolver os desafios
+do programa Oracle Next Education em Data Science.
+
+Para executar: python3 desafio_hora-da-pratica.py
+"""
 
 # 
 # Enunciado do desafio
@@ -18,15 +24,19 @@
 '''
 
 
-# # # # #
-# # # Desafios resolvidos
-# # # # #
+# ==============================================
+# Desafios resolvidos
+# ==============================================
 
 
-# Importando bibliotecas
+# Standard library imports
 import sys
 import os
+
+# Adding project root to path for imports
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../")))
+
+# Project imports
 from ui_desafios import controlador, saudar
 
 

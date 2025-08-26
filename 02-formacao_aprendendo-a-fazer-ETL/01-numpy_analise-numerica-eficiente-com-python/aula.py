@@ -1,33 +1,46 @@
-# # #
-# بِسْمِ ٱللّٰهِ ٱلرَّحْمٰنِ ٱلرَّحِيمِ
-# Bismillāh ir-raḥmān ir-raḥīm
-# 
-# In the name of God, the Most Gracious, the Most Merciful
-# Em nome de Deus, o Clemente, o Misericordioso
-# # #
-# # #
+"""
+==============================================
+Oracle ONE - Data Science Course
+==============================================
 
-# # Imports
-#
+Course: NumPy - Análise Numérica Eficiente com Python
+Module: 02-formacao_aprendendo-a-fazer-ETL
+Author: Mateus Alves de Mendonça
+License: MIT
+
+Description:
+Curso focado em análise numérica eficiente utilizando NumPy.
+Inclui manipulação de arrays, operações matemáticas e
+otimização de performance para data science.
+"""
+
+# Standard library imports
 import os
 import sys
 import re
+
+# Third-party imports
 import numpy as np
 import matplotlib.pyplot as plt
 
+# Setup project paths
 cwd = os.getcwd()
 while bool(re.search(r'\d-', cwd)):
     cwd = os.path.dirname(cwd)
 load_data_path = os.path.join(cwd)
 if load_data_path not in sys.path:
     sys.path.append(load_data_path)
+
+# Project imports
 from load_data import load_data
 
+# Data paths
 data_folder = cwd + '/data/02-formacao_aprendendo-a-fazer-ETL/01-numpy_analise-numerica-e-eficiente-com-python/'
 outputs_folder = data_folder + 'outputs/'
 
-# # # Section of the course:
-# 01. Conhecendo a biblioteca e nossos dados
+# ==============================================
+# Section 01: Conhecendo a biblioteca e nossos dados
+# ==============================================
 # # #
 try:
     data = load_data(data_folder + 'apples_ts.csv', usecols=(1, 88))

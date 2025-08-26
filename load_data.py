@@ -1,16 +1,23 @@
-# # #
-# بِسْمِ ٱللّٰهِ ٱلرَّحْمٰنِ ٱلرَّحِيمِ
-# Bismillāh ir-raḥmān ir-raḥīm
-# 
-# In the name of God, the Most Gracious, the Most Merciful
-# Em nome de Deus, o Clemente, o Misericordioso
-# # #
-# # #
+"""
+==============================================
+Oracle ONE - Data Science Course
+==============================================
 
-# #
-# Imports
+File: load_data.py
+Author: Mateus Alves de Mendonça
+Description: Utility functions for loading data from various file formats
+Created: Oracle ONE Data Science Program
+License: MIT
+
+This module provides flexible data loading functions that support
+both NumPy arrays and Pandas DataFrames with type hints.
+"""
+
+# Standard library imports
 import os
 from typing import overload, Literal
+
+# Third-party imports
 import numpy as np
 import pandas as pd
 

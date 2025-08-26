@@ -1,15 +1,19 @@
-# # #
-# بِسْمِ ٱللّٰهِ ٱلرَّحْمٰنِ ٱلرَّحِيمِ
-# Bismillāh ir-raḥmān ir-raḥīm
-# 
-# In the name of God, the Most Gracious, the Most Merciful
-# Em nome de Deus, o Clemente, o Misericordioso
-# # #
-# # #
+"""
+==============================================
+Oracle ONE - Data Science Course
+==============================================
 
+File: plot_utils.py
+Author: Mateus Alves de Mendonça
+Description: Utility functions for enhanced data visualization
+Created: Oracle ONE Data Science Program
+License: MIT
 
-# #
-# Imports
+This module provides standardized plotting functions with consistent
+styling and labeling for data science visualizations.
+"""
+
+# Third-party imports
 import pandas as pd
 import matplotlib.pyplot as plt
 

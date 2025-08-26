@@ -1,11 +1,18 @@
-# # #
-# بِسْمِ ٱللّٰهِ ٱلرَّحْمٰنِ ٱلرَّحِيمِ
-# Bismillāh ir-raḥmān ir-raḥīm
-# 
-# In the name of God, the Most Gracious, the Most Merciful
-# Em nome de Deus, o Clemente, o Misericordioso
-# # #
-# # #
+"""
+==============================================
+Oracle ONE - Data Science Course
+==============================================
+
+File: ui_desafios.py
+Author: Mateus Alves de Mendonça
+Description: CLI interface for course challenges navigation
+Created: Oracle ONE Data Science Program
+License: MIT
+
+Este módulo fornece uma interface de linha de comando para
+navegação entre os desafios do curso, melhorando a experiência
+do usuário durante a resolução dos exercícios.
+"""
 
 # UI - Controle de fluxo
 def controlador(
@@ -24,7 +31,7 @@ def controlador(
 
     Controla a navegação entre os desafios no terminal, melhorando a experiência do usuário.
 
-    Você pode copiar um template de código para os desafios neste link: [Template de código](https://github.com/DanielCrema/oracle_one-data-science-course/blob/main/template_desafio_hora-da-pratica.py)
+    Você pode copiar um template de código para os desafios neste link: [Template de código](./template_desafio_hora-da-pratica.py)
 
     ---
     ## 🧾 Parâmetros:
@@ -150,7 +157,7 @@ def controlador(
     def encerrar():
         print('\n\n# # # # # # # # # # # # # # # # # # # # # # # # # #')
         print('\n\nObrigado por participar!')
-        print('Até a próxima! \/,,\n\n')
+        print('Até a próxima! \\o/\n\n')
         quit()
     
     def repetir_exercicio():

@@ -247,5 +247,5 @@ print(f'A frase digitada com as consoantes "s" trocadas pelo caractere "$" é:\n
 # # # UI - Despedida
 print('\n# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #\n')
 print('Esse foi o nosso Hello World de manipulação de dados em Python!')
-print('\nAté mais! \/,,')
+print('\nAté mais! \\o/')
 print('\n# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #\n')
